@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Information Desk | Suvarnabhumi Airport Volunteer Guide</title>
+  
+  <!-- Google Fonts: Plus Jakarta Sans & Prompt -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', '"Prompt"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              primary: '#165B9C',
+              dark: '#0F4375',
+              light: '#EAF2FA',
+              bg: '#F4F7FA',
+              text: '#10375C',
+              muted: '#64748B'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', 'Prompt', sans-serif;
+      background-color: #F4F7FA;
+      color: #10375C;
+    }
+    .accordion-content {
+      transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+    }
+    .accordion-item.active .accordion-content {
+      max-height: 500px;
+      opacity: 1;
+    }
+    .accordion-item.active .accordion-icon {
+      transform: rotate(180deg);
+    }
+    /* Hide scrollbar for horizontal tabs */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-brand-primary selection:text-white">
+
+  <!-- ==================== MOBILE TOP HEADER ==================== -->
+  <header class="lg:hidden fixed top-0 left-0 right-0 z-40 bg-white border-b border-slate-200/80 px-4 h-16 flex items-center justify-between shadow-2xs">
+    <a href="#home" class="flex items-center gap-3">
+      <div class="relative w-9 h-9 rounded-xl bg-brand-primary text-white flex items-center justify-center font-serif font-bold text-lg shadow-xs">
+        i
+        <span class="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-white text-brand-primary flex items-center justify-center shadow-xs border border-slate-100">
+          <i data-lucide="plane" class="w-2.5 h-2.5"></i>
+        </span>
+      </div>
+      <div>
+        <div class="font-bold text-sm text-brand-text leading-tight">Information Desk</div>
+        <div class="text-[10px] font-semibold tracking-wider text-slate-400 uppercase">BANGKOK • BKK</div>
+      </div>
+    </a>
+
+    <div class="flex items-center gap-2">
+      <!-- Mobile Quick Language Toggle -->
+      <div class="flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200">
+        <button onclick="setLanguage('en')" id="mob-lang-en" class="px-2 py-1 rounded-md text-xs font-bold transition-all cursor-pointer">EN</button>
+        <button onclick="setLanguage('th')" id="mob-lang-th" class="px-2 py-1 rounded-md text-xs font-bold transition-all cursor-pointer">TH</button>
+      </div>
+      <button onclick="toggleMobileSidebar()" class="p-2 rounded-xl text-slate-600 hover:bg-slate-100" aria-label="Open Menu">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Sidebar Backdrop -->
+  <div id="sidebarBackdrop" onclick="closeMobileSidebar()" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-40 hidden lg:hidden"></div>
+
+  <!-- ==================== LEFT FIXED SIDEBAR (DESKTOP & MOBILE DRAWER) ==================== -->
+  <aside id="sidebar" class="fixed top-0 left-0 bottom-0 z-50 w-64 bg-white border-r border-slate-200/80 flex flex-col justify-between transition-transform duration-300 -translate-x-full lg:translate-x-0">
+    
+    <div class="p-6">
+      <!-- Brand Header -->
+      <div class="flex items-center justify-between mb-8">
+        <a href="#home" onclick="closeMobileSidebar()" class="flex items-center gap-3.5 group">
+          <div class="relative w-11 h-11 rounded-2xl bg-brand-primary text-white flex items-center justify-center font-serif font-bold text-2xl shadow-sm group-hover:bg-brand-dark transition-colors">
+            i
+            <span class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-white text-brand-primary flex items-center justify-center shadow-sm border border-slate-100">
+              <i data-lucide="plus" class="w-3 h-3 stroke-[3]"></i>
+            </span>
+          </div>
+          <div>
+            <div class="font-bold text-base text-brand-text leading-tight">Information Desk</div>
+            <div class="text-[11px] font-semibold tracking-widest text-slate-400 uppercase mt-0.5">BANGKOK • BKK</div>
+          </div>
+        </a>
+
+        <button onclick="closeMobileSidebar()" class="lg:hidden p-1.5 rounded-lg text-slate-400 hover:bg-slate-100">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Menu Group Title -->
+      <div class="text-[11px] font-bold tracking-wider text-slate-400 uppercase px-3 mb-3" data-i18n="sidebarGuideLabel">
+        VOLUNTEER GUIDE
+      </div>
+
+      <!-- 5 Navigation Items -->
+      <nav class="space-y-1.5" id="sidebarNav">
+        <a href="#home" data-section="home" onclick="setActiveNav('home'); closeMobileSidebar();" class="nav-item flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-semibold transition-all bg-brand-light text-brand-primary">
+          <div class="flex items-center gap-3">
+            <i data-lucide="home" class="w-4 h-4"></i>
+            <span data-i18n="menuHome">Home</span>
+          </div>
+          <span class="nav-dot w-1.5 h-1.5 rounded-full bg-brand-primary"></span>
+        </a>
+
+        <a href="#schedule" data-section="schedule" onclick="setActiveNav('schedule'); closeMobileSidebar();" class="nav-item flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-text transition-all">
+          <div class="flex items-center gap-3">
+            <i data-lucide="calendar-check" class="w-4 h-4"></i>
+            <span data-i18n="menuSchedule">Duty Schedule</span>
+          </div>
+          <span class="nav-dot w-1.5 h-1.5 rounded-full bg-brand-primary hidden"></span>
+        </a>
+
+        <a href="#faq" data-section="faq" onclick="setActiveNav('faq'); closeMobileSidebar();" class="nav-item flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-text transition-all">
+          <div class="flex items-center gap-3">
+            <i data-lucide="help-circle" class="w-4 h-4"></i>
+            <span data-i18n="menuFaq">FAQ</span>
+          </div>
+          <span class="nav-dot w-1.5 h-1.5 rounded-full bg-brand-primary hidden"></span>
+        </a>
+
+        <a href="#venue" data-section="venue" onclick="setActiveNav('venue'); closeMobileSidebar();" class="nav-item flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-text transition-all">
+          <div class="flex items-center gap-3">
+            <i data-lucide="building-2" class="w-4 h-4"></i>
+            <span data-i18n="menuVenue">Venue Guide</span>
+          </div>
+          <span class="nav-dot w-1.5 h-1.5 rounded-full bg-brand-primary hidden"></span>
+        </a>
+
+        <a href="#contact" data-section="contact" onclick="setActiveNav('contact'); closeMobileSidebar();" class="nav-item flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-text transition-all">
+          <div class="flex items-center gap-3">
+            <i data-lucide="phone-call" class="w-4 h-4"></i>
+            <span data-i18n="menuContact">Contact</span>
+          </div>
+          <span class="nav-dot w-1.5 h-1.5 rounded-full bg-brand-primary hidden"></span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- Bottom Language Switcher (Matching Reference Style) -->
+    <div class="p-6 border-t border-slate-100">
+      <div class="text-[11px] font-bold tracking-wider text-slate-400 uppercase mb-3" data-i18n="languageLabel">
+        LANGUAGE
+      </div>
+      <div class="grid grid-cols-2 gap-2">
+        <button id="lang-en" onclick="setLanguage('en')" class="py-2 px-3 rounded-xl text-xs font-bold border transition-all cursor-pointer">
+          EN
+        </button>
+        <button id="lang-th" onclick="setLanguage('th')" class="py-2 px-3 rounded-xl text-xs font-bold border transition-all cursor-pointer">
+          TH
+        </button>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ==================== MAIN CONTENT AREA ==================== -->
+  <main class="lg:pl-64 pt-16 lg:pt-0 min-h-screen">
+    <div class="max-w-6xl mx-auto px-4 sm:px-8 lg:px-10 py-8 lg:py-10 space-y-14">
+
+      <!-- ==================== 1. HOME SECTION ==================== -->
+      <section id="home" class="scroll-mt-24 space-y-8">
+        
+        <!-- Hero Banner Card (Exact Layout Match) -->
+        <div class="bg-white rounded-3xl shadow-xs border border-slate-200/70 overflow-hidden grid grid-cols-1 md:grid-cols-12">
+          
+          <!-- Left Text Column -->
+          <div class="md:col-span-6 p-7 sm:p-10 lg:p-12 flex flex-col justify-center">
+            <div class="text-xs font-bold tracking-widest text-brand-primary uppercase mb-3" data-i18n="heroEyebrow">
+              BANGKOK • SUVARNABHUMI (BKK)
+            </div>
+            <h1 class="text-3xl sm:text-4xl lg:text-[42px] font-extrabold text-brand-text tracking-tight leading-tight mb-4" data-i18n="heroTitle">
+              Information Desk
+            </h1>
+            <p class="text-slate-500 text-sm sm:text-base leading-relaxed mb-8 max-w-md" data-i18n="heroDesc">
+              All the essential information for Information Desk volunteers, in one easy place.
+            </p>
+            <div>
+              <a href="#schedule" onclick="setActiveNav('schedule')" class="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-brand-primary hover:bg-brand-dark text-white font-semibold text-sm shadow-sm transition-all">
+                <i data-lucide="calendar-check" class="w-4 h-4"></i>
+                <span data-i18n="heroCtaBtn">Duty schedule</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right Welcoming Staff Image Column -->
+          <div class="md:col-span-6 relative min-h-[260px] sm:min-h-[320px] bg-slate-100">
+            <img 
+              src="https://images.unsplash.com/photo-1556745753-b2904692b3cd?auto=format&fit=crop&w=900&q=80" 
+              alt="Welcoming Information Desk Volunteers" 
+              class="w-full h-full object-cover object-center"
+            />
+            <!-- Subtle gradient blend on left edge for desktop -->
+            <div class="hidden md:block absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-white to-transparent"></div>
+          </div>
+        </div>
+
+        <!-- Quick Access Section (Matching 4-Column Cards) -->
+        <div>
+          <h2 class="text-lg font-bold text-brand-text mb-4" data-i18n="quickAccessTitle">Quick access</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            
+            <!-- Card 1: Duty Schedule -->
+            <a href="#schedule" onclick="setActiveNav('schedule')" class="group bg-white p-6 rounded-2xl border border-slate-200/70 shadow-2xs hover:shadow-md hover:border-brand-primary/40 transition-all">
+              <div class="w-11 h-11 rounded-xl bg-blue-50 text-brand-primary flex items-center justify-center mb-5 group-hover:bg-brand-primary group-hover:text-white transition-colors">
+                <i data-lucide="calendar-clock" class="w-5 h-5"></i>
+              </div>
+              <h3 class="font-bold text-base text-brand-text mb-1" data-i18n="qa1Title">Duty Schedule</h3>
+              <p class="text-xs text-slate-400 leading-relaxed" data-i18n="qa1Desc">Search your shift time & teammates on duty.</p>
+            </a>
+
+            <!-- Card 2: FAQ -->
+            <a href="#faq" onclick="setActiveNav('faq')" class="group bg-white p-6 rounded-2xl border border-slate-200/70 shadow-2xs hover:shadow-md hover:border-brand-primary/40 transition-all">
+              <div class="w-11 h-11 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center mb-5 group-hover:bg-sky-600 group-hover:text-white transition-colors">
+                <i data-lucide="help-circle" class="w-5 h-5"></i>
+              </div>
+              <h3 class="font-bold text-base text-brand-text mb-1" data-i18n="qa2Title">FAQ</h3>
+              <p class="text-xs text-slate-400 leading-relaxed" data-i18n="qa2Desc">Common passenger questions & airport rules.</p>
+            </a>
+
+            <!-- Card 3: Venue Guide -->
+            <a href="#venue" onclick="setActiveNav('venue')" class="group bg-white p-6 rounded-2xl border border-slate-200/70 shadow-2xs hover:shadow-md hover:border-brand-primary/40 transition-all">
+              <div class="w-11 h-11 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center mb-5 group-hover:bg-teal-600 group-hover:text-white transition-colors">
+                <i data-lucide="building-2" class="w-5 h-5"></i>
+              </div>
+              <h3 class="font-bold text-base text-brand-text mb-1" data-i18n="qa3Title">Venue Guide</h3>
+              <p class="text-xs text-slate-400 leading-relaxed" data-i18n="qa3Desc">Terminal floors (B to 4), services & facilities.</p>
+            </a>
+
+            <!-- Card 4: Contact -->
+            <a href="#contact" onclick="setActiveNav('contact')" class="group bg-white p-6 rounded-2xl border border-slate-200/70 shadow-2xs hover:shadow-md hover:border-brand-primary/40 transition-all">
+              <div class="w-11 h-11 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center mb-5 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                <i data-lucide="phone-call" class="w-5 h-5"></i>
+              </div>
+              <h3 class="font-bold text-base text-brand-text mb-1" data-i18n="qa4Title">Contact</h3>
+              <p class="text-xs text-slate-400 leading-relaxed" data-i18n="qa4Desc">Supervisors & Keyman phone numbers.</p>
+            </a>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== 2. DUTY SCHEDULE SECTION ==================== -->
+      <section id="schedule" class="scroll-mt-24 bg-white rounded-3xl p-6 sm:p-8 lg:p-10 border border-slate-200/70 shadow-2xs">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+          <div>
+            <span class="text-xs font-bold tracking-wider text-brand-primary uppercase" data-i18n="secScheduleTag">VOLUNTEER ROSTER</span>
+            <h2 class="text-2xl font-bold text-brand-text mt-1" data-i18n="secScheduleTitle">Duty Schedule</h2>
+            <p class="text-sm text-slate-500 mt-1" data-i18n="secScheduleDesc">Search your name to view your assigned shift, counter post, and fellow teammates.</p>
+          </div>
+        </div>
+
+        <!-- Search & Shift Filter Bar -->
+        <div class="bg-brand-bg p-4 rounded-2xl mb-6 grid grid-cols-1 md:grid-cols-12 gap-3">
+          <div class="md:col-span-7 relative">
+            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+            <input 
+              type="text" 
+              id="scheduleSearch" 
+              oninput="renderSchedule()"
+              placeholder="Search volunteer name e.g. Nat, Ploy, Alex..." 
+              class="w-full pl-10 pr-9 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+            />
+            <button id="clearSearchBtn" onclick="clearScheduleSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 cursor-pointer">
+              <i data-lucide="x-circle" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+          <div class="md:col-span-5 flex gap-1.5">
+            <button onclick="setShiftFilter('ALL')" data-shift="ALL" class="shift-btn flex-1 py-2 px-2.5 rounded-xl text-xs font-bold transition-all bg-brand-primary text-white cursor-pointer" data-i18n="filterAll">All</button>
+            <button onclick="setShiftFilter('MORNING')" data-shift="MORNING" class="shift-btn flex-1 py-2 px-2.5 rounded-xl text-xs font-semibold bg-white text-slate-600 border border-slate-200 hover:bg-blue-50 transition-all cursor-pointer" data-i18n="filterMorning">Morning</button>
+            <button onclick="setShiftFilter('AFTERNOON')" data-shift="AFTERNOON" class="shift-btn flex-1 py-2 px-2.5 rounded-xl text-xs font-semibold bg-white text-slate-600 border border-slate-200 hover:bg-blue-50 transition-all cursor-pointer" data-i18n="filterAfternoon">Afternoon</button>
+            <button onclick="setShiftFilter('NIGHT')" data-shift="NIGHT" class="shift-btn flex-1 py-2 px-2.5 rounded-xl text-xs font-semibold bg-white text-slate-600 border border-slate-200 hover:bg-blue-50 transition-all cursor-pointer" data-i18n="filterNight">Night</button>
+          </div>
+        </div>
+
+        <!-- Schedule Cards Grid -->
+        <div id="scheduleGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <!-- Rendered by JS -->
+        </div>
+
+        <!-- Empty Search State -->
+        <div id="scheduleEmpty" class="hidden text-center py-10 bg-brand-bg rounded-2xl border border-dashed border-slate-300">
+          <i data-lucide="user-x" class="w-9 h-9 text-slate-400 mx-auto mb-2"></i>
+          <p class="font-bold text-sm text-brand-text" data-i18n="noResultTitle">No matching volunteer found</p>
+          <p class="text-xs text-slate-500 mt-1" data-i18n="noResultSub">Try another name or click "All" to see all shifts.</p>
+        </div>
+      </section>
+
+      <!-- ==================== 3. FAQ SECTION ==================== -->
+      <section id="faq" class="scroll-mt-24 bg-white rounded-3xl p-6 sm:p-8 lg:p-10 border border-slate-200/70 shadow-2xs">
+        <div class="mb-6">
+          <span class="text-xs font-bold tracking-wider text-brand-primary uppercase" data-i18n="secFaqTag">KNOWLEDGE BASE</span>
+          <h2 class="text-2xl font-bold text-brand-text mt-1" data-i18n="secFaqTitle">Frequently Asked Questions (FAQ)</h2>
+          <p class="text-sm text-slate-500 mt-1" data-i18n="secFaqDesc">Quick answers for common passenger inquiries and volunteer guidelines.</p>
+        </div>
+
+        <div id="faqContainer" class="space-y-3">
+          <!-- Rendered by JS -->
+        </div>
+      </section>
+
+      <!-- ==================== 4. VENUE GUIDE SECTION ==================== -->
+      <section id="venue" class="scroll-mt-24 bg-white rounded-3xl p-6 sm:p-8 lg:p-10 border border-slate-200/70 shadow-2xs">
+        <div class="mb-6">
+          <span class="text-xs font-bold tracking-wider text-brand-primary uppercase" data-i18n="secVenueTag">TERMINAL DIRECTORY</span>
+          <h2 class="text-2xl font-bold text-brand-text mt-1" data-i18n="secVenueTitle">Venue Guide</h2>
+          <p class="text-sm text-slate-500 mt-1" data-i18n="secVenueDesc">Explore facilities, gates, and Information Counters across all 5 floors (Floor B to Floor 4).</p>
+        </div>
+
+        <!-- Floor Tabs -->
+        <div class="flex overflow-x-auto pb-2 mb-6 gap-2 no-scrollbar" id="floorTabs">
+          <!-- Rendered by JS -->
+        </div>
+
+        <!-- Floor Details Card -->
+        <div id="floorDetailCard" class="bg-brand-bg rounded-2xl p-6 border border-slate-200/60">
+          <!-- Rendered by JS -->
+        </div>
+      </section>
+
+      <!-- ==================== 5. CONTACT SECTION ==================== -->
+      <section id="contact" class="scroll-mt-24 bg-white rounded-3xl p-6 sm:p-8 lg:p-10 border border-slate-200/70 shadow-2xs">
+        <div class="mb-6">
+          <span class="text-xs font-bold tracking-wider text-brand-primary uppercase" data-i18n="secContactTag">COMMAND & SUPPORT</span>
+          <h2 class="text-2xl font-bold text-brand-text mt-1" data-i18n="secContactTitle">Supervisors & Keyman Contacts</h2>
+          <p class="text-sm text-slate-500 mt-1" data-i18n="secContactDesc">Direct phone numbers and radio channels for zone Keymen and coordinators.</p>
+        </div>
+
+        <!-- Contact Cards Grid -->
+        <div id="contactGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Rendered by JS -->
+        </div>
+
+        <!-- Emergency Hotline Bar -->
+        <div class="mt-6 p-5 rounded-2xl bg-brand-light border border-blue-200/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div class="flex items-center gap-3.5">
+            <div class="w-10 h-10 rounded-xl bg-brand-primary text-white flex items-center justify-center shrink-0">
+              <i data-lucide="shield-alert" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <h3 class="font-bold text-sm text-brand-text" data-i18n="emergencyTitle">Suvarnabhumi Airport Emergency & AOT Contact Center</h3>
+              <p class="text-xs text-slate-600 mt-0.5" data-i18n="emergencySub">24/7 Medical, Security, and Airport Operations Support</p>
+            </div>
+          </div>
+          <a href="tel:1722" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-primary hover:bg-brand-dark text-white font-bold text-xs transition-colors shrink-0">
+            <i data-lucide="phone" class="w-3.5 h-3.5"></i>
+            <span>1722 / 02-132-1888</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="text-center text-xs text-slate-400 pb-6">
+        <p data-i18n="footerNote">Information Desk Volunteer Guide • Suvarnabhumi Airport (BKK)</p>
+      </footer>
+
+    </div>
+  </main>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-5 right-5 z-50 hidden items-center gap-2 bg-brand-text text-white px-4 py-3 rounded-xl shadow-lg text-xs font-medium">
+    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
+    <span id="toastMsg">Copied!</span>
+  </div>
+
+  <!-- ==================== JAVASCRIPT ==================== -->
+  <script>
+    // Default language set to English ('en') to match the clean visual reference, toggleable to Thai ('th') anytime
+    let currentLang = 'en';
+    let currentShiftFilter = 'ALL';
+    let currentFloorId = 'F4';
+
+    // 1. Translations Dictionary
+    const i18n = {
+      en: {
+        sidebarGuideLabel: 'VOLUNTEER GUIDE',
+        languageLabel: 'LANGUAGE',
+        menuHome: 'Home',
+        menuSchedule: 'Duty Schedule',
+        menuFaq: 'FAQ',
+        menuVenue: 'Venue Guide',
+        menuContact: 'Contact',
+        heroEyebrow: 'BANGKOK • SUVARNABHUMI (BKK)',
+        heroTitle: 'Information Desk',
+        heroDesc: 'All the essential information for Information Desk volunteers, in one easy place.',
+        heroCtaBtn: 'Duty schedule',
+        quickAccessTitle: 'Quick access',
+        qa1Title: 'Duty Schedule',
+        qa1Desc: 'Search your shift time & teammates on duty.',
+        qa2Title: 'FAQ',
+        qa2Desc: 'Common passenger questions & airport rules.',
+        qa3Title: 'Venue Guide',
+        qa3Desc: 'Terminal floors (B to 4), services & facilities.',
+        qa4Title: 'Contact',
+        qa4Desc: 'Supervisors & Keyman phone numbers.',
+        secScheduleTag: 'VOLUNTEER ROSTER',
+        secScheduleTitle: 'Duty Schedule',
+        secScheduleDesc: 'Search your name to view your assigned shift, counter post, and fellow teammates.',
+        searchPlaceholder: 'Search volunteer name e.g. Nat, Ploy, Alex...',
+        filterAll: 'All',
+        filterMorning: 'Morning',
+        filterAfternoon: 'Afternoon',
+        filterNight: 'Night',
+        noResultTitle: 'No matching volunteer found',
+        noResultSub: 'Try another name or click "All" to see all shifts.',
+        coworkersLabel: 'Teammates working together:',
+        stationLabel: 'Assigned Counter:',
+        secFaqTag: 'KNOWLEDGE BASE',
+        secFaqTitle: 'Frequently Asked Questions (FAQ)',
+        secFaqDesc: 'Quick answers for common passenger inquiries and volunteer guidelines.',
+        secVenueTag: 'TERMINAL DIRECTORY',
+        secVenueTitle: 'Venue Guide',
+        secVenueDesc: 'Explore facilities, gates, and Information Counters across all 5 floors (Floor B to Floor 4).',
+        secContactTag: 'COMMAND & SUPPORT',
+        secContactTitle: 'Supervisors & Keyman Contacts',
+        secContactDesc: 'Direct phone numbers and radio channels for zone Keymen and coordinators.',
+        emergencyTitle: 'Suvarnabhumi Airport Emergency & AOT Contact Center',
+        emergencySub: '24/7 Medical, Security, and Airport Operations Support',
+        footerNote: 'Information Desk Volunteer Guide • Suvarnabhumi Airport (BKK)',
+        callBtn: 'Call',
+        copyBtn: 'Copy',
+        copiedToast: 'Phone number copied'
+      },
+      th: {
+        sidebarGuideLabel: 'คู่มืออาสาสมัคร',
+        languageLabel: 'ภาษา / LANGUAGE',
+        menuHome: 'หน้าแรก (Home)',
+        menuSchedule: 'ตารางปฏิบัติงาน',
+        menuFaq: 'คำถามที่พบบ่อย',
+        menuVenue: 'ข้อมูลแต่ละชั้น',
+        menuContact: 'ติดต่อผู้ดูแล',
+        heroEyebrow: 'กรุงเทพฯ • ท่าอากาศยานสุวรรณภูมิ (BKK)',
+        heroTitle: 'Information Desk',
+        heroDesc: 'รวมข้อมูลสำคัญทั้งหมดสำหรับอาสาสมัครแผนก Information Desk ไว้ในที่เดียว ใช้งานง่าย รวดเร็ว',
+        heroCtaBtn: 'ดูตารางปฏิบัติงาน',
+        quickAccessTitle: 'ทางลัดเข้าสู่เมนู (Quick access)',
+        qa1Title: 'Duty Schedule',
+        qa1Desc: 'ค้นหาชื่อ กะเวลาเข้างาน และเพื่อนร่วมทีม',
+        qa2Title: 'FAQ',
+        qa2Desc: 'รวมคำถามที่พบบ่อยและแนวทางการตอบผู้โดยสาร',
+        qa3Title: 'Venue Guide',
+        qa3Desc: 'ข้อมูลจุดบริการและสิ่งอำนวยความสะดวกทั้ง 5 ชั้น',
+        qa4Title: 'Contact',
+        qa4Desc: 'รายชื่อและเบอร์โทรติดต่อผู้ดูแลและ Keyman',
+        secScheduleTag: 'ตารางเวรปฏิบัติงาน',
+        secScheduleTitle: 'Duty Schedule (ตารางการทำงาน)',
+        secScheduleDesc: 'พิมพ์ชื่อเล่นหรือชื่อจริงเพื่อค้นหากะเวลาเข้างาน จุดประจำการ และอาสาสมัครที่ทำงานร่วมกัน',
+        searchPlaceholder: 'ค้นหาชื่ออาสาสมัคร เช่น นัท, พลอย, Alex, สมชาย...',
+        filterAll: 'ทั้งหมด',
+        filterMorning: 'กะเช้า',
+        filterAfternoon: 'กะบ่าย',
+        filterNight: 'กะดึก',
+        noResultTitle: 'ไม่พบรายชื่ออาสาสมัครที่ค้นหา',
+        noResultSub: 'ลองตรวจสอบตัวสะกด หรือกดปุ่ม "ทั้งหมด" เพื่อดูตารางรวม',
+        coworkersLabel: 'ทีมงานที่ปฏิบัติงานร่วมกันในกะนี้:',
+        stationLabel: 'จุดประจำการ:',
+        secFaqTag: 'คลังข้อมูลตอบคำถาม',
+        secFaqTitle: 'คำถามที่พบบ่อย (FAQ)',
+        secFaqDesc: 'แนวทางการตอบคำถามผู้โดยสาร กฎระเบียบการปฏิบัติงาน และข้อมูลบริการในสนามบิน',
+        secVenueTag: 'แผนผังอาคารผู้โดยสาร',
+        secVenueTitle: 'Venue Guide (ข้อมูลแต่ละชั้น)',
+        secVenueDesc: 'เลือกดูข้อมูลจุดบริการ ประตูทางออก และสิ่งอำนวยความสะดวกตั้งแต่ชั้น B ถึง ชั้น 4',
+        secContactTag: 'ศูนย์ประสานงาน',
+        secContactTitle: 'รายชื่อและเบอร์ติดต่อผู้ดูแล & Keyman',
+        secContactDesc: 'ช่องทางติดต่อผู้ดูแลประจำโซนและผู้ประสานงานหลักเมื่อต้องการความช่วยเหลือหน้างาน',
+        emergencyTitle: 'ศูนย์ประสานงานเหตุฉุกเฉิน ท่าอากาศยานสุวรรณภูมิ (AOT Contact Center)',
+        emergencySub: 'ให้บริการตลอด 24 ชั่วโมง สำหรับแจ้งเหตุฉุกเฉินทางการแพทย์ หรือความปลอดภัย',
+        footerNote: 'คู่มืออาสาสมัครแผนก Information Desk • ท่าอากาศยานสุวรรณภูมิ (BKK)',
+        callBtn: 'โทรออก',
+        copyBtn: 'คัดลอก',
+        copiedToast: 'คัดลอกเบอร์โทรศัพท์แล้ว'
+      }
+    };
+
+    // 2. Duty Schedule Dataset
+    const dutyData = [
+      {
+        id: 'S1',
+        shiftType: 'MORNING',
+        shiftName: { th: 'กะเช้า (Morning)', en: 'Morning Shift' },
+        time: '06:00 - 14:00',
+        station: { th: 'ชั้น 4 ประตู 4 (Main Info Counter)', en: 'Level 4, Gate 4 (Main Counter)' },
+        badgeClass: 'bg-amber-50 text-amber-700 border-amber-200',
+        members: [
+          { name: 'นัท (Nat)', role: 'Keyman' },
+          { name: 'พลอย (Ploy)', role: 'Volunteer' },
+          { name: 'Alex Chen', role: 'EN / CN' },
+          { name: 'ต้น (Ton)', role: 'Volunteer' }
+        ]
+      },
+      {
+        id: 'S2',
+        shiftType: 'MORNING',
+        shiftName: { th: 'กะเช้า (Morning)', en: 'Morning Shift' },
+        time: '06:00 - 14:00',
+        station: { th: 'ชั้น 2 ขาเข้า ประตู 5', en: 'Level 2 Arrivals, Gate 5' },
+        badgeClass: 'bg-amber-50 text-amber-700 border-amber-200',
+        members: [
+          { name: 'สมชาย (Somchai)', role: 'Keyman' },
+          { name: 'มิ้นท์ (Mint)', role: 'Volunteer' },
+          { name: 'Kenji Sato', role: 'EN / JP' }
+        ]
+      },
+      {
+        id: 'S3',
+        shiftType: 'AFTERNOON',
+        shiftName: { th: 'กะบ่าย (Afternoon)', en: 'Afternoon Shift' },
+        time: '14:00 - 22:00',
+        station: { th: 'ชั้น 4 ประตู 4 (Main Info Counter)', en: 'Level 4, Gate 4 (Main Counter)' },
+        badgeClass: 'bg-blue-50 text-brand-primary border-blue-200',
+        members: [
+          { name: 'แพรว (Praew)', role: 'Keyman' },
+          { name: 'บอส (Boss)', role: 'Volunteer' },
+          { name: 'Sarah Jenkins', role: 'EN' },
+          { name: 'เจมส์ (James)', role: 'Volunteer' }
+        ]
+      },
+      {
+        id: 'S4',
+        shiftType: 'AFTERNOON',
+        shiftName: { th: 'กะบ่าย (Afternoon)', en: 'Afternoon Shift' },
+        time: '14:00 - 22:00',
+        station: { th: 'ชั้น 2 ขาเข้า ประตู 3', en: 'Level 2 Arrivals, Gate 3' },
+        badgeClass: 'bg-blue-50 text-brand-primary border-blue-200',
+        members: [
+          { name: 'กานต์ (Karn)', role: 'Keyman' },
+          { name: 'ใบเฟิร์น (Baifern)', role: 'Volunteer' },
+          { name: 'Min-ji Kim', role: 'EN / KR' }
+        ]
+      },
+      {
+        id: 'S5',
+        shiftType: 'NIGHT',
+        shiftName: { th: 'กะดึก (Night)', en: 'Night Shift' },
+        time: '22:00 - 06:00',
+        station: { th: 'ชั้น 4 ประตู 5 (24-Hr Desk)', en: 'Level 4, Gate 5 (24-Hr Desk)' },
+        badgeClass: 'bg-indigo-50 text-indigo-700 border-indigo-200',
+        members: [
+          { name: 'เอก (Ek)', role: 'Keyman' },
+          { name: 'ปาล์ม (Palm)', role: 'Volunteer' },
+          { name: 'David Miller', role: 'EN' }
+        ]
+      },
+      {
+        id: 'S6',
+        shiftType: 'NIGHT',
+        shiftName: { th: 'กะดึก (Night)', en: 'Night Shift' },
+        time: '22:00 - 06:00',
+        station: { th: 'ชั้น 2 ขาเข้า ประตู 5', en: 'Level 2 Arrivals, Gate 5' },
+        badgeClass: 'bg-indigo-50 text-indigo-700 border-indigo-200',
+        members: [
+          { name: 'วิน (Win)', role: 'Keyman' },
+          { name: 'เมย์ (May)', role: 'Volunteer' }
+        ]
+      }
+    ];
+
+    // 3. FAQ Dataset
+    const faqData = [
+      {
+        q: {
+          th: '1. อาสาสมัครต้องมารายงานตัวก่อนเวลาเข้ากะกี่นาที และจุดลงชื่ออยู่ที่ไหน?',
+          en: '1. How early should volunteers arrive before their shift, and where is check-in?'
+        },
+        a: {
+          th: 'กรุณามารายงานตัวก่อนเวลาเข้ากะอย่างน้อย 15 นาที ที่ห้องพักอาสาสมัคร (Volunteer Briefing Room) ชั้น 4 ด้านหลัง Row W เพื่อรับวิทยุสื่อสาร ป้ายชื่อ และฟังบรีฟข้อมูลเที่ยวบินประจำวันจาก Keyman',
+          en: 'Please arrive at least 15 minutes prior to your shift at the Volunteer Briefing Room on Level 4 (behind Row W) to collect your walkie-talkie, ID badge, and attend the daily briefing with your Keyman.'
+        }
+      },
+      {
+        q: {
+          th: '2. หากผู้โดยสารสอบถามจุดทำ VAT Refund (คืนภาษีนักท่องเที่ยว) ต้องแนะนำอย่างไร?',
+          en: '2. Where do we direct passengers asking for VAT Refund for Tourists?'
+        },
+        a: {
+          th: 'มี 2 ขั้นตอน: (1) ก่อนเช็กอินโหลดกระเป๋า ให้ผู้โดยสารนำสินค้าไปประทับตราที่ด่านศุลกากร (Customs Inspection) ชั้น 4 บริเวณหลัง Row W (ใกล้ประตู 10) และ (2) หลังผ่านจุดตรวจคนเข้าเมือง (Immigration) ให้ไปรับเงินคืนที่เคาน์เตอร์ VAT Refund บริเวณ Concourse D',
+          en: 'Two steps: (1) Before check-in, passengers must get goods inspected at Customs Inspection on Level 4 behind Row W (near Gate 10). (2) After Immigration, they can claim their refund at the VAT Refund counters in Concourse D.'
+        }
+      },
+      {
+        q: {
+          th: '3. จุดขึ้นรถรับ-ส่งฟรี (Free Shuttle Bus) ไปสนามบินดอนเมือง (DMK) อยู่ที่ไหน?',
+          en: '3. Where is the Free Shuttle Bus to Don Mueang Airport (DMK)?'
+        },
+        a: {
+          th: 'อยู่ที่ ชั้น 2 ประตู 3 (Level 2, Gate 3) เปิดให้บริการตั้งแต่เวลา 05:00 – 24:00 น. โดยผู้โดยสารต้องแสดง Boarding Pass หรือตั๋วเครื่องบินที่มีเที่ยวบินต่อเครื่องที่สนามบินดอนเมืองในวันเดียวกัน',
+          en: 'Located at Level 2, Gate 3. Operates from 05:00 to 24:00 hrs. Passengers must present a valid boarding pass or flight itinerary departing from Don Mueang Airport on the same day.'
+        }
+      },
+      {
+        q: {
+          th: '4. กรณีผู้โดยสารทำของหาย หรือลืมสัมภาระบนรถแท็กซี่ ต้องประสานงานที่ใด?',
+          en: '4. What should we do if a passenger loses an item or leaves luggage in a taxi?'
+        },
+        a: {
+          th: 'ให้พาหรือแนะนำผู้โดยสารติดต่อเคาน์เตอร์ Lost & Found (ศูนย์บริการทรัพย์สินสูญหาย) ที่ชั้น 2 บริเวณใกล้ประตู 5 หรือโทรประสานงานภายในเบอร์ 1722 หากเป็นแท็กซี่สาธารณะให้สอบถามสลิปคิวรถแท็กซี่จากชั้น 1 เพื่อตรวจสอบทะเบียนรถ',
+          en: 'Direct the passenger to the Lost & Found Counter on Level 2 (near Gate 5) or call 1722. If left in a public taxi, ask for their taxi queue ticket from Level 1 to trace the license plate.'
+        }
+      },
+      {
+        q: {
+          th: '5. จุดบริการซิมการ์ด (SIM Card) และแลกเงินตราต่างประเทศ (Currency Exchange) เปิด 24 ชม. อยู่ที่ใด?',
+          en: '5. Where can passengers find 24-hour SIM Cards and Currency Exchange?'
+        },
+        a: {
+          th: 'บูธจำหน่ายซิมการ์ด (AIS, True, dtac) และธนาคารแลกเปลี่ยนเงินตราเปิดให้บริการตลอด 24 ชั่วโมง บริเวณชั้น 2 ห้องโถงผู้โดยสารขาเข้า (ระหว่างประตู 4 ถึง ประตู 7) และชั้น B ทางเชื่อมรถไฟฟ้า Airport Rail Link (มีเรทพิเศษเช่น SuperRich)',
+          en: '24-hour SIM card booths (AIS, True, dtac) and bank exchange counters are located throughout Level 2 Arrivals Hall (Gates 4–7). Additional money changers (e.g., SuperRich) are on Basement Level (B) near the Airport Rail Link.'
+        }
+      }
+    ];
+
+    // 4. Venue Guide (5 Floors) Dataset
+    const venueData = [
+      {
+        id: 'F4',
+        code: 'Floor 4',
+        title: { th: 'ชั้น 4 : ผู้โดยสารขาออก (Departures)', en: 'Level 4 : International & Domestic Departures' },
+        badge: { th: 'จุดปฏิบัติงานหลัก', en: 'Main Duty Zone' },
+        desc: {
+          th: 'ห้องโถงเช็กอินหลัก (Row A - W) จุดตรวจหนังสือเดินทางขาออก และเคาน์เตอร์ Information Desk หลัก',
+          en: 'Main Check-in Hall (Rows A–W), Outbound Immigration checkpoints, and Main Information Counters.'
+        },
+        highlights: [
+          { icon: 'info', text: { th: 'Information Counter หลัก: บริเวณประตู 4 และ ประตู 5', en: 'Main Information Counters: Near Gate 4 & Gate 5' } },
+          { icon: 'badge-dollar-sign', text: { th: 'จุดตรวจประทับตรา VAT Refund (ศุลกากร): ด้านหลัง Row W (ใกล้ประตู 10)', en: 'VAT Refund Customs Inspection: Behind Row W (near Gate 10)' } },
+          { icon: 'package', text: { th: 'บริการห่อกระเป๋า (Baggage Wrapping) และไปรษณีย์ไทย: ด้านหลัง Row W', en: 'Baggage Wrapping & Thailand Post: Behind Row W' } },
+          { icon: 'alert-triangle', text: { th: 'จุดแจ้งชำระค่าปรับอยู่เกินกำหนด (Overstay): ฝ่ายตรวจคนเข้าเมือง โซน 2', en: 'Overstay Fine Counter: Departure Immigration Zone 2' } }
+        ]
+      },
+      {
+        id: 'F3',
+        code: 'Floor 3',
+        title: { th: 'ชั้น 3 : ร้านอาหารและจุดนัดพบ (Meeting Point)', en: 'Level 3 : Restaurants, Lounges & Meeting Point' },
+        badge: { th: 'โซนร้านค้า & อาหาร', en: 'Dining & Services' },
+        desc: {
+          th: 'ศูนย์รวมร้านอาหารนานาชาติ ร้านกาแฟ จุดนัดพบหลัก (Meeting Point) และทางเชื่อมไปโรงแรม Novotel',
+          en: 'International restaurants, cafes, main Meeting Point, and walkway access to Novotel Suvarnabhumi Hotel.'
+        },
+        highlights: [
+          { icon: 'users', text: { th: 'จุดนัดพบหลัก (Meeting Point): บริเวณกึ่งกลางชั้น 3 ใกล้ประตู 4-5', en: 'Main Meeting Point: Central area near Gates 4–5' } },
+          { icon: 'utensils', text: { th: 'ร้านอาหารและคาเฟ่เปิด 24 ชม. ทั้งฝั่งตะวันออกและตะวันตก', en: '24-Hour Restaurants & Cafes across East and West wings' } },
+          { icon: 'heart-pulse', text: { th: 'คลินิกการแพทย์สมิติเวช (Medical Clinic): ฝั่งตะวันออก ชั้น 3', en: 'Samitivej Medical Clinic: East Wing, Level 3' } },
+          { icon: 'hotel', text: { th: 'ทางเดินเชื่อมไปโรงแรม Novotel และอาคารจอดรถ (Car Park)', en: 'Skywalk connection to Novotel Hotel & Car Park Buildings' } }
+        ]
+      },
+      {
+        id: 'F2',
+        code: 'Floor 2',
+        title: { th: 'ชั้น 2 : ผู้โดยสารขาเข้า (Arrivals)', en: 'Level 2 : International & Domestic Arrivals' },
+        badge: { th: 'จุดปฏิบัติงานหลัก', en: 'Main Duty Zone' },
+        desc: {
+          th: 'ห้องโถงรับผู้โดยสารขาเข้า จุดรับกระเป๋า ศุลกากร เคาน์เตอร์โรงแรม ซิมการ์ด และรถรับส่งสนามบินดอนเมือง',
+          en: 'Arrivals Hall, Baggage Claim, Customs, Hotel Limousine desks, SIM Card booths, and DMK Shuttle Bus.'
+        },
+        highlights: [
+          { icon: 'info', text: { th: 'Information Counter ขาเข้า: บริเวณประตู 3 และ ประตู 5', en: 'Arrivals Information Counters: Near Gate 3 & Gate 5' } },
+          { icon: 'bus', text: { th: 'รถ Shuttle Bus ฟรีไปสนามบินดอนเมือง (DMK): ประตู 3 (05:00-24:00 น.)', en: 'Free Shuttle Bus to Don Mueang (DMK): Gate 3 (05:00–24:00)' } },
+          { icon: 'smartphone', text: { th: 'บูธซิมการ์ด (AIS/True/dtac) & แลกเงิน: ระหว่างประตู 4 - ประตู 7', en: 'SIM Card Booths & Currency Exchange: Between Gates 4–7' } },
+          { icon: 'search', text: { th: 'ศูนย์บริการทรัพย์สินสูญหาย (Lost & Found): ใกล้ประตู 5', en: 'Lost & Found Office: Near Gate 5' } }
+        ]
+      },
+      {
+        id: 'F1',
+        code: 'Floor 1',
+        title: { th: 'ชั้น 1 : ศูนย์ขนส่งสาธารณะและศูนย์อาหาร (Ground Transport)', en: 'Level 1 : Public Taxi, Bus & Magic Food Point' },
+        badge: { th: 'จุดต่อรถสาธารณะ', en: 'Transport Hub' },
+        desc: {
+          th: 'จุดขึ้นรถแท็กซี่สาธารณะ รถบัสเข้าเมือง (Airport Express / รถตู้) และศูนย์อาหารราคาประหยัด Magic Food Point',
+          en: 'Public Metered Taxi kiosks, City Buses (S1/LimoBus), Intercity Buses, and Magic Food Point.'
+        },
+        highlights: [
+          { icon: 'car', text: { th: 'จุดกดบัตรคิวรถแท็กซี่สาธารณะ (Public Taxi): ประตู 4 และ ประตู 7', en: 'Public Taxi Ticket Kiosks: Outside Gate 4 & Gate 7' } },
+          { icon: 'bus-front', text: { th: 'รถบัสเข้าเมือง (สาย S1 ไปข้าวสาร / รถบัสไปพัทยา-หัวหิน): ประตู 7-8', en: 'City Bus S1 (Khao San) & Pattaya/Hua Hin Buses: Gates 7–8' } },
+          { icon: 'soup', text: { th: 'ศูนย์อาหารราคาประหยัด (Magic Food Point): สุดทางเดินฝั่งตะวันออก ใกล้ประตู 8', en: 'Magic Food Point (Budget Food Court): Far East end near Gate 8' } },
+          { icon: 'luggage', text: { th: 'จุดรับฝากกระเป๋า (Left Baggage): ใกล้ประตู 4', en: 'Left Baggage Storage: Near Gate 4' } }
+        ]
+      },
+      {
+        id: 'FB',
+        code: 'Floor B',
+        title: { th: 'ชั้น B : รถไฟฟ้า Airport Rail Link และร้านแลกเงิน', en: 'Level B : Airport Rail Link (ARL) & Exchange' },
+        badge: { th: 'รถไฟฟ้าเข้าเมือง', en: 'Rail Connection' },
+        desc: {
+          th: 'สถานีรถไฟฟ้าเชื่อมท่าอากาศยานสุวรรณภูมิ (ARL) เข้าสู่ใจกลางกรุงเทพฯ (พญาไท / มักกะสัน) และโซนร้านแลกเงินเรทดี',
+          en: 'Airport Rail Link (ARL) station to downtown Bangkok (Phaya Thai / Makkasan) and high-rate money changers.'
+        },
+        highlights: [
+          { icon: 'train', text: { th: 'สถานีรถไฟฟ้า Airport Rail Link (ARL): เชื่อมต่อ BTS พญาไท และ MRT เพชรบุรี', en: 'Airport Rail Link Station: Connects to BTS Phaya Thai & MRT Phetchaburi' } },
+          { icon: 'banknote', text: { th: 'โซนร้านแลกเงินเรทพิเศษ (SuperRich, Value+, Happy Rich): ทางเดินก่อนเข้าสถานี ARL', en: 'Best-Rate Money Changers (SuperRich, etc.): Along ARL walkway' } },
+          { icon: 'shopping-bag', text: { th: 'ร้านสะดวกซื้อ (7-Eleven, Lawson) และร้านขายยา', en: 'Convenience Stores (7-Eleven, Lawson) & Pharmacy' } }
+        ]
+      }
+    ];
+
+    // 5. Contacts & Keyman Dataset
+    const contactData = [
+      {
+        name: { th: 'คุณวิชัย รัตนกุล (พี่ชัย)', en: 'Wichai Rattanakul (P\'Chai)' },
+        role: { th: 'หัวหน้าผู้ดูแลโครงการ (Project Manager)', en: 'Project Manager / Operations Head' },
+        zone: { th: 'ดูแลภาพรวมทุกชั้น (24 ชม.)', en: 'Overall Operations (All Floors)' },
+        phone: '081-234-5678',
+        radio: 'CH-01',
+        highlight: true
+      },
+      {
+        name: { th: 'คุณศิริพร วงศ์สุวรรณ (พี่นก)', en: 'Siriporn Wongsuwan (P\'Nok)' },
+        role: { th: 'Keyman ประจำชั้น 4 (ขาออก)', en: 'Level 4 Keyman (Departures)' },
+        zone: { th: 'ชั้น 4 ประตู 1 - 10 & Row A-W', en: 'Level 4 Gates 1–10 & Rows A–W' },
+        phone: '089-876-5432',
+        radio: 'CH-02',
+        highlight: false
+      },
+      {
+        name: { th: 'คุณธนากร เจริญสุข (พี่ก้อง)', en: 'Thanakorn Charoensuk (P\'Kong)' },
+        role: { th: 'Keyman ประจำชั้น 2 (ขาเข้า)', en: 'Level 2 Keyman (Arrivals)' },
+        zone: { th: 'ชั้น 2 ประตู 1 - 10 & Shuttle Bus', en: 'Level 2 Gates 1–10 & Shuttle Bus' },
+        phone: '086-555-1234',
+        radio: 'CH-03',
+        highlight: false
+      },
+      {
+        name: { th: 'คุณปิยะธิดา แก้วใส (พี่มิว)', en: 'Piyathida Kaewsai (P\'Mew)' },
+        role: { th: 'ผู้ประสานงานตารางกะ (Roster Lead)', en: 'Shift & Roster Coordinator' },
+        zone: { th: 'แจ้งลา / สลับกะ / เบิกอุปกรณ์', en: 'Leave / Shift Swap / Equipment' },
+        phone: '082-999-4567',
+        radio: 'CH-01',
+        highlight: false
+      },
+      {
+        name: { th: 'คุณอเล็กซานเดอร์ ลี (Alex)', en: 'Alexander Lee (Alex)' },
+        role: { th: 'Keyman ฝ่ายภาษาต่างประเทศ', en: 'Foreign Language Support Lead' },
+        zone: { th: 'ประสานงานล่าม EN / CN / JP / KR', en: 'EN / CN / JP / KR Interpreter Lead' },
+        phone: '084-321-9876',
+        radio: 'CH-04',
+        highlight: false
+      },
+      {
+        name: { th: 'ห้องพักอาสาสมัคร (Volunteer Desk)', en: 'Volunteer Briefing Room' },
+        role: { th: 'จุดลงชื่อและวิทยุสื่อสาร', en: 'Check-in & Radio Base' },
+        zone: { th: 'ชั้น 4 ด้านหลัง Row W', en: 'Level 4 Behind Row W' },
+        phone: '02-132-9900',
+        radio: 'BASE',
+        highlight: false
+      }
+    ];
+
+    // ==================== RENDER & UI LOGIC ====================
+
+    function updateLanguageButtons() {
+      const enBtn = document.getElementById('lang-en');
+      const thBtn = document.getElementById('lang-th');
+      const mobEn = document.getElementById('mob-lang-en');
+      const mobTh = document.getElementById('mob-lang-th');
+
+      const activeClasses = 'bg-brand-primary text-white border-brand-primary shadow-2xs';
+      const inactiveClasses = 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50';
+
+      if (currentLang === 'en') {
+        enBtn.className = `py-2 px-3 rounded-xl text-xs font-bold border transition-all cursor-pointer ${activeClasses}`;
+        thBtn.className = `py-2 px-3 rounded-xl text-xs font-bold border transition-all cursor-pointer ${inactiveClasses}`;
+        mobEn.className = 'px-2.5 py-1 rounded-md text-xs font-bold bg-brand-primary text-white transition-all cursor-pointer';
+        mobTh.className = 'px-2.5 py-1 rounded-md text-xs font-bold text-slate-600 transition-all cursor-pointer';
+      } else {
+        thBtn.className = `py-2 px-3 rounded-xl text-xs font-bold border transition-all cursor-pointer ${activeClasses}`;
+        enBtn.className = `py-2 px-3 rounded-xl text-xs font-bold border transition-all cursor-pointer ${inactiveClasses}`;
+        mobTh.className = 'px-2.5 py-1 rounded-md text-xs font-bold bg-brand-primary text-white transition-all cursor-pointer';
+        mobEn.className = 'px-2.5 py-1 rounded-md text-xs font-bold text-slate-600 transition-all cursor-pointer';
+      }
+    }
+
+    function updateStaticTexts() {
+      const dict = i18n[currentLang];
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) el.textContent = dict[key];
+      });
+      document.getElementById('scheduleSearch').placeholder = dict.searchPlaceholder;
+      document.documentElement.lang = currentLang;
+      updateLanguageButtons();
+    }
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      updateStaticTexts();
+      renderSchedule();
+      renderFaq();
+      renderVenue();
+      renderContacts();
+    }
+
+    function setActiveNav(sectionId) {
+      document.querySelectorAll('.nav-item').forEach(link => {
+        const isTarget = link.getAttribute('data-section') === sectionId;
+        const dot = link.querySelector('.nav-dot');
+        if (isTarget) {
+          link.className = 'nav-item flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-semibold transition-all bg-brand-light text-brand-primary';
+          if (dot) dot.classList.remove('hidden');
+        } else {
+          link.className = 'nav-item flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-text transition-all';
+          if (dot) dot.classList.add('hidden');
+        }
+      });
+    }
+
+    function renderSchedule() {
+      const query = document.getElementById('scheduleSearch').value.trim().toLowerCase();
+      document.getElementById('clearSearchBtn').classList.toggle('hidden', query.length === 0);
+
+      const filtered = dutyData.filter(item => {
+        const matchesShift = currentShiftFilter === 'ALL' || item.shiftType === currentShiftFilter;
+        const matchesQuery = query === '' || 
+          item.members.some(m => m.name.toLowerCase().includes(query)) ||
+          item.station[currentLang].toLowerCase().includes(query);
+        return matchesShift && matchesQuery;
+      });
+
+      const grid = document.getElementById('scheduleGrid');
+      const emptyState = document.getElementById('scheduleEmpty');
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        lucide.createIcons();
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      const dict = i18n[currentLang];
+
+      grid.innerHTML = filtered.map(item => {
+        const membersHtml = item.members.map(member => {
+          const isMatch = query !== '' && member.name.toLowerCase().includes(query);
+          return `
+            <div class="flex items-center justify-between py-2 px-3 rounded-xl text-xs ${isMatch ? 'bg-brand-primary text-white font-bold shadow-2xs' : 'bg-white text-slate-700 border border-slate-100'}">
+              <div class="flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full ${isMatch ? 'bg-amber-300' : 'bg-brand-primary'}"></span>
+                <span>${member.name}</span>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded-md ${isMatch ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'}">${member.role}</span>
+            </div>
+          `;
+        }).join('');
+
+        return `
+          <div class="bg-brand-bg rounded-2xl border border-slate-200/70 p-5 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <span class="text-[11px] font-bold px-2.5 py-1 rounded-lg border ${item.badgeClass}">
+                  ${item.shiftName[currentLang]}
+                </span>
+                <span class="text-xs font-bold text-brand-text bg-white px-2.5 py-1 rounded-lg border border-slate-200/70 flex items-center gap-1">
+                  <i data-lucide="clock" class="w-3.5 h-3.5 text-brand-primary"></i>
+                  ${item.time}
+                </span>
+              </div>
+
+              <div class="mb-3.5 pb-3 border-b border-slate-200/70">
+                <p class="text-[11px] text-slate-400">${dict.stationLabel}</p>
+                <p class="text-xs font-bold text-brand-text mt-0.5 flex items-center gap-1.5">
+                  <i data-lucide="map-pin" class="w-3.5 h-3.5 text-brand-primary shrink-0"></i>
+                  <span>${item.station[currentLang]}</span>
+                </p>
+              </div>
+
+              <p class="text-[11px] font-semibold text-slate-500 mb-2">${dict.coworkersLabel}</p>
+              <div class="space-y-1.5">
+                ${membersHtml}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      lucide.createIcons();
+    }
+
+    function setShiftFilter(shift) {
+      currentShiftFilter = shift;
+      document.querySelectorAll('.shift-btn').forEach(btn => {
+        const isActive = btn.getAttribute('data-shift') === shift;
+        btn.className = isActive
+          ? 'shift-btn flex-1 py-2 px-2.5 rounded-xl text-xs font-bold transition-all bg-brand-primary text-white cursor-pointer'
+          : 'shift-btn flex-1 py-2 px-2.5 rounded-xl text-xs font-semibold bg-white text-slate-600 border border-slate-200 hover:bg-blue-50 transition-all cursor-pointer';
+      });
+      renderSchedule();
+    }
+
+    function clearScheduleSearch() {
+      document.getElementById('scheduleSearch').value = '';
+      renderSchedule();
+    }
+
+    function renderFaq() {
+      const container = document.getElementById('faqContainer');
+      container.innerHTML = faqData.map((item, index) => `
+        <div class="accordion-item bg-brand-bg rounded-2xl border border-slate-200/70 overflow-hidden ${index === 0 ? 'active' : ''}">
+          <button onclick="this.parentElement.classList.toggle('active')" class="w-full px-5 py-4 text-left flex items-center justify-between gap-4 hover:bg-slate-100/70 transition-colors cursor-pointer">
+            <span class="font-bold text-sm text-brand-text">${item.q[currentLang]}</span>
+            <i data-lucide="chevron-down" class="accordion-icon w-4 h-4 text-brand-primary shrink-0 transition-transform duration-200"></i>
+          </button>
+          <div class="accordion-content px-5">
+            <div class="pb-4 pt-2 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-200/60">
+              ${item.a[currentLang]}
+            </div>
+          </div>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function renderVenue() {
+      const tabsContainer = document.getElementById('floorTabs');
+      tabsContainer.innerHTML = venueData.map(floor => {
+        const isActive = floor.id === currentFloorId;
+        return `
+          <button 
+            onclick="currentFloorId='${floor.id}'; renderVenue();" 
+            class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm whitespace-nowrap transition-all border cursor-pointer ${
+              isActive 
+                ? 'bg-brand-primary text-white border-brand-primary shadow-2xs' 
+                : 'bg-brand-bg text-slate-600 border-slate-200/70 hover:bg-blue-50 hover:text-brand-primary'
+            }"
+          >
+            ${floor.code}
+          </button>
+        `;
+      }).join('');
+
+      const activeFloor = venueData.find(f => f.id === currentFloorId);
+      const detailCard = document.getElementById('floorDetailCard');
+
+      detailCard.innerHTML = `
+        <div class="pb-5 border-b border-slate-200/80">
+          <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-lg bg-brand-light text-brand-primary text-xs font-bold mb-2">
+            <span>${activeFloor.code}</span>
+            <span>•</span>
+            <span>${activeFloor.badge[currentLang]}</span>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold text-brand-text">${activeFloor.title[currentLang]}</h3>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">${activeFloor.desc[currentLang]}</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-5">
+          ${activeFloor.highlights.map(h => `
+            <div class="flex items-start gap-3 p-3.5 bg-white rounded-xl border border-slate-200/70">
+              <div class="w-9 h-9 rounded-lg bg-brand-light text-brand-primary flex items-center justify-center shrink-0">
+                <i data-lucide="${h.icon}" class="w-4 h-4"></i>
+              </div>
+              <p class="text-xs sm:text-sm font-medium text-slate-700 leading-snug pt-0.5">${h.text[currentLang]}</p>
+            </div>
+          `).join('')}
+        </div>
+      `;
+      lucide.createIcons();
+    }
+
+    function renderContacts() {
+      const grid = document.getElementById('contactGrid');
+      const dict = i18n[currentLang];
+
+      grid.innerHTML = contactData.map(person => `
+        <div class="rounded-2xl p-5 border transition-all flex flex-col justify-between ${
+          person.highlight 
+            ? 'bg-brand-light/70 border-blue-200' 
+            : 'bg-brand-bg border-slate-200/70'
+        }">
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-2.5">
+              <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-md ${
+                person.highlight ? 'bg-brand-primary text-white' : 'bg-white text-brand-primary border border-slate-200/80'
+              }">
+                ${person.role[currentLang]}
+              </span>
+              <span class="text-[11px] font-mono font-semibold px-2 py-0.5 rounded bg-white text-slate-600 border border-slate-200/80">
+                📻 ${person.radio}
+              </span>
+            </div>
+
+            <h3 class="text-base font-bold text-brand-text">${person.name[currentLang]}</h3>
+            <p class="text-xs text-slate-500 mt-1 flex items-center gap-1">
+              <i data-lucide="map-pin" class="w-3.5 h-3.5 text-brand-primary shrink-0"></i>
+              <span>${person.zone[currentLang]}</span>
+            </p>
+          </div>
+
+          <div class="mt-5 pt-3.5 border-t border-slate-200/80 flex items-center justify-between gap-2">
+            <span class="font-mono text-sm font-bold text-brand-text">${person.phone}</span>
+            <div class="flex items-center gap-1.5">
+              <button 
+                onclick="copyPhone('${person.phone}')" 
+                class="p-2 rounded-lg bg-white hover:bg-slate-100 text-slate-600 border border-slate-200 transition-colors cursor-pointer" 
+                title="${dict.copyBtn}"
+              >
+                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+              </button>
+              <a 
+                href="tel:${person.phone.replace(/-/g, '')}" 
+                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-brand-primary hover:bg-brand-dark text-white font-bold text-xs transition-colors"
+              >
+                <i data-lucide="phone" class="w-3 h-3"></i>
+                <span>${dict.callBtn}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    // Mobile Sidebar Controls
+    function toggleMobileSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const backdrop = document.getElementById('sidebarBackdrop');
+      sidebar.classList.toggle('-translate-x-full');
+      backdrop.classList.toggle('hidden');
+    }
+
+    function closeMobileSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const backdrop = document.getElementById('sidebarBackdrop');
+      sidebar.classList.add('-translate-x-full');
+      backdrop.classList.add('hidden');
+    }
+
+    // Copy Phone Helper (with fallback for sandboxed iframes)
+    function copyPhone(phone) {
+      const showToast = () => {
+        const toast = document.getElementById('toast');
+        document.getElementById('toastMsg').textContent = `${i18n[currentLang].copiedToast} (${phone})`;
+        toast.classList.remove('hidden');
+        toast.classList.add('flex');
+        setTimeout(() => {
+          toast.classList.add('hidden');
+          toast.classList.remove('flex');
+        }, 2500);
+      };
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(phone).then(showToast).catch(() => fallbackCopy(phone, showToast));
+      } else {
+        fallbackCopy(phone, showToast);
+      }
+    }
+
+    function fallbackCopy(text, callback) {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-9999px';
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        callback();
+      } catch (err) {}
+      document.body.removeChild(textArea);
+    }
+
+    // Scroll Spy to highlight active sidebar menu item automatically
+    function initScrollSpy() {
+      const sections = ['home', 'schedule', 'faq', 'venue', 'contact'];
+      window.addEventListener('scroll', () => {
+        let current = 'home';
+        const scrollPos = window.scrollY + 180;
+        sections.forEach(id => {
+          const el = document.getElementById(id);
+          if (el && el.offsetTop <= scrollPos) {
+            current = id;
+          }
+        });
+        setActiveNav(current);
+      }, { passive: true });
+    }
+
+    // Initialize App
+    document.addEventListener('DOMContentLoaded', () => {
+      updateStaticTexts();
+      renderSchedule();
+      renderFaq();
+      renderVenue();
+      renderContacts();
+      initScrollSpy();
+      lucide.createIcons();
+    });
+  </script>
+</body>
+</html>
