@@ -1,865 +1,1411 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="th" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Suvarnabhumi Airport - Information Desk Volunteer Guide</title>
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Information Desk | Suvarnabhumi Airport Volunteer Guide</title>
+  
+  <!-- Google Fonts: Plus Jakarta Sans & Prompt -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', '"Prompt"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              primary: '#D4549E',
+              dark: '#B03D80',
+              light: '#FCEBF5',
+              accent: '#FFD93A',
+              bg: '#FDF9FC',
+              text: '#2B1422',
+              muted: '#735A68'
+            }
+          }
+        }
+      }
+    }
+  </script>
 
-    <style>
-        body {
-            font-family: 'Prompt', 'Inter', sans-serif;
-        }
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #D4549E;
-            border-radius: 3px;
-        }
-        .active-dot {
-            position: relative;
-        }
-        .active-dot::after {
-            content: '';
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 6px;
-            height: 6px;
-            background-color: #FFD93A;
-            border-radius: 50%;
-        }
-    </style>
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', 'Prompt', sans-serif;
+      background-color: #FDF9FC;
+      color: #2B1422;
+    }
+    .accordion-content {
+      transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+    }
+    .accordion-item.active .accordion-content {
+      max-height: 500px;
+      opacity: 1;
+    }
+    .accordion-item.active .accordion-icon {
+      transform: rotate(180deg);
+    }
+    /* Hide scrollbar for horizontal tabs */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
 </head>
-<body class="bg-[#FDF9FC] text-gray-800 min-h-screen flex flex-col xl:flex-row pb-20 xl:pb-0">
+<body class="antialiased selection:bg-brand-primary selection:text-white">
 
-    <!-- Top Mobile/Tablet Header -->
-    <header class="xl:hidden bg-white border-b border-[#F5E6F0] sticky top-0 z-40 px-4 py-3 flex items-center justify-between">
-        <div class="flex items-center gap-3">
-            <div class="bg-[#D4549E] text-white p-2 rounded-xl">
-                <i data-lucide="info" class="w-5 h-5"></i>
+  <!-- ==================== MOBILE & TABLET TOP HEADER ==================== -->
+  <header class="xl:hidden fixed top-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-4 sm:px-6 h-16 flex items-center justify-between shadow-2xs">
+    <button onclick="switchSection('home')" class="flex items-center gap-3 text-left cursor-pointer">
+      <div class="relative w-9 h-9 rounded-xl bg-brand-primary text-white flex items-center justify-center font-serif font-bold text-lg shadow-xs">
+        i
+        <span class="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-brand-accent text-brand-text flex items-center justify-center shadow-xs border border-white">
+          <i data-lucide="plane" class="w-2.5 h-2.5"></i>
+        </span>
+      </div>
+      <div>
+        <div class="font-bold text-sm text-brand-text leading-tight">Information Desk</div>
+        <div class="text-[10px] font-semibold tracking-wider text-slate-400 uppercase">BANGKOK • BKK</div>
+      </div>
+    </button>
+
+    <!-- Mobile & Tablet Language Toggle -->
+    <div class="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200">
+      <button onclick="setLanguage('en')" id="mob-lang-en" class="px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer">EN</button>
+      <button onclick="setLanguage('th')" id="mob-lang-th" class="px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer">TH</button>
+    </div>
+  </header>
+
+  <!-- ==================== MOBILE & TABLET BOTTOM APP NAVIGATION BAR ==================== -->
+  <nav class="xl:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-slate-200/90 px-1 sm:px-4 h-[70px] flex items-center justify-around shadow-[0_-4px_20px_-6px_rgba(15,67,117,0.08)]">
+    <button onclick="switchSection('home')" data-section="home" class="bottom-nav-item flex-1 flex flex-col items-center justify-center gap-1 py-1.5 rounded-xl text-brand-primary transition-all cursor-pointer">
+      <div class="nav-pill px-3.5 py-1 rounded-full bg-brand-light transition-colors">
+        <i data-lucide="home" class="w-5 h-5"></i>
+      </div>
+      <span class="text-[11px] font-bold tracking-tight" data-i18n="shortMenuHome">Home</span>
+    </button>
+
+    <button onclick="switchSection('schedule')" data-section="schedule" class="bottom-nav-item flex-1 flex flex-col items-center justify-center gap-1 py-1.5 rounded-xl text-slate-500 hover:text-brand-text transition-all cursor-pointer">
+      <div class="nav-pill px-3.5 py-1 rounded-full bg-transparent transition-colors">
+        <i data-lucide="calendar-check" class="w-5 h-5"></i>
+      </div>
+      <span class="text-[11px] font-medium tracking-tight" data-i18n="shortMenuSchedule">Schedule</span>
+    </button>
+
+    <button onclick="switchSection('faq')" data-section="faq" class="bottom-nav-item flex-1 flex flex-col items-center justify-center gap-1 py-1.5 rounded-xl text-slate-500 hover:text-brand-text transition-all cursor-pointer">
+      <div class="nav-pill px-3.5 py-1 rounded-full bg-transparent transition-colors">
+        <i data-lucide="help-circle" class="w-5 h-5"></i>
+      </div>
+      <span class="text-[11px] font-medium tracking-tight" data-i18n="shortMenuFaq">FAQ</span>
+    </button>
+
+    <button onclick="switchSection('venue')" data-section="venue" class="bottom-nav-item flex-1 flex flex-col items-center justify-center gap-1 py-1.5 rounded-xl text-slate-500 hover:text-brand-text transition-all cursor-pointer">
+      <div class="nav-pill px-3.5 py-1 rounded-full bg-transparent transition-colors">
+        <i data-lucide="building-2" class="w-5 h-5"></i>
+      </div>
+      <span class="text-[11px] font-medium tracking-tight" data-i18n="shortMenuVenue">Venue</span>
+    </button>
+
+    <button onclick="switchSection('contact')" data-section="contact" class="bottom-nav-item flex-1 flex flex-col items-center justify-center gap-1 py-1.5 rounded-xl text-slate-500 hover:text-brand-text transition-all cursor-pointer">
+      <div class="nav-pill px-3.5 py-1 rounded-full bg-transparent transition-colors">
+        <i data-lucide="phone-call" class="w-5 h-5"></i>
+      </div>
+      <span class="text-[11px] font-medium tracking-tight" data-i18n="shortMenuContact">Contact</span>
+    </button>
+  </nav>
+
+  <!-- ==================== LEFT FIXED SIDEBAR (DESKTOP ONLY) ==================== -->
+  <aside id="sidebar" class="hidden xl:flex fixed top-0 left-0 bottom-0 z-50 w-64 bg-white border-r border-slate-200/80 flex-col justify-between">
+    
+    <div class="p-6">
+      <!-- Brand Header -->
+      <div class="flex items-center justify-between mb-8">
+        <button onclick="switchSection('home')" class="flex items-center gap-3.5 group text-left cursor-pointer">
+          <div class="relative w-11 h-11 rounded-2xl bg-brand-primary text-white flex items-center justify-center font-serif font-bold text-2xl shadow-sm group-hover:bg-brand-dark transition-colors">
+            i
+            <span class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-brand-accent text-brand-text flex items-center justify-center shadow-sm border-2 border-white">
+              <i data-lucide="plus" class="w-3 h-3 stroke-[3]"></i>
+            </span>
+          </div>
+          <div>
+            <div class="font-bold text-base text-brand-text leading-tight">Information Desk</div>
+            <div class="text-[11px] font-semibold tracking-widest text-slate-400 uppercase mt-0.5">BANGKOK • BKK</div>
+          </div>
+        </button>
+      </div>
+
+      <!-- Menu Group Title -->
+      <div class="text-[11px] font-bold tracking-wider text-slate-400 uppercase px-3 mb-3" data-i18n="sidebarGuideLabel">
+        VOLUNTEER GUIDE
+      </div>
+
+      <!-- 5 Navigation Items -->
+      <nav class="space-y-1.5" id="sidebarNav">
+        <button type="button" data-section="home" onclick="switchSection('home')" class="nav-item w-full flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-semibold transition-all bg-brand-light text-brand-primary cursor-pointer">
+          <div class="flex items-center gap-3">
+            <i data-lucide="home" class="w-4 h-4"></i>
+            <span data-i18n="menuHome">Home</span>
+          </div>
+          <span class="nav-dot w-1.5 h-1.5 rounded-full bg-brand-primary"></span>
+        </button>
+
+        <button type="button" data-section="schedule" onclick="switchSection('schedule')" class="nav-item w-full flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-text transition-all cursor-pointer">
+          <div class="flex items-center gap-3">
+            <i data-lucide="calendar-check" class="w-4 h-4"></i>
+            <span data-i18n="menuSchedule">Duty Schedule</span>
+          </div>
+          <span class="nav-dot w-1.5 h-1.5 rounded-full bg-brand-primary hidden"></span>
+        </button>
+
+        <button type="button" data-section="faq" onclick="switchSection('faq')" class="nav-item w-full flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-text transition-all cursor-pointer">
+          <div class="flex items-center gap-3">
+            <i data-lucide="help-circle" class="w-4 h-4"></i>
+            <span data-i18n="menuFaq">FAQ</span>
+          </div>
+          <span class="nav-dot w-1.5 h-1.5 rounded-full bg-brand-primary hidden"></span>
+        </button>
+
+        <button type="button" data-section="venue" onclick="switchSection('venue')" class="nav-item w-full flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-text transition-all cursor-pointer">
+          <div class="flex items-center gap-3">
+            <i data-lucide="building-2" class="w-4 h-4"></i>
+            <span data-i18n="menuVenue">Venue Guide</span>
+          </div>
+          <span class="nav-dot w-1.5 h-1.5 rounded-full bg-brand-primary hidden"></span>
+        </button>
+
+        <button type="button" data-section="contact" onclick="switchSection('contact')" class="nav-item w-full flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-text transition-all cursor-pointer">
+          <div class="flex items-center gap-3">
+            <i data-lucide="phone-call" class="w-4 h-4"></i>
+            <span data-i18n="menuContact">Contact</span>
+          </div>
+          <span class="nav-dot w-1.5 h-1.5 rounded-full bg-brand-primary hidden"></span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Bottom Language Switcher (Matching Reference Style) -->
+    <div class="p-6 border-t border-slate-100">
+      <div class="text-[11px] font-bold tracking-wider text-slate-400 uppercase mb-3" data-i18n="languageLabel">
+        LANGUAGE
+      </div>
+      <div class="grid grid-cols-2 gap-2">
+        <button id="lang-en" onclick="setLanguage('en')" class="py-2 px-3 rounded-xl text-xs font-bold border transition-all cursor-pointer">
+          EN
+        </button>
+        <button id="lang-th" onclick="setLanguage('th')" class="py-2 px-3 rounded-xl text-xs font-bold border transition-all cursor-pointer">
+          TH
+        </button>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ==================== MAIN CONTENT AREA ==================== -->
+  <main class="xl:pl-64 pt-16 pb-24 xl:pt-0 xl:pb-10 min-h-screen">
+    <div class="max-w-6xl mx-auto px-4 sm:px-8 lg:px-10 py-6 lg:py-10">
+
+      <!-- ==================== 1. HOME SECTION ==================== -->
+      <section id="home" class="app-section space-y-8">
+        
+        <!-- Hero Banner Card (Exact Layout Match) -->
+        <div class="bg-white rounded-3xl shadow-xs border border-slate-200/70 overflow-hidden grid grid-cols-1 xl:grid-cols-12">
+          
+          <!-- Left Text Column -->
+          <div class="xl:col-span-6 p-7 sm:p-10 xl:p-12 flex flex-col justify-center">
+            <div class="text-xs font-bold tracking-widest text-brand-primary uppercase mb-3" data-i18n="heroEyebrow">
+              BANGKOK • SUVARNABHUMI (BKK)
+            </div>
+            <h1 class="text-3xl sm:text-4xl lg:text-[42px] font-extrabold text-brand-text tracking-tight leading-tight mb-4" data-i18n="heroTitle">
+              Information Desk
+            </h1>
+            <p class="text-slate-500 text-sm sm:text-base leading-relaxed mb-8 max-w-md" data-i18n="heroDesc">
+              All the essential information for Information Desk volunteers, in one easy place.
+            </p>
+            <div>
+              <button type="button" onclick="switchSection('schedule')" class="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-brand-primary hover:bg-brand-dark text-white font-semibold text-sm shadow-sm transition-all cursor-pointer">
+                <i data-lucide="calendar-check" class="w-4 h-4"></i>
+                <span data-i18n="heroCtaBtn">Duty schedule</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Right Welcoming Staff Image Column -->
+          <div class="xl:col-span-6 relative min-h-[260px] sm:min-h-[340px] bg-slate-100">
+            <img 
+              src="https://i.postimg.cc/02Mx5hbv/Gemini-Generated-Image-x3nltjx3nltjx3nl.jpg" 
+              alt="Suvarnabhumi Airport Information Desk" 
+              onerror="this.onerror=null; this.src='https://placehold.co/900x600/FCEBF5/D4549E?text=Suvarnabhumi+Information+Desk';"
+              class="w-full h-full object-cover object-center"
+            />
+            <!-- Subtle gradient blend on left edge for desktop -->
+            <div class="hidden xl:block absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-white to-transparent"></div>
+          </div>
+        </div>
+
+        <!-- Quick Access Section (Matching 4-Column Cards) -->
+        <div>
+          <h2 class="text-lg font-bold text-brand-text mb-4" data-i18n="quickAccessTitle">Quick access</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            
+            <!-- Card 1: Duty Schedule -->
+            <button type="button" onclick="switchSection('schedule')" class="group text-left bg-white p-6 rounded-2xl border border-slate-200/70 shadow-2xs hover:shadow-md hover:border-brand-primary/40 transition-all cursor-pointer">
+              <div class="w-11 h-11 rounded-xl bg-brand-light text-brand-primary flex items-center justify-center mb-5 group-hover:bg-brand-primary group-hover:text-white transition-colors">
+                <i data-lucide="calendar-clock" class="w-5 h-5"></i>
+              </div>
+              <h3 class="font-bold text-base text-brand-text mb-1" data-i18n="qa1Title">Duty Schedule</h3>
+              <p class="text-xs text-slate-400 leading-relaxed" data-i18n="qa1Desc">Search your shift time & teammates on duty.</p>
+            </button>
+
+            <!-- Card 2: FAQ -->
+            <button type="button" onclick="switchSection('faq')" class="group text-left bg-white p-6 rounded-2xl border border-slate-200/70 shadow-2xs hover:shadow-md hover:border-brand-primary/40 transition-all cursor-pointer">
+              <div class="w-11 h-11 rounded-xl bg-amber-100/80 text-amber-800 flex items-center justify-center mb-5 group-hover:bg-brand-accent group-hover:text-brand-text transition-colors">
+                <i data-lucide="help-circle" class="w-5 h-5"></i>
+              </div>
+              <h3 class="font-bold text-base text-brand-text mb-1" data-i18n="qa2Title">FAQ</h3>
+              <p class="text-xs text-slate-400 leading-relaxed" data-i18n="qa2Desc">Common passenger questions & airport rules.</p>
+            </button>
+
+            <!-- Card 3: Venue Guide -->
+            <button type="button" onclick="switchSection('venue')" class="group text-left bg-white p-6 rounded-2xl border border-slate-200/70 shadow-2xs hover:shadow-md hover:border-brand-primary/40 transition-all cursor-pointer">
+              <div class="w-11 h-11 rounded-xl bg-brand-light text-brand-primary flex items-center justify-center mb-5 group-hover:bg-brand-primary group-hover:text-white transition-colors">
+                <i data-lucide="building-2" class="w-5 h-5"></i>
+              </div>
+              <h3 class="font-bold text-base text-brand-text mb-1" data-i18n="qa3Title">Venue Guide</h3>
+              <p class="text-xs text-slate-400 leading-relaxed" data-i18n="qa3Desc">Terminal floors (B to 4), services & facilities.</p>
+            </button>
+
+            <!-- Card 4: Contact -->
+            <button type="button" onclick="switchSection('contact')" class="group text-left bg-white p-6 rounded-2xl border border-slate-200/70 shadow-2xs hover:shadow-md hover:border-brand-primary/40 transition-all cursor-pointer">
+              <div class="w-11 h-11 rounded-xl bg-amber-100/80 text-amber-800 flex items-center justify-center mb-5 group-hover:bg-brand-accent group-hover:text-brand-text transition-colors">
+                <i data-lucide="phone-call" class="w-5 h-5"></i>
+              </div>
+              <h3 class="font-bold text-base text-brand-text mb-1" data-i18n="qa4Title">Contact</h3>
+              <p class="text-xs text-slate-400 leading-relaxed" data-i18n="qa4Desc">Supervisors & Keyman phone numbers.</p>
+            </button>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== 2. DUTY SCHEDULE SECTION ==================== -->
+      <section id="schedule" class="app-section hidden bg-white rounded-3xl p-6 sm:p-8 lg:p-10 border border-slate-200/70 shadow-2xs">
+        <div class="mb-6">
+          <span class="text-xs font-bold tracking-wider text-brand-primary uppercase" data-i18n="secScheduleTag">VOLUNTEER ROSTER</span>
+          <h2 class="text-2xl font-bold text-brand-text mt-1" data-i18n="secScheduleTitle">Duty Schedule</h2>
+          <p class="text-sm text-slate-500 mt-1" data-i18n="secScheduleDesc">Search your name to view your assigned shift, counter post, and fellow teammates.</p>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="bg-brand-bg p-4 rounded-2xl mb-6">
+          <div class="relative">
+            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+            <input 
+              type="text" 
+              id="scheduleSearch" 
+              oninput="renderSchedule()"
+              placeholder="Search volunteer or Keyman name e.g. Ando, Pongwanich, Vidal..." 
+              class="w-full pl-10 pr-9 py-3 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
+            />
+            <button id="clearSearchBtn" onclick="clearScheduleSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 cursor-pointer">
+              <i data-lucide="x-circle" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Initial Prompt State (Before Searching) -->
+        <div id="scheduleInitial" class="text-center py-12 bg-brand-bg rounded-2xl border border-dashed border-slate-300">
+          <div class="w-12 h-12 rounded-2xl bg-brand-light text-brand-primary flex items-center justify-center mx-auto mb-3">
+            <i data-lucide="search" class="w-6 h-6"></i>
+          </div>
+          <p class="font-bold text-base text-brand-text" data-i18n="initialSearchTitle">ค้นหารายชื่ออาสาสมัคร</p>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1" data-i18n="initialSearchSub">พิมพ์ชื่อหรือนามสกุลในช่องค้นหาด้านบนเพื่อดูวัน เวลาเข้างาน และเพื่อนร่วมทีม</p>
+        </div>
+
+        <!-- Schedule Cards Grid -->
+        <div id="scheduleGrid" class="hidden grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <!-- Rendered by JS -->
+        </div>
+
+        <!-- Empty Search State -->
+        <div id="scheduleEmpty" class="hidden text-center py-10 bg-brand-bg rounded-2xl border border-dashed border-slate-300">
+          <i data-lucide="user-x" class="w-9 h-9 text-slate-400 mx-auto mb-2"></i>
+          <p class="font-bold text-sm text-brand-text" data-i18n="noResultTitle">No matching volunteer found</p>
+          <p class="text-xs text-slate-500 mt-1" data-i18n="noResultSub">Try checking the spelling or search with another name.</p>
+        </div>
+      </section>
+
+      <!-- ==================== 3. FAQ SECTION ==================== -->
+      <section id="faq" class="app-section hidden bg-white rounded-3xl p-6 sm:p-8 lg:p-10 border border-slate-200/70 shadow-2xs">
+        <div class="mb-6">
+          <span class="text-xs font-bold tracking-wider text-brand-primary uppercase" data-i18n="secFaqTag">KNOWLEDGE BASE</span>
+          <h2 class="text-2xl font-bold text-brand-text mt-1" data-i18n="secFaqTitle">Frequently Asked Questions (FAQ)</h2>
+          <p class="text-sm text-slate-500 mt-1" data-i18n="secFaqDesc">Quick answers for common passenger inquiries and volunteer guidelines.</p>
+        </div>
+
+        <div id="faqContainer" class="space-y-3">
+          <!-- Rendered by JS -->
+        </div>
+      </section>
+
+      <!-- ==================== 4. VENUE GUIDE SECTION ==================== -->
+      <section id="venue" class="app-section hidden bg-white rounded-3xl p-6 sm:p-8 lg:p-10 border border-slate-200/70 shadow-2xs">
+        <div class="mb-6">
+          <span class="text-xs font-bold tracking-wider text-brand-primary uppercase" data-i18n="secVenueTag">TERMINAL DIRECTORY</span>
+          <h2 class="text-2xl font-bold text-brand-text mt-1" data-i18n="secVenueTitle">Venue Guide</h2>
+          <p class="text-sm text-slate-500 mt-1" data-i18n="secVenueDesc">Explore facilities, gates, and Information Counters across all 5 floors (Floor B to Floor 4).</p>
+        </div>
+
+        <!-- Floor Tabs -->
+        <div class="flex overflow-x-auto pb-2 mb-6 gap-2 no-scrollbar" id="floorTabs">
+          <!-- Rendered by JS -->
+        </div>
+
+        <!-- Floor Details Card -->
+        <div id="floorDetailCard" class="bg-brand-bg rounded-2xl p-6 border border-slate-200/60">
+          <!-- Rendered by JS -->
+        </div>
+      </section>
+
+      <!-- ==================== 5. CONTACT SECTION ==================== -->
+      <section id="contact" class="app-section hidden bg-white rounded-3xl p-6 sm:p-8 lg:p-10 border border-slate-200/70 shadow-2xs">
+        <div class="mb-6">
+          <span class="text-xs font-bold tracking-wider text-brand-primary uppercase" data-i18n="secContactTag">COMMAND & SUPPORT</span>
+          <h2 class="text-2xl font-bold text-brand-text mt-1" data-i18n="secContactTitle">Supervisors & Keyman Contacts</h2>
+          <p class="text-sm text-slate-500 mt-1" data-i18n="secContactDesc">Direct phone numbers and radio channels for zone Keymen and coordinators.</p>
+        </div>
+
+        <!-- Contact Cards Grid -->
+        <div id="contactGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Rendered by JS -->
+        </div>
+
+        <!-- Information Desk Overseer Bar -->
+        <div class="mt-6 p-5 rounded-2xl bg-brand-light border border-brand-primary/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div class="flex items-center gap-3.5">
+            <div class="w-10 h-10 rounded-xl bg-brand-primary text-white flex items-center justify-center shrink-0">
+              <i data-lucide="user-check" class="w-5 h-5"></i>
             </div>
             <div>
-                <h1 class="font-bold text-sm text-[#D4549E] tracking-tight">Information Desk</h1>
-                <p class="text-[10px] text-gray-500 font-semibold tracking-wider uppercase">BKK Airport • Volunteer Guide</p>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-brand-primary" data-i18n="overseerRole">Information Desk Overseer</span>
+              <h3 class="font-bold text-base text-brand-text mt-0.5" data-i18n="overseerName">Pongwanich, Ratra (พงษ์วานิช, รฐา)</h3>
             </div>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <button 
+              onclick="copyPhone('084-575-9404')" 
+              class="p-2.5 rounded-xl bg-white hover:bg-slate-50 text-slate-600 border border-slate-200 transition-colors cursor-pointer" 
+              title="Copy"
+            >
+              <i data-lucide="copy" class="w-4 h-4"></i>
+            </button>
+            <a href="tel:0845759404" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-primary hover:bg-brand-dark text-white font-bold text-xs sm:text-sm transition-colors">
+              <i data-lucide="phone" class="w-4 h-4"></i>
+              <span>084-575-9404</span>
+            </a>
+          </div>
         </div>
-        <!-- Language Switcher -->
-        <div class="flex bg-gray-100 rounded-lg p-0.5 text-xs font-semibold">
-            <button onclick="setLanguage('en')" id="btn-lang-en-mob" class="px-2.5 py-1 rounded-md transition-all duration-200">EN</button>
-            <button onclick="setLanguage('th')" id="btn-lang-th-mob" class="px-2.5 py-1 rounded-md transition-all duration-200">TH</button>
-        </div>
-    </header>
+      </section>
 
-    <!-- Sidebar Navigation (xl screens) -->
-    <aside class="hidden xl:flex flex-col w-72 bg-white border-r border-[#F5E6F0] h-screen sticky top-0 p-6 justify-between shrink-0">
-        <div class="space-y-8">
-            <div class="flex items-center gap-3">
-                <div class="bg-[#D4549E] text-white p-2.5 rounded-2xl shadow-md">
-                    <i data-lucide="info" class="w-6 h-6"></i>
-                </div>
-                <div>
-                    <h1 class="font-bold text-lg text-[#D4549E] leading-none">Information Desk</h1>
-                    <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mt-1">Suvarnabhumi • BKK</p>
-                </div>
+      <!-- Footer -->
+      <footer class="text-center text-xs text-slate-400 mt-10 pb-2">
+        <p data-i18n="footerNote">Information Desk Volunteer Guide • Suvarnabhumi Airport (BKK)</p>
+      </footer>
+
+    </div>
+  </main>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-20 xl:bottom-5 right-5 z-50 hidden items-center gap-2 bg-brand-text text-white px-4 py-3 rounded-xl shadow-lg text-xs font-medium">
+    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
+    <span id="toastMsg">Copied!</span>
+  </div>
+
+  <!-- ==================== JAVASCRIPT ==================== -->
+  <script>
+    // Default language set to English ('en') to match the clean visual reference, toggleable to Thai ('th') anytime
+    let currentLang = 'en';
+    let currentFloorId = 'F4';
+    let currentSectionId = 'home';
+
+    // 1. Translations Dictionary
+    const i18n = {
+      en: {
+        sidebarGuideLabel: 'VOLUNTEER GUIDE',
+        languageLabel: 'LANGUAGE',
+        menuHome: 'Home',
+        menuSchedule: 'Duty Schedule',
+        menuFaq: 'FAQ',
+        menuVenue: 'Venue Guide',
+        menuContact: 'Contact',
+        shortMenuHome: 'Home',
+        shortMenuSchedule: 'Schedule',
+        shortMenuFaq: 'FAQ',
+        shortMenuVenue: 'Venue',
+        shortMenuContact: 'Contact',
+        heroEyebrow: 'BANGKOK • SUVARNABHUMI (BKK)',
+        heroTitle: 'Information Desk',
+        heroDesc: 'All the essential information for Information Desk volunteers, in one easy place.',
+        heroCtaBtn: 'Duty schedule',
+        quickAccessTitle: 'Quick access',
+        qa1Title: 'Duty Schedule',
+        qa1Desc: 'Search your shift time & teammates on duty.',
+        qa2Title: 'FAQ',
+        qa2Desc: 'Common passenger questions & airport rules.',
+        qa3Title: 'Venue Guide',
+        qa3Desc: 'Terminal floors (B to 4), services & facilities.',
+        qa4Title: 'Contact',
+        qa4Desc: 'Supervisors & Keyman phone numbers.',
+        secScheduleTag: 'VOLUNTEER ROSTER • 2–17 DEC 2026',
+        secScheduleTitle: 'Duty Schedule (59 Shifts)',
+        secScheduleDesc: 'Search your name to view your assigned date, shift time, Keymen, and fellow teammates.',
+        searchPlaceholder: 'Search volunteer or Keyman e.g. Ando, Pongwanich, Vidal...',
+        initialSearchTitle: 'Search Volunteer Name',
+        initialSearchSub: 'Type a volunteer or Keyman name above to view assigned dates, shift times, and teammates.',
+        noResultTitle: 'No matching volunteer found',
+        noResultSub: 'Please check the spelling or try searching with another name.',
+        keymenLabel: 'Keymen on duty:',
+        coworkersLabel: 'Volunteers on duty:',
+        noVolLabel: 'Keyman-only shift (0 volunteers)',
+        postConvLabel: 'Post-convention desk (both teams)',
+        secFaqTag: 'KNOWLEDGE BASE',
+        secFaqTitle: 'Frequently Asked Questions (FAQ)',
+        secFaqDesc: 'Quick answers for common passenger inquiries and volunteer guidelines.',
+        secVenueTag: 'TERMINAL DIRECTORY',
+        secVenueTitle: 'Venue Guide',
+        secVenueDesc: 'Explore facilities, gates, and Information Counters across all 5 floors (Floor B to Floor 4).',
+        secContactTag: 'COMMAND & SUPPORT',
+        secContactTitle: 'Supervisors & Keyman Contacts',
+        secContactDesc: 'Direct phone numbers and radio channels for zone Keymen and coordinators.',
+        overseerRole: 'Information Desk Overseer',
+        overseerName: 'Pongwanich, Ratra (พงษ์วานิช, รฐา)',
+        footerNote: 'Information Desk Volunteer Guide • Suvarnabhumi Airport (BKK)',
+        callBtn: 'Call',
+        copyBtn: 'Copy',
+        copiedToast: 'Phone number copied'
+      },
+      th: {
+        sidebarGuideLabel: 'คู่มืออาสาสมัคร',
+        languageLabel: 'ภาษา / LANGUAGE',
+        menuHome: 'หน้าแรก (Home)',
+        menuSchedule: 'ตารางปฏิบัติงาน',
+        menuFaq: 'คำถามที่พบบ่อย',
+        menuVenue: 'ข้อมูลแต่ละชั้น',
+        menuContact: 'ติดต่อผู้ดูแล',
+        shortMenuHome: 'หน้าแรก',
+        shortMenuSchedule: 'ตารางงาน',
+        shortMenuFaq: 'คำถาม',
+        shortMenuVenue: 'แต่ละชั้น',
+        shortMenuContact: 'ติดต่อ',
+        heroEyebrow: 'กรุงเทพฯ • ท่าอากาศยานสุวรรณภูมิ (BKK)',
+        heroTitle: 'Information Desk',
+        heroDesc: 'รวมข้อมูลสำคัญทั้งหมดสำหรับอาสาสมัครแผนก Information Desk ไว้ในที่เดียว ใช้งานง่าย รวดเร็ว',
+        heroCtaBtn: 'ดูตารางปฏิบัติงาน',
+        quickAccessTitle: 'ทางลัดเข้าสู่เมนู (Quick access)',
+        qa1Title: 'Duty Schedule',
+        qa1Desc: 'ค้นหาชื่อ กะเวลาเข้างาน และเพื่อนร่วมทีม',
+        qa2Title: 'FAQ',
+        qa2Desc: 'รวมคำถามที่พบบ่อยและแนวทางการตอบผู้โดยสาร',
+        qa3Title: 'Venue Guide',
+        qa3Desc: 'ข้อมูลจุดบริการและสิ่งอำนวยความสะดวกทั้ง 5 ชั้น',
+        qa4Title: 'Contact',
+        qa4Desc: 'รายชื่อและเบอร์โทรติดต่อผู้ดูแลและ Keyman',
+        secScheduleTag: 'ตารางเวรปฏิบัติงาน • 2–17 ธ.ค. 2026',
+        secScheduleTitle: 'Duty Schedule (ตารางการทำงาน 59 กะ)',
+        secScheduleDesc: 'พิมพ์ชื่อเพื่อค้นหาวัน เวลาเข้างาน Keyman และทีมอาสาสมัครที่ปฏิบัติงานร่วมกัน',
+        searchPlaceholder: 'ค้นหารายชื่ออาสาสมัคร หรือ Keyman เช่น พงษ์วานิช, Vidal, Ando...',
+        initialSearchTitle: 'ค้นหารายชื่ออาสาสมัคร',
+        initialSearchSub: 'พิมพ์ชื่อหรือนามสกุลในช่องค้นหาด้านบนเพื่อดูวัน เวลาเข้างาน และเพื่อนร่วมทีม',
+        noResultTitle: 'ไม่พบรายชื่ออาสาสมัครที่ค้นหา',
+        noResultSub: 'กรุณาตรวจสอบตัวสะกด หรือลองค้นหาด้วยชื่ออื่น',
+        keymenLabel: 'Keyman ประจำกะ:',
+        coworkersLabel: 'อาสาสมัครที่ปฏิบัติงานร่วมกัน:',
+        noVolLabel: 'กะเฉพาะ Keyman (ไม่มีอาสาสมัครเพิ่มเติม)',
+        postConvLabel: 'Post-convention desk (both teams)',
+        secFaqTag: 'คลังข้อมูลตอบคำถาม',
+        secFaqTitle: 'คำถามที่พบบ่อย (FAQ)',
+        secFaqDesc: 'แนวทางการตอบคำถามผู้โดยสาร กฎระเบียบการปฏิบัติงาน และข้อมูลบริการในสนามบิน',
+        secVenueTag: 'แผนผังอาคารผู้โดยสาร',
+        secVenueTitle: 'Venue Guide (ข้อมูลแต่ละชั้น)',
+        secVenueDesc: 'เลือกดูข้อมูลจุดบริการ ประตูทางออก และสิ่งอำนวยความสะดวกตั้งแต่ชั้น B ถึง ชั้น 4',
+        secContactTag: 'ศูนย์ประสานงาน',
+        secContactTitle: 'รายชื่อและเบอร์ติดต่อผู้ดูแล & Keyman',
+        secContactDesc: 'ช่องทางติดต่อผู้ดูแลประจำโซนและผู้ประสานงานหลักเมื่อต้องการความช่วยเหลือหน้างาน',
+        overseerRole: 'Information Desk Overseer (ผู้ดูแลแผนก)',
+        overseerName: 'Pongwanich, Ratra (พงษ์วานิช, รฐา)',
+        footerNote: 'คู่มืออาสาสมัครแผนก Information Desk • ท่าอากาศยานสุวรรณภูมิ (BKK)',
+        callBtn: 'โทรออก',
+        copyBtn: 'คัดลอก',
+        copiedToast: 'คัดลอกเบอร์โทรศัพท์แล้ว'
+      }
+    };
+
+    // 2. Real Duty Schedule Dataset (59 Shifts from BKK Airport Department PDF)
+    const dutyData = [
+      // Wed 2 Dec 2026
+      { dateCode: '2 Dec', dateLabel: 'Wed 2 Dec', time: '00:00-04:00', type: 'regular', keymen: ['Pongwanich, Ratra (พงษ์วานิช, รฐา)', 'Pongwanich, Raviporn (พงษ์วานิช, ระวิพร)'], volunteers: [] },
+      { dateCode: '2 Dec', dateLabel: 'Wed 2 Dec', time: '08:00-12:00', type: 'regular', keymen: [], volunteers: [] },
+      { dateCode: '2 Dec', dateLabel: 'Wed 2 Dec', time: '12:00-17:00', type: 'regular', keymen: ['Scott, Dakota', 'Scott, Xemilla'], volunteers: ['Greene, Kezia'] },
+
+      // Thu 3 Dec 2026
+      { dateCode: '3 Dec', dateLabel: 'Thu 3 Dec', time: '04:00-08:00', type: 'regular', keymen: ['Scott, Dakota', 'Scott, Xemilla'], volunteers: [] },
+      { dateCode: '3 Dec', dateLabel: 'Thu 3 Dec', time: '08:00-12:00', type: 'regular', keymen: ['Lewandowski, Marcel', 'Lewandowski, Kamila'], volunteers: [] },
+      { dateCode: '3 Dec', dateLabel: 'Thu 3 Dec', time: '12:00-17:00', type: 'regular', keymen: ['Vidal, William', 'Vidal, Cinthia'], volunteers: [] },
+      { dateCode: '3 Dec', dateLabel: 'Thu 3 Dec', time: '17:00-20:00', type: 'regular', keymen: ['Park, Hwan woo'], volunteers: [] },
+      { dateCode: '3 Dec', dateLabel: 'Thu 3 Dec', time: '20:00-23:59', type: 'regular', keymen: ['Park, Hwan woo'], volunteers: [] },
+
+      // Fri 4 Dec 2026
+      { dateCode: '4 Dec', dateLabel: 'Fri 4 Dec', time: '00:00-04:00', type: 'regular', keymen: ['Scott, Dakota', 'Scott, Xemilla'], volunteers: [] },
+      { dateCode: '4 Dec', dateLabel: 'Fri 4 Dec', time: '04:00-08:00', type: 'regular', keymen: ['Robison, Asahn', 'Robison, Alonna'], volunteers: [] },
+      { dateCode: '4 Dec', dateLabel: 'Fri 4 Dec', time: '08:00-12:00', type: 'regular', keymen: ['Byun, Dongwook', 'Lee, Yoonjin'], volunteers: [] },
+      { dateCode: '4 Dec', dateLabel: 'Fri 4 Dec', time: '12:00-17:00', type: 'regular', keymen: ['Vidal, William', 'Vidal, Cinthia'], volunteers: ['De La Vega, Maricar', 'Greene, Kezia'] },
+      { dateCode: '4 Dec', dateLabel: 'Fri 4 Dec', time: '17:00-20:00', type: 'regular', keymen: ['Sae-ung, Rachai (แซ่อึ้ง, ราชัย)'], volunteers: ['Gaze, DonRay'] },
+      { dateCode: '4 Dec', dateLabel: 'Fri 4 Dec', time: '20:00-23:59', type: 'regular', keymen: ['Sae-ung, Rachai (แซ่อึ้ง, ราชัย)'], volunteers: ['Cardillo, Lidia', 'Harinasuta, Nathapat (หะริณสุต, ณฐภัทร)', 'Sriyingyong, Kawin'] },
+
+      // Sat 5 Dec 2026
+      { dateCode: '5 Dec', dateLabel: 'Sat 5 Dec', time: '00:00-04:00', type: 'regular', keymen: ['Pongwanich, Ratra (พงษ์วานิช, รฐา)', 'Pongwanich, Raviporn (พงษ์วานิช, ระวิพร)'], volunteers: ['Sriyingyong, Kawin'] },
+      { dateCode: '5 Dec', dateLabel: 'Sat 5 Dec', time: '04:00-08:00', type: 'regular', keymen: ['Robison, Asahn', 'Robison, Alonna'], volunteers: ['Clark, Kyle', 'Pensook, Natchanon'] },
+      { dateCode: '5 Dec', dateLabel: 'Sat 5 Dec', time: '08:00-12:00', type: 'regular', keymen: ['Lewandowski, Marcel', 'Lewandowski, Kamila'], volunteers: ['Greene, Kezia', 'Shinozaki, Yukiko', 'Villanueva, Olivia'] },
+      { dateCode: '5 Dec', dateLabel: 'Sat 5 Dec', time: '12:00-17:00', type: 'regular', keymen: ['Lewandowski, Marcel', 'Lewandowski, Kamila', 'Matsuzaki, Nanae'], volunteers: ['Pfrengle, Ruthann', 'Shinozaki, Yukiko', 'Syvertsen, Rachael'] },
+      { dateCode: '5 Dec', dateLabel: 'Sat 5 Dec', time: '20:00-23:59', type: 'regular', keymen: ['Vidal, William', 'Vidal, Cinthia'], volunteers: ['Ando, Emiko', 'Clark, Kyle', 'Padra, Maïmouna', 'Sylvander, Åsa'] },
+
+      // Sun 6 Dec 2026
+      { dateCode: '6 Dec', dateLabel: 'Sun 6 Dec', time: '00:00-04:00', type: 'regular', keymen: ['Baek, Yoojung'], volunteers: ['Betancourt, Zully', 'Maier, Isabel', 'Motykhlyayeva, Olga', 'Nakada, Mayumi', 'Shinozaki, Yukiko', 'Sriyingyong, Kawin', 'Watson, Kathryn'] },
+      { dateCode: '6 Dec', dateLabel: 'Sun 6 Dec', time: '04:00-08:00', type: 'regular', keymen: ['Matsuzaki, Nanae'], volunteers: ['Chameau, Peggy', 'De La Vega, Maricar', 'Ito, Chie (อิโตะ, ชิเอะ)', 'Keskinen, Pinja', 'Motykhlyayeva, Olga', 'Youdell, Odette'] },
+      { dateCode: '6 Dec', dateLabel: 'Sun 6 Dec', time: '08:00-12:00', type: 'regular', keymen: ['Vidal, William', 'Vidal, Cinthia', 'Fukuda, Mami (福田, 真実)'], volunteers: ['Cardillo, Lidia', 'Chameau, Peggy', 'De La Vega, Maricar', 'Harinasuta, Nathapat (หะริณสุต, ณฐภัทร)', 'Hofmann, Paporn (โฮฟมันน์, ภาพร)', 'Syvertsen, Rachael'] },
+      { dateCode: '6 Dec', dateLabel: 'Sun 6 Dec', time: '12:00-17:00', type: 'regular', keymen: ['Vidal, William', 'Vidal, Cinthia', 'Fukuda, Mami (福田, 真実)'], volunteers: ['Hill, Angie', 'Hofmann, Paporn (โฮฟมันน์, ภาพร)', 'Nagai, Yuna (永井, 佑奈)', 'Sylvander, Åsa', 'Syvertsen, Rachael', 'Tanioka, Mie'] },
+      { dateCode: '6 Dec', dateLabel: 'Sun 6 Dec', time: '17:00-20:00', type: 'regular', keymen: ['Byun, Dongwook', 'Lee, Yoonjin'], volunteers: ['Gaze, DonRay', 'Nakada, Mayumi', 'Wajanaphisut, Saya (วจนะพิสุทธิ์, ศยา)', 'Young, Emily'] },
+      { dateCode: '6 Dec', dateLabel: 'Sun 6 Dec', time: '20:00-23:59', type: 'regular', keymen: ['Pongwanich, Ratra (พงษ์วานิช, รฐา)', 'Pongwanich, Raviporn (พงษ์วานิช, ระวิพร)', 'Sae-ung, Rachai (แซ่อึ้ง, ราชัย)'], volunteers: ['Betancourt, Zully', 'Ito, Chie (อิโตะ, ชิเอะ)', 'Maier, Isabel', 'Opitz, Doreen', 'Wajanaphisut, Saya (วจนะพิสุทธิ์, ศยา)'] },
+
+      // Mon 7 Dec 2026
+      { dateCode: '7 Dec', dateLabel: 'Mon 7 Dec', time: '00:00-04:00', type: 'regular', keymen: ['Kashikura, Toshiya', 'Kashikura, Miyuki'], volunteers: ['Motykhlyayeva, Olga', 'Watson, Kathryn'] },
+      { dateCode: '7 Dec', dateLabel: 'Mon 7 Dec', time: '04:00-08:00', type: 'regular', keymen: ['Scott, Dakota', 'Scott, Xemilla'], volunteers: ['Motykhlyayeva, Olga', 'Torres, Johanna', 'Youdell, Odette'] },
+      { dateCode: '7 Dec', dateLabel: 'Mon 7 Dec', time: '08:00-12:00', type: 'regular', keymen: ['Vidal, William', 'Vidal, Cinthia'], volunteers: ['Ando, Emiko', 'Hofmann, Paporn (โฮฟมันน์, ภาพร)', 'Nagai, Yuna (永井, 佑奈)', 'Nakada, Mayumi', 'Pfrengle, Ruthann'] },
+      { dateCode: '7 Dec', dateLabel: 'Mon 7 Dec', time: '12:00-17:00', type: 'regular', keymen: ['Lewandowski, Marcel', 'Lewandowski, Kamila'], volunteers: ['Brilouet, Isabelle', 'Harinasuta, Nathapat (หะริณสุต, ณฐภัทร)', 'Hill, Angie', 'Ito, Chie (อิโตะ, ชิเอะ)', 'Opitz, Doreen', 'Padra, Maïmouna', 'Pfrengle, Ruthann', 'Tanioka, Mie', 'Villanueva, Olivia'] },
+      { dateCode: '7 Dec', dateLabel: 'Mon 7 Dec', time: '17:00-20:00', type: 'regular', keymen: ['Byun, Dongwook', 'Lee, Yoonjin'], volunteers: ['Gaze, DonRay', 'Keskinen, Pinja', 'Sylvander, Åsa', 'Villanueva, Olivia'] },
+      { dateCode: '7 Dec', dateLabel: 'Mon 7 Dec', time: '20:00-23:59', type: 'regular', keymen: ['Hanyu, Yoshi', 'Hanyu, Erin'], volunteers: ['Betancourt, Zully', 'Keskinen, Pinja', 'Pensook, Natchanon'] },
+
+      // Tue 8 Dec 2026
+      { dateCode: '8 Dec', dateLabel: 'Tue 8 Dec', time: '00:00-04:00', type: 'regular', keymen: ['Robison, Asahn', 'Robison, Alonna'], volunteers: [] },
+      { dateCode: '8 Dec', dateLabel: 'Tue 8 Dec', time: '04:00-08:00', type: 'regular', keymen: ['Vidal, William', 'Vidal, Cinthia'], volunteers: ['Chameau, Peggy', 'Nagai, Yuna (永井, 佑奈)'] },
+      { dateCode: '8 Dec', dateLabel: 'Tue 8 Dec', time: '08:00-12:00', type: 'regular', keymen: ['Byun, Dongwook', 'Lee, Yoonjin'], volunteers: ['Betancourt, Zully', 'Padra, Maïmouna', 'Torres, Johanna'] },
+      { dateCode: '8 Dec', dateLabel: 'Tue 8 Dec', time: '12:00-17:00', type: 'regular', keymen: ['Young, Nick', 'Young, Emily'], volunteers: ['Hill, Angie', 'Wajanaphisut, Saya (วจนะพิสุทธิ์, ศยา)', 'Watson, Kathryn'] },
+      { dateCode: '8 Dec', dateLabel: 'Tue 8 Dec', time: '17:00-20:00', type: 'regular', keymen: ['Vidal, William', 'Vidal, Cinthia'], volunteers: ['Ando, Emiko', 'Maier, Isabel'] },
+      { dateCode: '8 Dec', dateLabel: 'Tue 8 Dec', time: '20:00-23:59', type: 'regular', keymen: ['Lewandowski, Marcel', 'Lewandowski, Kamila'], volunteers: ['Clark, Kyle', 'Opitz, Doreen'] },
+
+      // Wed 9 Dec 2026
+      { dateCode: '9 Dec', dateLabel: 'Wed 9 Dec', time: '00:00-04:00', type: 'regular', keymen: ['Park, Hwan woo'], volunteers: [] },
+      { dateCode: '9 Dec', dateLabel: 'Wed 9 Dec', time: '04:00-08:00', type: 'regular', keymen: ['Scott, Dakota', 'Scott, Xemilla'], volunteers: ['Pensook, Natchanon', 'Torres, Johanna'] },
+      { dateCode: '9 Dec', dateLabel: 'Wed 9 Dec', time: '08:00-12:00', type: 'regular', keymen: ['Young, Nick', 'Young, Emily'], volunteers: [] },
+      { dateCode: '9 Dec', dateLabel: 'Wed 9 Dec', time: '12:00-17:00', type: 'regular', keymen: ['Byun, Dongwook', 'Lee, Yoonjin'], volunteers: ['Brilouet, Isabelle', 'Tanioka, Mie', 'Young, Emily'] },
+      { dateCode: '9 Dec', dateLabel: 'Wed 9 Dec', time: '17:00-20:00', type: 'regular', keymen: ['Vidal, William', 'Vidal, Cinthia'], volunteers: ['Betancourt, Zully', 'Maier, Isabel'] },
+      { dateCode: '9 Dec', dateLabel: 'Wed 9 Dec', time: '20:00-23:59', type: 'regular', keymen: ['Kashikura, Toshiya', 'Kashikura, Miyuki'], volunteers: [] },
+
+      // Mon 14 Dec 2026 (Post-convention desk)
+      { dateCode: '14 Dec', dateLabel: 'Mon 14 Dec', time: '08:00-10:00', type: 'post', keymen: [], volunteers: ['France, Janina', 'Motykhlyayeva, Olga'] },
+      { dateCode: '14 Dec', dateLabel: 'Mon 14 Dec', time: '10:00-12:00', type: 'post', keymen: [], volunteers: ['Syvertsen, Rachael', 'van Huysteen, Kirsty'] },
+      { dateCode: '14 Dec', dateLabel: 'Mon 14 Dec', time: '12:00-14:00', type: 'post', keymen: [], volunteers: ['Iamdusadeebandit, Kittiporn (เอี่ยมดุษฎีบัณฑิต, กิตติภรณ์)', 'Opitz, Doreen'] },
+      { dateCode: '14 Dec', dateLabel: 'Mon 14 Dec', time: '14:00-16:00', type: 'post', keymen: [], volunteers: ['Ando, Emiko', 'Liddell, Lisa'] },
+
+      // Tue 15 Dec 2026 (Post-convention desk)
+      { dateCode: '15 Dec', dateLabel: 'Tue 15 Dec', time: '08:00-10:00', type: 'post', keymen: [], volunteers: ['Misico, Nalani', 'Plunkett, Brianna'] },
+      { dateCode: '15 Dec', dateLabel: 'Tue 15 Dec', time: '10:00-12:00', type: 'post', keymen: [], volunteers: ['Liddell, Lisa', 'Opitz, Doreen'] },
+      { dateCode: '15 Dec', dateLabel: 'Tue 15 Dec', time: '12:00-14:00', type: 'post', keymen: [], volunteers: ['Keskinen, Pinja', 'Maneesaeng, Anchalee (มณีแสง, อัญชลี)'] },
+      { dateCode: '15 Dec', dateLabel: 'Tue 15 Dec', time: '14:00-16:00', type: 'post', keymen: [], volunteers: ['Fasher, Miela', 'Jefferson, Jessalyn'] },
+
+      // Wed 16 Dec 2026 (Post-convention desk)
+      { dateCode: '16 Dec', dateLabel: 'Wed 16 Dec', time: '08:00-10:00', type: 'post', keymen: [], volunteers: ['Fasher, Miela', 'Padra, Maïmouna'] },
+      { dateCode: '16 Dec', dateLabel: 'Wed 16 Dec', time: '10:00-12:00', type: 'post', keymen: [], volunteers: ['Brilouet, Isabelle', 'McTackett, Abigail'] },
+      { dateCode: '16 Dec', dateLabel: 'Wed 16 Dec', time: '12:00-14:00', type: 'post', keymen: [], volunteers: ['Ito, Chie (อิโตะ, ชิเอะ)', 'Shimamura, Yoko'] },
+      { dateCode: '16 Dec', dateLabel: 'Wed 16 Dec', time: '14:00-16:00', type: 'post', keymen: [], volunteers: ['Ando, Emiko', 'Sanguanmoo, Kanyawee (สงวนหมู่, กัญญาวีร์)'] },
+
+      // Thu 17 Dec 2026 (Post-convention desk)
+      { dateCode: '17 Dec', dateLabel: 'Thu 17 Dec', time: '08:00-10:00', type: 'post', keymen: [], volunteers: ['Brilouet, Isabelle', 'Saemue, Ahmi (แซ่หมื่อ, น.ส. อาหมี่)'] },
+      { dateCode: '17 Dec', dateLabel: 'Thu 17 Dec', time: '10:00-12:00', type: 'post', keymen: [], volunteers: ['Motykhlyayeva, Olga', 'Yuim, Kornwika (อยู่อิ่ม, กรวิกา)'] },
+      { dateCode: '17 Dec', dateLabel: 'Thu 17 Dec', time: '12:00-14:00', type: 'post', keymen: [], volunteers: ['McTackett, Abigail', 'Wajanaphisut, Saya (วจนะพิสุทธิ์, ศยา)'] },
+      { dateCode: '17 Dec', dateLabel: 'Thu 17 Dec', time: '14:00-16:00', type: 'post', keymen: [], volunteers: ['Sangchan, Surangkhana (แสงจันทร์, สุรางคนา)', 'Sylvander, Åsa'] }
+    ];
+
+    // 3. FAQ Dataset (Categorized into General, Venue, Transportation)
+    const faqData = [
+      {
+        category: { th: 'General (ทั่วไปและขั้นตอนปฏิบัติงาน)', en: 'General' },
+        icon: 'clipboard-list',
+        items: [
+          {
+            q: {
+              th: '1. ควรทำอะไรบ้าง เมื่อเจอกับ Delegate',
+              en: '1. What should we do when we meet a Delegate?'
+            },
+            a: {
+              th: 'ทักทายอย่างอบอุ่น ถามว่าเขาต้องการความช่วยเหลืออะไรไหม เช็คชื่อว่ามาแล้ว พร้อมทั้งถามวิธีการเดินทางไปโรงแรม จากนั้น ส่งต่อให้ Runner',
+              en: 'Greet them warmly, ask if they need any assistance, check them in as arrived, and ask about their transportation method to the hotel. Then, hand them over to a Runner.'
+            }
+          },
+          {
+            q: {
+              th: '2. หาก Delegate ต้องการความช่วยเหลือ เช่น ซื้อซิม แลกเงิน หรือไปห้องน้ำ ต้องทำอย่างไร',
+              en: '2. What should we do if a Delegate needs assistance such as buying a SIM card, exchanging currency, or going to the restroom?'
+            },
+            a: {
+              th: 'บอกวิธีการเดินทางไปจุดต่างๆ และขอให้พวกเขากลับมาที่ Information Desk อีกครั้งเพื่อที่เราจะส่งต่อให้ Runner ได้',
+              en: 'Give them directions to the respective facilities and ask them to return to the Information Desk afterward so we can hand them over to a Runner.'
+            }
+          },
+          {
+            q: {
+              th: '3. เมื่อ Delegate กระเป๋าหายทำอย่างไร',
+              en: '3. What should we do when a Delegate loses their luggage?'
+            },
+            a: {
+              th: 'ถามวิธีการเดินทางให้เรียบร้อย และส่งต่อให้ Runner ขอ Runner ให้พาไปชั้น 6 แผนก Lost & Found เมื่อทำเรื่องเสร็จ Runner ได้พา Delegate ขึ้นรถไปโรงแรมได้',
+              en: 'Confirm their transportation method to the hotel and hand them over to a Runner. Ask the Runner to escort them to the Lost & Found department on Floor 6. Once the report is completed, the Runner can escort the Delegate to their transport to the hotel.'
+            }
+          },
+          {
+            q: {
+              th: '4. ถ้า Delegate รู้สึกไม่สบาย ทำอย่างไร',
+              en: '4. What should we do if a Delegate feels unwell?'
+            },
+            a: {
+              th: 'ขอพี่น้องที่เป็น Safety ให้ช่วยดูแล',
+              en: 'Ask the Safety team members to assist and take care of them.'
+            }
+          },
+          {
+            q: {
+              th: '5. ถ้า Delegate ยังไม่มาในกะที่เราทำงาน แล้วจะต้องเปลี่ยนกะแล้ว เราควรทำอย่างไร',
+              en: '5. What should we do if a Delegate has not arrived during our shift and it is time for a shift handover?'
+            },
+            a: {
+              th: 'รวบรวมข้อมูลของคนที่ยังไม่ได้มา และส่งต่อให้กับ Keyman กะต่อไป',
+              en: 'Compile the details of the Delegates who have not yet arrived and hand the information over to the Keyman of the next shift.'
+            }
+          },
+          {
+            q: {
+              th: '6. ถ้ามีนักข่าวมาขอสัมภาษณ์จะทำอย่างไร',
+              en: '6. What should we do if a journalist asks for an interview?'
+            },
+            a: {
+              th: 'ขอให้ติดต่อผู้ดูแลแผนกทันที เพื่อจะขอคำแนะนำเพิ่มเติม',
+              en: 'Contact the Department Overseer immediately for further guidance.'
+            }
+          },
+          {
+            q: {
+              th: '7. หาก Delegate ต้องการความช่วยเหลือ แต่เขาพูดภาษาอังกฤษและไทยไม่ได้เลย ควรทำอย่างไร',
+              en: '7. What should we do if a Delegate needs assistance but cannot speak English or Thai at all?'
+            },
+            a: {
+              th: 'ขอให้ใช้ Google Translate ในการสื่อสารและจดความต้องการของเขาลงในแบบฟอร์ม และส่งต่อให้ Runner ช่วยดูแล ก่อนที่จะพาไปขึ้นรถ',
+              en: 'Use Google Translate to communicate, note their needs down on the form, and hand them over to a Runner to assist before escorting them to their vehicle.'
+            }
+          },
+          {
+            q: {
+              th: '8. หาก Delegate ต้องการฝากกระเป๋าควรทำอย่างไร',
+              en: '8. What should we do if a Delegate wants to leave their luggage?'
+            },
+            a: {
+              th: 'ขอให้เขาฝากกระเป๋าไว้ที่จุดฝากของสนามบิน หรือฝากไว้กับเพื่อนในกลุ่มที่มาด้วยกัน',
+              en: 'Have them leave their luggage at the airport\'s baggage drop-off point or leave it with a friend in their group who is accompanying them.'
+            }
+          }
+        ]
+      },
+      {
+        category: { th: 'Venue (สถานที่และสิ่งอำนวยความสะดวก)', en: 'Venue' },
+        icon: 'map-pin',
+        items: [
+          {
+            q: {
+              th: '1. โต๊ะ Information Desk อยู่ที่ไหน',
+              en: '1. Where is the Information Desk located?'
+            },
+            a: {
+              th: 'ชั้น 2 Gate 8',
+              en: 'Floor 2, Gate 8.'
+            }
+          },
+          {
+            q: {
+              th: '2. ห้องน้ำที่ใกล้ที่สุดอยู่ที่ไหน',
+              en: '2. Where is the nearest restroom?'
+            },
+            a: {
+              th: 'อยู่ชั้น 3 ขึ้นไปบันไดเลื่อนตรง Gate 8 หรือ ชั้น 1 ลงบันไดเลื่อนตรง Gate 8',
+              en: 'On Floor 3 (take the escalator up at Gate 8) or Floor 1 (take the escalator down at Gate 8).'
+            }
+          },
+          {
+            q: {
+              th: '3. จุดแลกเงินใกล้ที่สุดอยู่ที่ไหน',
+              en: '3. Where is the nearest currency exchange?'
+            },
+            a: {
+              th: 'อยู่ด้านหลังโต๊ะ Information Desk แต่จะเป็นบริเวณที่ Delegate เข้าไปได้เท่านั้น หรือหากต้องการแลกเงินจำนวนเยอะ สามารถแนะนำไปที่ชั้น B จะมี SuperRich ที่ให้อัตราแลกเปลี่ยนเรทดี',
+              en: 'Behind the Information Desk (restricted area accessible only to arriving Delegates). For large amounts or better exchange rates, recommend SuperRich on Floor B.'
+            }
+          },
+          {
+            q: {
+              th: '4. จุดซื้อซิมการ์ดใกล้ที่สุดอยู่ที่ไหน',
+              en: '4. Where is the nearest place to buy a SIM card?'
+            },
+            a: {
+              th: 'อยู่ด้านหลังโต๊ะ Information Desk แต่จะเป็นบริเวณที่ Delegate เข้าไปได้เท่านั้น',
+              en: 'Behind the Information Desk (restricted area accessible only to arriving Delegates).'
+            }
+          },
+          {
+            q: {
+              th: '5. ร้านสะดวกซื้อใกล้ที่สุดอยู่ที่ไหน',
+              en: '5. Where is the nearest convenience store?'
+            },
+            a: {
+              th: 'อยู่ชั้น 3 ขึ้นไปบันไดเลื่อนตรง Gate 8',
+              en: 'On Floor 3 (take the escalator up at Gate 8).'
+            }
+          },
+          {
+            q: {
+              th: '6. ร้านขายยาใกล้ที่สุดอยู่ที่ไหน',
+              en: '6. Where is the nearest pharmacy?'
+            },
+            a: {
+              th: 'อยู่ชั้น 3 ขึ้นไปบันไดเลื่อนตรง Gate 8',
+              en: 'On Floor 3 (take the escalator up at Gate 8).'
+            }
+          },
+          {
+            q: {
+              th: '7. ร้านอาหารอยู่ที่ไหน',
+              en: '7. Where are the restaurants located?'
+            },
+            a: {
+              th: 'อยู่ชั้น 3 ขึ้นไปบันไดเลื่อนตรง Gate 8 มีร้านอาหารให้เลือกหลากหลาย และชั้น 1 มี Food Court ที่อาหารราคาไม่แพง',
+              en: 'On Floor 3 (take the escalator up at Gate 8) with a wide variety of restaurants, and on Floor 1 which has an affordable Food Court.'
+            }
+          }
+        ]
+      },
+      {
+        category: { th: 'Transportation (การเดินทาง)', en: 'Transportation' },
+        icon: 'car',
+        items: [
+          {
+            q: {
+              th: '1. มีทางเลือกการเดินทางอะไรบ้าง',
+              en: '1. What transportation options are available?'
+            },
+            a: {
+              th: 'หลักๆ จะเป็น Taxi Meter กับ Van โดยจะแนะนำให้ใช้ Van ถ้ามีจำนวนมากกว่า 3 คนขึ้นไป',
+              en: 'Mainly Taxi Meter and Van. A Van is recommended for groups of more than 3 people.'
+            }
+          },
+          {
+            q: {
+              th: '2. ค่าใช้จ่ายสำหรับ Taxi Meter มีอะไรบ้าง',
+              en: '2. What are the fees/fares for a Taxi Meter?'
+            },
+            a: {
+              th: 'ค่าธรรมเนียมสนามบิน 50 บาท ค่ากระเป๋า 26 นิ้วขึ้นไป ใบละ 20 บาท ขนาดน้อยกว่า 26 นิ้ว 3 ใบ 20 บาท ค่าทางด่วนประมาณ 100 บาท ค่าโดยสารประมาณ 450–550 บาท',
+              en: 'Airport surcharge: 50 THB; luggage 26 inches or larger: 20 THB per bag; luggage smaller than 26 inches: 20 THB for 3 bags; expressway tolls: approx. 100 THB; metered fare: approx. 450–550 THB.'
+            }
+          },
+          {
+            q: {
+              th: '3. ค่าใช้จ่ายสำหรับ Van มีอะไรบ้าง',
+              en: '3. What are the fees/fares for a Van?'
+            },
+            a: {
+              th: 'ราคา 900 บาท รวมค่าทางด่วนเรียบร้อยแล้ว ควรนั่งไม่เกิน 6 คน',
+              en: '900 THB flat rate, expressway tolls included. Recommended for up to 6 passengers.'
+            }
+          },
+          {
+            q: {
+              th: '4. ทำอย่างไรถ้า Delegate มีทางเลือกการเดินทางอยู่แล้ว เช่น มีคนมารับ หรือจองรถไว้แล้ว',
+              en: '4. What should we do if a Delegate already has pre-arranged transportation (e.g., someone picking them up or a pre-booked vehicle)?'
+            },
+            a: {
+              th: 'ขอให้เลือกการเดินทาง “อื่นๆ” และระบุวิธีที่เขาเดินทางไป และส่งต่อให้ Runner ถ้า Delegate ต้องการให้พี่น้องเดินไปส่ง',
+              en: 'Select "Other" as the transportation option, specify their mode of transport, and hand them over to a Runner if the Delegate would like someone to escort them to their pickup point.'
+            }
+          }
+        ]
+      }
+    ];
+
+    // 4. Venue Guide Dataset (Floors 4, 3, 2, 1, B)
+    const venueData = [
+      {
+        id: 'F4',
+        code: 'Floor 4',
+        badge: { th: 'ผู้โดยสารขาออก', en: 'Departures' },
+        title: { th: 'ชั้น 4 : ห้องโถงผู้โดยสารขาออก (Departures Hall)', en: 'Floor 4 : Departures Hall' },
+        desc: { th: 'เคาน์เตอร์เช็คอินสายการบินต่างๆ จุดตรวจค้นผู้โดยสารขาออก และจุดขอคืนภาษีมูลค่าเพิ่ม', en: 'Airline check-in rows (A–W), outbound security & immigration checkpoints, and VAT Refund counters.' },
+        highlights: [
+          { icon: 'receipt', text: { th: 'จุดประทับตราศุลกากร VAT Refund (บริเวณประตู 10)', en: 'Customs VAT Refund Inspection (Near Gate 10)' } },
+          { icon: 'briefcase', text: { th: 'จุดบริการห่อสัมภาระและฝากกระเป๋า (Left Luggage)', en: 'Baggage Wrapping & Left Luggage Storage' } }
+        ]
+      },
+      {
+        id: 'F3',
+        code: 'Floor 3',
+        badge: { th: 'ร้านอาหารและบริการ', en: 'Dining & Services' },
+        title: { th: 'ชั้น 3 : ศูนย์รวมร้านอาหาร ร้านค้า และจุดนัดพบ', en: 'Floor 3 : Restaurants, Shops & Meeting Points' },
+        desc: { th: 'ชั้นสำหรับพักผ่อน รับประทานอาหาร ร้านสะดวกซื้อ ร้านขายยา และห้องรับรองต่างๆ', en: 'Main dining concourse, convenience stores, pharmacies, airline lounges, and rest areas.' },
+        highlights: [
+          { icon: 'utensils', text: { th: 'ร้านอาหารไทย นานาชาติ และร้านกาแฟตลอดแนวอาคาร', en: 'Thai & International Restaurants and Cafes' } },
+          { icon: 'heart-pulse', text: { th: 'คลินิกเวชกรรมสมิติเวช (เปิดบริการ 24 ชั่วโมง)', en: 'Samitivej Medical Clinic (Open 24 Hours)' } },
+          { icon: 'shopping-bag', text: { th: 'ร้านสะดวกซื้อ (7-Eleven, Boots, Watson) และร้านขายยา', en: 'Convenience Stores & Pharmacies (Boots, Watson)' } }
+        ]
+      },
+      {
+        id: 'F2',
+        code: 'Floor 2',
+        badge: { th: 'ผู้โดยสารขาเข้า', en: 'Arrivals' },
+        title: { th: 'ชั้น 2 : ห้องโถงผู้โดยสารขาเข้า (Arrivals Hall)', en: 'Floor 2 : Arrivals Hall' },
+        desc: { th: 'พื้นที่ปฏิบัติงานหลักของอาสาสมัคร Information Desk จุดรับกระเป๋า ศุลกากร และจุดนัดพบโรงแรม', en: 'Primary volunteer duty zone, baggage claim exits, customs, SIM cards, and hotel meeting points.' },
+        highlights: [
+          { icon: 'info', text: { th: 'JW Information Desk: บริเวณประตู 8', en: 'JW Information Desk: Near Gate 8' } },
+          { icon: 'smartphone', text: { th: 'บูธจำหน่ายซิมการ์ดและอินเทอร์เน็ต (AIS, True, dtac)', en: 'Tourist SIM Card & Pocket Wi-Fi Booths (AIS, True, dtac)' } },
+          { icon: 'banknote', text: { th: 'จุดแลกเปลี่ยนเงินตราต่างประเทศ (ธนาคารชั้นนำ)', en: 'Foreign Currency Exchange Booths' } },
+          { icon: 'users', text: { th: 'จุดนัดพบ (Meeting Point) บริเวณประตู 3 และประตู 4', en: 'General Meeting Points at Gate 3 & Gate 4' } }
+        ]
+      },
+      {
+        id: 'F1',
+        code: 'Floor 1',
+        badge: { th: 'ขนส่งสาธารณะ', en: 'Public Transport' },
+        title: { th: 'ชั้น 1 : ศูนย์ขนส่งสาธารณะและศูนย์อาหารพนักงาน', en: 'Floor 1 : Ground Transportation & Food Court' },
+        desc: { th: 'จุดขึ้นรถแท็กซี่มิเตอร์ รถบัสเข้าเมือง รถเวียนฟรีไปสนามบินดอนเมือง และศูนย์อาหาร Magic Food Point', en: 'Public metered taxis, Airport LimoBus, free shuttle bus to Don Mueang Airport, and Magic Food Point.' },
+        highlights: [
+          { icon: 'car-taxi-front', text: { th: 'จุดกดบัตรคิวรถแท็กซี่สาธารณะ (ประตู 4 และ ประตู 7)', en: 'Public Metered Taxi Kiosks (Gate 4 & Gate 7)' } },
+          { icon: 'utensils-crossed', text: { th: 'Magic Food Point ศูนย์อาหารราคาประหยัด (ประตู 8)', en: 'Magic Food Point Budget Food Court (Near Gate 8)' } },
+          { icon: 'navigation', text: { th: 'รถโดยสารปรับอากาศเข้าเมือง (S1 ไปข้าวสาร / AOT Bus)', en: 'City Express Buses (S1 to Khao San / LimoBus)' } }
+        ]
+      },
+      {
+        id: 'FB',
+        code: 'Floor B',
+        badge: { th: 'รถไฟฟ้า ARL', en: 'Airport Rail Link' },
+        title: { th: 'ชั้น B : สถานีรถไฟฟ้าแอร์พอร์ต เรล ลิงก์ (Airport Rail Link)', en: 'Floor B : Airport Rail Link Station & Value Exchange' },
+        desc: { th: 'ชั้นใต้ดินเชื่อมต่อรถไฟฟ้าเข้าสู่ใจกลางกรุงเทพฯ และจุดแลกเปลี่ยนเงินตราเรทดี', en: 'Underground rail link station connecting to central Bangkok (Phaya Thai) and top-rate money changers.' },
+        highlights: [
+          { icon: 'train-front', text: { th: 'สถานีรถไฟฟ้า Airport Rail Link (เชื่อมต่อ BTS พญาไท / MRT เพชรบุรี)', en: 'Airport Rail Link Station (Connects to BTS Phaya Thai & MRT)' } },
+          { icon: 'coins', text: { th: 'โซนแลกเปลี่ยนเงินตราเรทพิเศษ (SuperRich, Value Plus)', en: 'Best-Rate Currency Exchange Zone (SuperRich, Value Plus)' } },
+          { icon: 'store', text: { th: 'ร้านค้าปลีก ร้านกาแฟ และจุดบริการชาร์จแบตเตอรี่', en: 'Retail Shops, Cafes & Mobile Charging Stations' } }
+        ]
+      }
+    ];
+
+    // 5. Contacts & Keyman Dataset (Mapped to Schedule Keymen)
+    const contactData = [
+      {
+        name: { th: 'Pongwanich, Ratra (พงษ์วานิช, รฐา)', en: 'Pongwanich, Ratra (พงษ์วานิช, รฐา)' },
+        role: { th: 'Keyman ประจำกะ', en: 'Shift Keyman' },
+        phones: [{ label: 'Tel', number: '084-575-9404' }]
+      },
+      {
+        name: { th: 'Pongwanich, Raviporn (พงษ์วานิช, ระวิพร)', en: 'Pongwanich, Raviporn (พงษ์วานิช, ระวิพร)' },
+        role: { th: 'Keyman ประจำกะ', en: 'Shift Keyman' },
+        phones: [{ label: 'Tel', number: '090-982-1513' }]
+      },
+      {
+        name: { th: 'Sae-ung, Rachai (แซ่อึ้ง, ราชัย)', en: 'Sae-ung, Rachai (แซ่อึ้ง, ราชัย)' },
+        role: { th: 'Keyman ประจำกะ', en: 'Shift Keyman' },
+        phones: [{ label: 'Tel', number: '086-051-5507' }]
+      },
+      {
+        name: { th: 'Baek, Yoojung (ยูจอง แบก)', en: 'Baek, Yoojung' },
+        role: { th: 'Keyman ประจำกะ', en: 'Shift Keyman' },
+        phones: [{ label: 'Tel', number: '083-617-9213' }]
+      },
+      {
+        name: { th: 'Byun, Dongwook', en: 'Byun, Dongwook' },
+        role: { th: 'Keyman ประจำกะ', en: 'Shift Keyman' },
+        phones: [{ label: 'Tel', number: '084-190-5430' }]
+      },
+      {
+        name: { th: 'Lee, Yoonjin', en: 'Lee, Yoonjin' },
+        role: { th: 'Keyman ประจำกะ', en: 'Shift Keyman' },
+        phones: [{ label: 'Tel', number: '084-190-5431' }]
+      },
+      {
+        name: { th: 'Hanyu, Yoshi (Yoshiharu Hanyu)', en: 'Hanyu, Yoshi (Yoshiharu Hanyu)' },
+        role: { th: 'Keyman ประจำกะ', en: 'Shift Keyman' },
+        phones: [{ label: 'Tel', number: '084-398-1500' }]
+      },
+      {
+        name: { th: 'Kashikura, Toshiya', en: 'Kashikura, Toshiya' },
+        role: { th: 'Keyman ประจำกะ', en: 'Shift Keyman' },
+        phones: [{ label: 'Tel', number: '084-019-1014' }]
+      },
+      {
+        name: { th: 'Lewandowski, Marcel', en: 'Lewandowski, Marcel' },
+        role: { th: 'Keyman ประจำกะ', en: 'Shift Keyman' },
+        phones: [{ label: 'Tel', number: '063-757-6964' }]
+      },
+      {
+        name: { th: 'Matsuzaki, Nanae', en: 'Matsuzaki, Nanae' },
+        role: { th: 'Keyman ประจำกะ', en: 'Shift Keyman' },
+        phones: [{ label: 'Tel', number: '099-092-3260' }]
+      },
+      {
+        name: { th: 'Park, Hwan woo', en: 'Park, Hwan woo' },
+        role: { th: 'Keyman ประจำกะ', en: 'Shift Keyman' },
+        phones: [{ label: 'Tel', number: '080-590-5464' }]
+      },
+      {
+        name: { th: 'Robison, Asahn (อะสาน)', en: 'Robison, Asahn' },
+        role: { th: 'Keyman ประจำกะ', en: 'Shift Keyman' },
+        phones: [
+          { label: 'WhatsApp', number: '+1 404-450-4487' },
+          { label: 'TH Tel', number: '+66 82-927-5692' }
+        ]
+      },
+      {
+        name: { th: 'Scott, Dakota (Dakota Colt Scott)', en: 'Scott, Dakota (Dakota Colt Scott)' },
+        role: { th: 'Keyman ประจำกะ', en: 'Shift Keyman' },
+        phones: [{ label: 'Tel', number: '081-169-5027' }]
+      },
+      {
+        name: { th: 'Vidal, William', en: 'Vidal, William' },
+        role: { th: 'Keyman ประจำกะ', en: 'Shift Keyman' },
+        phones: [{ label: 'Tel', number: '098-462-4313' }]
+      },
+      {
+        name: { th: 'Young, Nick (Nicholas Young)', en: 'Young, Nick (Nicholas Young)' },
+        role: { th: 'Keyman ประจำกะ', en: 'Shift Keyman' },
+        phones: [{ label: 'Tel', number: '+66 6-3440-5345' }]
+      },
+      {
+        name: { th: 'วรายุทธ สุทธิวาศ', en: 'Warayut Sutthiwat (วรายุทธ สุทธิวาศ)' },
+        role: { th: 'ผู้ดูแล / ผู้ประสานงาน', en: 'Supervisor / Coordinator' },
+        phones: [{ label: 'Tel', number: '086-369-4306' }]
+      }
+    ];
+
+    // ==================== RENDER & UI LOGIC ====================
+
+    function updateLanguageButtons() {
+      const enBtn = document.getElementById('lang-en');
+      const thBtn = document.getElementById('lang-th');
+      const mobEn = document.getElementById('mob-lang-en');
+      const mobTh = document.getElementById('mob-lang-th');
+
+      const activeClasses = 'bg-brand-primary text-white border-brand-primary shadow-2xs';
+      const inactiveClasses = 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50';
+
+      if (currentLang === 'en') {
+        enBtn.className = `py-2 px-3 rounded-xl text-xs font-bold border transition-all cursor-pointer ${activeClasses}`;
+        thBtn.className = `py-2 px-3 rounded-xl text-xs font-bold border transition-all cursor-pointer ${inactiveClasses}`;
+        mobEn.className = 'px-2.5 py-1 rounded-md text-xs font-bold bg-brand-primary text-white transition-all cursor-pointer';
+        mobTh.className = 'px-2.5 py-1 rounded-md text-xs font-bold text-slate-600 transition-all cursor-pointer';
+      } else {
+        thBtn.className = `py-2 px-3 rounded-xl text-xs font-bold border transition-all cursor-pointer ${activeClasses}`;
+        enBtn.className = `py-2 px-3 rounded-xl text-xs font-bold border transition-all cursor-pointer ${inactiveClasses}`;
+        mobTh.className = 'px-2.5 py-1 rounded-md text-xs font-bold bg-brand-primary text-white transition-all cursor-pointer';
+        mobEn.className = 'px-2.5 py-1 rounded-md text-xs font-bold text-slate-600 transition-all cursor-pointer';
+      }
+    }
+
+    function updateStaticTexts() {
+      const dict = i18n[currentLang];
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) el.textContent = dict[key];
+      });
+      document.getElementById('scheduleSearch').placeholder = dict.searchPlaceholder;
+      document.documentElement.lang = currentLang;
+      updateLanguageButtons();
+    }
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      updateStaticTexts();
+      renderSchedule();
+      renderFaq();
+      renderVenue();
+      renderContacts();
+    }
+
+    function switchSection(sectionId) {
+      currentSectionId = sectionId;
+
+      // Show only the selected section
+      document.querySelectorAll('.app-section').forEach(sec => {
+        if (sec.id === sectionId) {
+          sec.classList.remove('hidden');
+        } else {
+          sec.classList.add('hidden');
+        }
+      });
+
+      // Update Desktop Sidebar active styles
+      document.querySelectorAll('#sidebarNav .nav-item').forEach(btn => {
+        const isTarget = btn.getAttribute('data-section') === sectionId;
+        const dot = btn.querySelector('.nav-dot');
+        if (isTarget) {
+          btn.className = 'nav-item w-full flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-semibold transition-all bg-brand-light text-brand-primary cursor-pointer';
+          if (dot) dot.classList.remove('hidden');
+        } else {
+          btn.className = 'nav-item w-full flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-text transition-all cursor-pointer';
+          if (dot) dot.classList.add('hidden');
+        }
+      });
+
+      // Update Mobile & Tablet Bottom Navigation active styles
+      document.querySelectorAll('.bottom-nav-item').forEach(btn => {
+        const isTarget = btn.getAttribute('data-section') === sectionId;
+        const pill = btn.querySelector('.nav-pill');
+        const label = btn.querySelector('span');
+        if (isTarget) {
+          btn.classList.add('text-brand-primary');
+          btn.classList.remove('text-slate-500');
+          if (pill) {
+            pill.classList.add('bg-brand-light');
+            pill.classList.remove('bg-transparent');
+          }
+          if (label) {
+            label.classList.add('font-bold');
+            label.classList.remove('font-medium');
+          }
+        } else {
+          btn.classList.remove('text-brand-primary');
+          btn.classList.add('text-slate-500');
+          if (pill) {
+            pill.classList.remove('bg-brand-light');
+            pill.classList.add('bg-transparent');
+          }
+          if (label) {
+            label.classList.remove('font-bold');
+            label.classList.add('font-medium');
+          }
+        }
+      });
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderSchedule() {
+      const query = document.getElementById('scheduleSearch').value.trim().toLowerCase();
+      document.getElementById('clearSearchBtn').classList.toggle('hidden', query.length === 0);
+
+      const grid = document.getElementById('scheduleGrid');
+      const emptyState = document.getElementById('scheduleEmpty');
+      const initialState = document.getElementById('scheduleInitial');
+
+      // By default (empty query), hide schedule cards and show initial search prompt
+      if (query === '') {
+        grid.innerHTML = '';
+        grid.classList.add('hidden');
+        grid.classList.remove('grid');
+        emptyState.classList.add('hidden');
+        initialState.classList.remove('hidden');
+        lucide.createIcons();
+        return;
+      }
+
+      initialState.classList.add('hidden');
+
+      const filtered = dutyData.filter(item => {
+        return item.keymen.some(k => k.toLowerCase().includes(query)) ||
+               item.volunteers.some(v => v.toLowerCase().includes(query));
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        grid.classList.add('hidden');
+        grid.classList.remove('grid');
+        emptyState.classList.remove('hidden');
+        lucide.createIcons();
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      grid.classList.remove('hidden');
+      grid.classList.add('grid');
+      const dict = i18n[currentLang];
+
+      grid.innerHTML = filtered.map(item => {
+        const isPost = item.type === 'post';
+
+        // Keymen Block
+        let keymenHtml = '';
+        if (isPost) {
+          keymenHtml = `
+            <div class="mb-3.5 pb-3 border-b border-slate-200/70">
+              <span class="inline-flex items-center gap-1.5 text-[11px] font-bold px-2.5 py-1 rounded-lg bg-teal-50 text-teal-700 border border-teal-200">
+                <i data-lucide="users" class="w-3.5 h-3.5"></i>
+                ${dict.postConvLabel}
+              </span>
             </div>
+          `;
+        } else if (item.keymen.length > 0) {
+          const kList = item.keymen.map(k => {
+            const isMatch = query !== '' && k.toLowerCase().includes(query);
+            return `
+              <div class="flex items-center justify-between py-1.5 px-2.5 rounded-lg text-xs ${isMatch ? 'bg-brand-accent text-brand-text font-bold shadow-2xs' : 'bg-amber-50/90 text-amber-950 border border-amber-200/80 font-semibold'}">
+                <span class="truncate">${k}</span>
+                <span class="text-[10px] px-1.5 py-0.5 rounded ml-1.5 shrink-0 ${isMatch ? 'bg-brand-text/15 text-brand-text' : 'bg-brand-accent/60 text-brand-text'}">Keyman</span>
+              </div>
+            `;
+          }).join('');
+          keymenHtml = `
+            <div class="mb-3.5 pb-3 border-b border-slate-200/70">
+              <p class="text-[11px] font-semibold text-slate-400 mb-1.5">${dict.keymenLabel}</p>
+              <div class="space-y-1">${kList}</div>
+            </div>
+          `;
+        }
 
+        // Volunteers Block
+        let volHtml = '';
+        if (item.volunteers.length === 0) {
+          volHtml = `
+            <div class="py-3 px-3 rounded-xl bg-white/70 border border-dashed border-slate-200 text-center text-xs text-slate-400">
+              ${dict.noVolLabel}
+            </div>
+          `;
+        } else {
+          volHtml = item.volunteers.map(vol => {
+            const isMatch = query !== '' && vol.toLowerCase().includes(query);
+            return `
+              <div class="flex items-center justify-between py-2 px-3 rounded-xl text-xs ${isMatch ? 'bg-brand-primary text-white font-bold shadow-2xs' : 'bg-white text-slate-700 border border-slate-100'}">
+                <div class="flex items-center gap-2 min-w-0">
+                  <span class="w-1.5 h-1.5 rounded-full shrink-0 ${isMatch ? 'bg-amber-300' : 'bg-brand-primary'}"></span>
+                  <span class="truncate">${vol}</span>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+
+        return `
+          <div class="bg-brand-bg rounded-2xl border border-slate-200/70 p-5 flex flex-col justify-between">
             <div>
-                <span class="text-[11px] font-bold text-gray-400 uppercase tracking-widest block mb-4">Volunteer Guide</span>
-                <nav class="space-y-1.5" id="desktop-nav">
-                    <button onclick="switchSection('home')" id="nav-home" class="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-left text-sm font-semibold transition-all group hover:bg-[#FDF9FC] hover:text-[#D4549E] text-gray-500">
-                        <i data-lucide="home" class="w-4 h-4 transition-transform group-hover:scale-110"></i>
-                        <span data-th="หน้าแรก" data-en="Home">หน้าแรก</span>
-                    </button>
-                    <button onclick="switchSection('schedule')" id="nav-schedule" class="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-left text-sm font-semibold transition-all group hover:bg-[#FDF9FC] hover:text-[#D4549E] text-gray-500">
-                        <i data-lucide="calendar" class="w-4 h-4 transition-transform group-hover:scale-110"></i>
-                        <span data-th="ตารางการทำงาน" data-en="Duty Schedule">ตารางการทำงาน</span>
-                    </button>
-                    <button onclick="switchSection('faq')" id="nav-faq" class="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-left text-sm font-semibold transition-all group hover:bg-[#FDF9FC] hover:text-[#D4549E] text-gray-500">
-                        <i data-lucide="help-circle" class="w-4 h-4 transition-transform group-hover:scale-110"></i>
-                        <span data-th="คำถามที่พบบ่อย" data-en="FAQ">คำถามที่พบบ่อย</span>
-                    </button>
-                    <button onclick="switchSection('venue')" id="nav-venue" class="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-left text-sm font-semibold transition-all group hover:bg-[#FDF9FC] hover:text-[#D4549E] text-gray-500">
-                        <i data-lucide="map" class="w-4 h-4 transition-transform group-hover:scale-110"></i>
-                        <span data-th="ข้อมูลสถานที่" data-en="Venue Guide">ข้อมูลสถานที่</span>
-                    </button>
-                    <button onclick="switchSection('contact')" id="nav-contact" class="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-left text-sm font-semibold transition-all group hover:bg-[#FDF9FC] hover:text-[#D4549E] text-gray-500">
-                        <i data-lucide="phone" class="w-4 h-4 transition-transform group-hover:scale-110"></i>
-                        <span data-th="ติดต่อ" data-en="Contact">ติดต่อ</span>
-                    </button>
-                </nav>
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <span class="text-[11px] font-bold px-2.5 py-1 rounded-lg bg-brand-light text-brand-primary border border-brand-primary/25">
+                  ${item.dateLabel} 2026
+                </span>
+                <span class="text-xs font-bold text-brand-text bg-white px-2.5 py-1 rounded-lg border border-slate-200/70 flex items-center gap-1">
+                  <i data-lucide="clock" class="w-3.5 h-3.5 text-brand-primary"></i>
+                  ${item.time}
+                </span>
+              </div>
+
+              ${keymenHtml}
+
+              <div class="flex items-center justify-between mb-2">
+                <p class="text-[11px] font-semibold text-slate-500">${dict.coworkersLabel}</p>
+                <span class="text-[11px] font-bold text-slate-400">(${item.volunteers.length})</span>
+              </div>
+              <div class="space-y-1.5">
+                ${volHtml}
+              </div>
             </div>
+          </div>
+        `;
+      }).join('');
+
+      lucide.createIcons();
+    }
+
+    function clearScheduleSearch() {
+      document.getElementById('scheduleSearch').value = '';
+      renderSchedule();
+    }
+
+    function renderFaq() {
+      const container = document.getElementById('faqContainer');
+      container.innerHTML = faqData.map((group, groupIdx) => `
+        <div class="${groupIdx > 0 ? 'pt-6' : ''}">
+          <div class="flex items-center gap-2.5 mb-3 px-1">
+            <div class="w-8 h-8 rounded-xl bg-brand-light text-brand-primary flex items-center justify-center shrink-0">
+              <i data-lucide="${group.icon}" class="w-4 h-4"></i>
+            </div>
+            <h3 class="text-base sm:text-lg font-bold text-brand-text">${group.category[currentLang]}</h3>
+          </div>
+          <div class="space-y-2.5">
+            ${group.items.map((item, itemIdx) => `
+              <div class="accordion-item bg-brand-bg rounded-2xl border border-slate-200/70 overflow-hidden ${groupIdx === 0 && itemIdx === 0 ? 'active' : ''}">
+                <button onclick="this.parentElement.classList.toggle('active')" class="w-full px-5 py-4 text-left flex items-center justify-between gap-4 hover:bg-slate-100/70 transition-colors cursor-pointer">
+                  <span class="font-bold text-sm text-brand-text">${item.q[currentLang]}</span>
+                  <i data-lucide="chevron-down" class="accordion-icon w-4 h-4 text-brand-primary shrink-0 transition-transform duration-200"></i>
+                </button>
+                <div class="accordion-content px-5">
+                  <div class="pb-4 pt-2 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-200/60">
+                    ${item.a[currentLang]}
+                  </div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function renderVenue() {
+      const tabsContainer = document.getElementById('floorTabs');
+      tabsContainer.innerHTML = venueData.map(floor => {
+        const isActive = floor.id === currentFloorId;
+        return `
+          <button 
+            onclick="currentFloorId='${floor.id}'; renderVenue();" 
+            class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm whitespace-nowrap transition-all border cursor-pointer ${
+              isActive 
+                ? 'bg-brand-primary text-white border-brand-primary shadow-2xs' 
+                : 'bg-brand-bg text-slate-600 border-slate-200/70 hover:bg-brand-light hover:text-brand-primary'
+            }"
+          >
+            ${floor.code}
+          </button>
+        `;
+      }).join('');
+
+      const activeFloor = venueData.find(f => f.id === currentFloorId);
+      const detailCard = document.getElementById('floorDetailCard');
+
+      detailCard.innerHTML = `
+        <div class="pb-5 border-b border-slate-200/80">
+          <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-lg bg-brand-light text-brand-primary text-xs font-bold mb-2">
+            <span>${activeFloor.code}</span>
+            <span>•</span>
+            <span>${activeFloor.badge[currentLang]}</span>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold text-brand-text">${activeFloor.title[currentLang]}</h3>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1">${activeFloor.desc[currentLang]}</p>
         </div>
 
-        <!-- Desktop Language Switcher -->
-        <div class="space-y-3">
-            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block">Language</span>
-            <div class="grid grid-cols-2 bg-gray-100 rounded-xl p-1 text-xs font-bold text-center">
-                <button onclick="setLanguage('en')" id="btn-lang-en-dk" class="py-2 rounded-lg transition-all">EN</button>
-                <button onclick="setLanguage('th')" id="btn-lang-th-dk" class="py-2 rounded-lg transition-all">TH</button>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-5">
+          ${activeFloor.highlights.map(h => `
+            <div class="flex items-start gap-3 p-3.5 bg-white rounded-xl border border-slate-200/70">
+              <div class="w-9 h-9 rounded-lg bg-brand-light text-brand-primary flex items-center justify-center shrink-0">
+                <i data-lucide="${h.icon}" class="w-4 h-4"></i>
+              </div>
+              <p class="text-xs sm:text-sm font-medium text-slate-700 leading-snug pt-0.5">${h.text[currentLang]}</p>
             </div>
+          `).join('')}
         </div>
-    </aside>
+      `;
+      lucide.createIcons();
+    }
 
-    <!-- Main Content Area -->
-    <main class="flex-grow p-4 md:p-8 xl:p-12 overflow-y-auto max-w-6xl mx-auto w-full">
+    function renderContacts() {
+      const grid = document.getElementById('contactGrid');
+      const dict = i18n[currentLang];
 
-        <!-- ================= HOME SECTION ================= -->
-        <section id="sec-home" class="space-y-8 animate-fadeIn">
-            <!-- Hero Card -->
-            <div class="bg-white rounded-3xl border border-[#F5E6F0] overflow-hidden shadow-sm flex flex-col md:flex-row min-h-[350px]">
-                <div class="p-6 md:p-10 flex-1 flex flex-col justify-center space-y-6">
-                    <span class="bg-[#FDF1F7] text-[#D4549E] px-4 py-1.5 rounded-full text-xs font-bold tracking-wide self-start uppercase">BKK Suvarnabhumi Airport</span>
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight">
-                        <span data-th="แผนกต้อนรับและให้ข้อมูล" data-en="Airport Information Desk">แผนกต้อนรับและให้ข้อมูล</span><br>
-                        <span class="text-[#D4549E]" data-th="สำหรับอาสาสมัคร" data-en="Volunteer Guide">สำหรับอาสาสมัคร</span>
-                    </h2>
-                    <p class="text-gray-500 text-sm md:text-base leading-relaxed" data-th="ยินดีต้อนรับเข้าสู่พอร์ทัลข้อมูลสำหรับอาสาสมัครแผนก Information Desk ณ สนามบินสุวรรณภูมิ รวบรวมข้อมูลที่จำเป็น ตารางงาน และแผนผังไว้ในที่เดียวเพื่อความสะดวกในการปฏิบัติหน้าที่" data-en="Welcome to the information portal for Suvarnabhumi Airport (BKK) Information Desk volunteers. Access your schedules, FAQs, layouts, and overseer contacts all in one convenient place.">
-                        ยินดีต้อนรับเข้าสู่พอร์ทัลข้อมูลสำหรับอาสาสมัครแผนก Information Desk ณ สนามบินสุวรรณภูมิ รวบรวมข้อมูลที่จำเป็น ตารางงาน และแผนผังไว้ในที่เดียวเพื่อความสะดวกในการปฏิบัติหน้าที่
-                    </p>
-                    <button onclick="switchSection('schedule')" class="bg-[#D4549E] text-white hover:bg-[#b03f80] px-6 py-3 rounded-xl font-semibold text-sm transition-all shadow-md shadow-pink-100 flex items-center gap-2 self-start group">
-                        <i data-lucide="calendar" class="w-4 h-4 transition-transform group-hover:scale-110"></i>
-                        <span data-th="เช็กตารางการทำงาน" data-en="Duty Schedule">เช็กตารางการทำงาน</span>
-                    </button>
-                </div>
-                <div class="flex-1 min-h-[250px] bg-gray-100 relative">
-                    <img src="https://i.postimg.cc/02Mx5hbv/Gemini-Generated-Image-x3nltjx3nltjx3nl.jpg?auto=format&fit=crop&q=80&w=1200" alt="Suvarnabhumi Airport Interior" class="w-full h-full object-cover">
-                    <!-- Fallback if URL fails -->
-                    <script>
-                        document.currentScript.previousElementSibling.onerror = function() {
-                            this.src = "image_7.png";
-                        }
-                    </script>
-                </div>
+      grid.innerHTML = contactData.map(person => {
+        const phonesHtml = person.phones.map(p => {
+          const cleanTel = p.number.replace(/[^+\d]/g, '');
+          return `
+            <div class="flex items-center justify-between gap-2 bg-white px-3 py-2 rounded-xl border border-slate-200/70">
+              <div class="min-w-0">
+                <span class="block text-[10px] font-bold uppercase tracking-wider text-slate-400">${p.label}</span>
+                <span class="font-mono text-xs sm:text-sm font-bold text-brand-text break-all">${p.number}</span>
+              </div>
+              <div class="flex items-center gap-1.5 shrink-0">
+                <button 
+                  onclick="copyPhone('${p.number}')" 
+                  class="p-2 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-600 border border-slate-200 transition-colors cursor-pointer" 
+                  title="${dict.copyBtn}"
+                >
+                  <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                </button>
+                <a 
+                  href="tel:${cleanTel}" 
+                  class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-brand-primary hover:bg-brand-dark text-white font-bold text-xs transition-colors"
+                >
+                  <i data-lucide="phone" class="w-3 h-3"></i>
+                  <span>${dict.callBtn}</span>
+                </a>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        return `
+          <div class="rounded-2xl p-5 border bg-brand-bg border-slate-200/70 transition-all flex flex-col justify-between">
+            <div class="mb-4">
+              <span class="inline-block text-[11px] font-bold px-2.5 py-0.5 rounded-md bg-white text-brand-primary border border-slate-200/80 mb-2">
+                ${person.role[currentLang]}
+              </span>
+              <h3 class="text-base font-bold text-brand-text leading-snug">${person.name[currentLang]}</h3>
             </div>
 
-            <!-- Quick Access Grid -->
-            <div>
-                <h3 class="font-extrabold text-lg text-gray-900 mb-4" data-th="เข้าถึงข้อมูลด่วน" data-en="Quick access">เข้าถึงข้อมูลด่วน</h3>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <button onclick="switchSection('schedule')" class="bg-white p-5 rounded-2xl border border-[#F5E6F0] text-left hover:border-[#D4549E] hover:shadow-md transition-all group">
-                        <div class="bg-[#FDF1F7] text-[#D4549E] p-3 rounded-xl w-fit mb-4 group-hover:scale-105 transition-transform">
-                            <i data-lucide="calendar" class="w-5 h-5"></i>
-                        </div>
-                        <h4 class="font-bold text-sm text-gray-900" data-th="ตารางงานอาสาสมัคร" data-en="Duty schedule">ตารางงานอาสาสมัคร</h4>
-                        <p class="text-xs text-gray-400 mt-1" data-th="59 กะ, 56 อาสาสมัคร" data-en="59 shifts, 56 volunteers">59 กะ, 56 อาสาสมัคร</p>
-                    </button>
-                    <button onclick="switchSection('faq')" class="bg-white p-5 rounded-2xl border border-[#F5E6F0] text-left hover:border-[#D4549E] hover:shadow-md transition-all group">
-                        <div class="bg-amber-50 text-amber-500 p-3 rounded-xl w-fit mb-4 group-hover:scale-105 transition-transform">
-                            <i data-lucide="help-circle" class="w-5 h-5"></i>
-                        </div>
-                        <h4 class="font-bold text-sm text-gray-900" data-th="คำถามที่พบบ่อย" data-en="FAQ">คำถามที่พบบ่อย</h4>
-                        <p class="text-xs text-gray-400 mt-1" data-th="ข้อมูลคำตอบแก้ไขล่าสุด" data-en="Recently updated">ข้อมูลคำตอบแก้ไขล่าสุด</p>
-                    </button>
-                    <button onclick="switchSection('venue')" class="bg-white p-5 rounded-2xl border border-[#F5E6F0] text-left hover:border-[#D4549E] hover:shadow-md transition-all group">
-                        <div class="bg-emerald-50 text-emerald-500 p-3 rounded-xl w-fit mb-4 group-hover:scale-105 transition-transform">
-                            <i data-lucide="map" class="w-5 h-5"></i>
-                        </div>
-                        <h4 class="font-bold text-sm text-gray-900" data-th="ข้อมูลสถานที่" data-en="Venue guide">ข้อมูลสถานที่</h4>
-                        <p class="text-xs text-gray-400 mt-1" data-th="5 ชั้นอาคารผู้โดยสาร" data-en="5 airport floors">5 ชั้นอาคารผู้โดยสาร</p>
-                    </button>
-                    <button onclick="switchSection('contact')" class="bg-white p-5 rounded-2xl border border-[#F5E6F0] text-left hover:border-[#D4549E] hover:shadow-md transition-all group">
-                        <div class="bg-blue-50 text-blue-500 p-3 rounded-xl w-fit mb-4 group-hover:scale-105 transition-transform">
-                            <i data-lucide="phone" class="w-5 h-5"></i>
-                        </div>
-                        <h4 class="font-bold text-sm text-gray-900" data-th="ข้อมูลติดต่อทั้งหมด" data-en="Contact info">ข้อมูลติดต่อทั้งหมด</h4>
-                        <p class="text-xs text-gray-400 mt-1" data-th="Keyman & Overseer" data-en="Keyman & Overseer">Keyman & Overseer</p>
-                    </button>
-                </div>
+            <div class="space-y-2">
+              ${phonesHtml}
             </div>
-        </section>
+          </div>
+        `;
+      }).join('');
+      lucide.createIcons();
+    }
 
-        <!-- ================= DUTY SCHEDULE ================= -->
-        <section id="sec-schedule" class="hidden space-y-6 animate-fadeIn">
-            <div class="bg-white rounded-3xl p-6 md:p-8 border border-[#F5E6F0] space-y-6">
-                <div>
-                    <span class="text-[#D4549E] font-bold text-xs uppercase tracking-wider" data-th="ส่วนที่ 2 • 2–17 ธันวาคม 2569" data-en="Part 2 • 2–17 December 2026">ส่วนที่ 2 • 2–17 ธันวาคม 2569</span>
-                    <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 mt-1" data-th="ตารางการทำงาน (59 กะ)" data-en="Duty Schedule (59 Shifts)">ตารางการทำงาน (59 กะ)</h2>
-                </div>
+    // Copy Phone Helper (with fallback for sandboxed iframes)
+    function copyPhone(phone) {
+      const showToast = () => {
+        const toast = document.getElementById('toast');
+        document.getElementById('toastMsg').textContent = `${i18n[currentLang].copiedToast} (${phone})`;
+        toast.classList.remove('hidden');
+        toast.classList.add('flex');
+        setTimeout(() => {
+          toast.classList.add('hidden');
+          toast.classList.remove('flex');
+        }, 2500);
+      };
 
-                <!-- Search Input Group (Moved back to its own full-width layout, default to look visually empty) -->
-                <div class="bg-[#FDF9FC] border border-[#F5E6F0] p-6 rounded-2xl flex flex-col items-center justify-center text-center space-y-4">
-                    <div class="relative w-full max-w-lg">
-                        <i data-lucide="search" class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                        <input type="text" id="schedule-search" oninput="handleSearch()" class="w-full bg-white border border-[#F5E6F0] rounded-xl pl-12 pr-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#D4549E]/30 focus:border-[#D4549E] transition-all font-medium" placeholder="พิมพ์ชื่อเล่นหรือชื่อจริงเพื่อค้นหา..." data-th-placeholder="พิมพ์ชื่อเพื่อค้นหากะทำงาน..." data-en-placeholder="Search Volunteer or Keyman name...">
-                    </div>
-                </div>
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(phone).then(showToast).catch(() => fallbackCopy(phone, showToast));
+      } else {
+        fallbackCopy(phone, showToast);
+      }
+    }
 
-                <!-- Default Search Guide -->
-                <div id="search-placeholder" class="py-16 text-center border-2 border-dashed border-[#F5E6F0] rounded-2xl space-y-4">
-                    <div class="bg-[#FDF1F7] text-[#D4549E] p-4 rounded-full w-fit mx-auto">
-                        <i data-lucide="search" class="w-8 h-8"></i>
-                    </div>
-                    <div>
-                        <h4 class="font-extrabold text-lg text-gray-900" data-th="ค้นหารายชื่ออาสาสมัคร" data-en="Search Volunteer Name">ค้นหารายชื่ออาสาสมัคร</h4>
-                        <p class="text-xs text-gray-500 mt-1 px-4 max-w-md mx-auto" data-th="พิมพ์ชื่ออาสาสมัครหรือ Keyman ด้านบนเพื่อตรวจสอบวัน เวลาปฏิบัติหน้าที่ และรายชื่อเพื่อนร่วมทีมของคุณ" data-en="Type a volunteer or Keyman name above to view assigned dates, shift times, and teammates.">พิมพ์ชื่ออาสาสมัครหรือ Keyman ด้านบนเพื่อตรวจสอบวัน เวลาปฏิบัติหน้าที่ และรายชื่อเพื่อนร่วมทีมของคุณ</p>
-                    </div>
-                </div>
+    function fallbackCopy(text, callback) {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-9999px';
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        callback();
+      } catch (err) {}
+      document.body.removeChild(textArea);
+    }
 
-                <!-- Search Result Count and Clear buttons -->
-                <div id="search-meta" class="hidden flex items-center justify-between">
-                    <span id="search-count" class="text-xs font-bold text-[#D4549E]">พบ 0 กะทำงาน</span>
-                    <button onclick="clearSearch()" class="text-xs font-bold text-gray-400 hover:text-gray-600 transition-all" data-th="ล้างคำค้นหา" data-en="Clear Search">ล้างคำค้นหา</button>
-                </div>
-
-                <!-- Dynamic Search Result Table -->
-                <div id="schedule-results" class="hidden overflow-x-auto border border-[#F5E6F0] rounded-2xl">
-                    <table class="w-full text-left text-sm">
-                        <thead class="bg-[#FDF1F7] text-[#D4549E] font-bold text-xs uppercase tracking-wider border-b border-[#F5E6F0]">
-                            <tr>
-                                <th class="p-4" data-th="วัน-เวลา" data-en="Date & Time">วัน-เวลา</th>
-                                <th class="p-4" data-th="หัวหน้ากะ (Keymen)" data-en="Keymen on Duty">หัวหน้ากะ (Keymen)</th>
-                                <th class="p-4" data-th="อาสาสมัคร (Volunteers)" data-en="Volunteers">อาสาสมัคร (Volunteers)</th>
-                            </tr>
-                        </thead>
-                        <tbody id="schedule-table-body" class="divide-y divide-[#F5E6F0] bg-white font-medium">
-                            <!-- Injected by JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-        <!-- ================= FAQ SECTION ================= -->
-        <section id="sec-faq" class="hidden space-y-6 animate-fadeIn">
-            <div class="bg-white rounded-3xl p-6 md:p-8 border border-[#F5E6F0]">
-                <div class="mb-6">
-                    <span class="text-[#D4549E] font-bold text-xs uppercase tracking-wider" data-th="คู่มือการรับมือสถานการณ์ต่างๆ" data-en="Situational Guides & Handbooks">คู่มือการรับมือสถานการณ์ต่างๆ</span>
-                    <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 mt-1" data-th="คำถามที่พบบ่อย (FAQ)" data-en="FAQ">คำถามที่พบบ่อย (FAQ)</h2>
-                </div>
-
-                <div class="space-y-3" id="faq-accordion-container">
-                    <!-- FAQ Items are dynamic -->
-                </div>
-            </div>
-        </section>
-
-        <!-- ================= VENUE GUIDE ================= -->
-        <section id="sec-venue" class="hidden space-y-6 animate-fadeIn">
-            <div class="bg-white rounded-3xl p-6 md:p-8 border border-[#F5E6F0] space-y-6">
-                <div>
-                    <span class="text-[#D4549E] font-bold text-xs uppercase tracking-wider" data-th="แผนผังอาคารผู้โดยสาร" data-en="Suvarnabhumi Passenger Terminal Info">แผนผังอาคารผู้โดยสาร</span>
-                    <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 mt-1" data-th="ข้อมูลสถานที่ (Venue Guide)" data-en="Venue Guide">ข้อมูลสถานที่ (Venue Guide)</h2>
-                </div>
-
-                <!-- Tabs -->
-                <div class="flex gap-2 overflow-x-auto pb-2 border-b border-[#F5E6F0]" id="venue-tabs">
-                    <!-- Javascript Injected -->
-                </div>
-
-                <!-- Active Floor Display -->
-                <div id="venue-floor-content" class="bg-[#FDF9FC] border border-[#F5E6F0] rounded-2xl p-6 space-y-4">
-                    <!-- JavaScript Injected -->
-                </div>
-            </div>
-        </section>
-
-        <!-- ================= CONTACT SECTION ================= -->
-        <section id="sec-contact" class="hidden space-y-6 animate-fadeIn">
-            <div class="bg-white rounded-3xl p-6 md:p-8 border border-[#F5E6F0] space-y-6">
-                <div>
-                    <span class="text-[#D4549E] font-bold text-xs uppercase tracking-wider" data-th="รายชื่อผู้ประสานงานและทีมหน้างาน" data-en="Operation Overseer & On-site Keymen Contact">รายชื่อผู้ประสานงานและทีมหน้างาน</span>
-                    <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 mt-1" data-th="ข้อมูลติดต่อ (Contact)" data-en="Contact">ข้อมูลติดต่อ (Contact)</h2>
-                </div>
-
-                <!-- Directory Grid -->
-                <div class="grid md:grid-cols-2 gap-4" id="contact-list-container">
-                    <!-- Javascript Injected -->
-                </div>
-
-                <!-- Emergy Contact Strip / BKK Information Desk Overseer -->
-                <div class="bg-rose-50 border border-rose-100 rounded-2xl p-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                    <div class="flex items-center gap-3">
-                        <div class="bg-[#D4549E] text-white p-2.5 rounded-xl">
-                            <i data-lucide="radio" class="w-6 h-6 animate-pulse"></i>
-                        </div>
-                        <div>
-                            <h4 class="font-extrabold text-gray-900 text-sm md:text-base" data-th="ผู้ดูแลแผนกประชาสัมพันธ์ (Overseer)" data-en="Information Desk Overseer">ผู้ดูแลแผนกประชาสัมพันธ์ (Overseer)</h4>
-                            <p class="text-xs font-semibold text-[#D4549E] mt-0.5" data-th="รฐา พงษ์วานิช (Ratha Pongvanich)" data-en="Ratha Pongvanich">รฐา พงษ์วานิช (Ratha Pongvanich)</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-2 self-stretch md:self-auto">
-                        <button onclick="copyToClipboard('0845759404')" class="flex-1 md:flex-initial bg-white border border-rose-200 hover:border-[#D4549E] px-4 py-2.5 rounded-xl font-bold text-xs text-gray-700 flex items-center justify-center gap-2 transition-all">
-                            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-                            <span data-th="คัดลอกเบอร์" data-en="Copy">คัดลอกเบอร์</span>
-                        </button>
-                        <a href="tel:0845759404" class="flex-1 md:flex-initial bg-[#D4549E] hover:bg-[#b03f80] text-white px-5 py-2.5 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-md shadow-pink-100">
-                            <i data-lucide="phone-call" class="w-3.5 h-3.5 animate-bounce"></i>
-                            <span>084-575-9404</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- Bottom Navigation App Bar (xs to lg screens) -->
-    <nav class="xl:hidden bg-white/95 backdrop-blur-md border-t border-[#F5E6F0] fixed bottom-0 left-0 right-0 z-50 flex items-center justify-around py-2 px-1">
-        <button onclick="switchSection('home')" id="mob-nav-home" class="flex flex-col items-center gap-0.5 py-1 px-3 text-gray-400 font-semibold text-[10px] transition-all">
-            <i data-lucide="home" class="w-5 h-5"></i>
-            <span data-th="หน้าแรก" data-en="Home">หน้าแรก</span>
-        </button>
-        <button onclick="switchSection('schedule')" id="mob-nav-schedule" class="flex flex-col items-center gap-0.5 py-1 px-3 text-gray-400 font-semibold text-[10px] transition-all">
-            <i data-lucide="calendar" class="w-5 h-5"></i>
-            <span data-th="ตาราง" data-en="Schedule">ตาราง</span>
-        </button>
-        <button onclick="switchSection('faq')" id="mob-nav-faq" class="flex flex-col items-center gap-0.5 py-1 px-3 text-gray-400 font-semibold text-[10px] transition-all">
-            <i data-lucide="help-circle" class="w-5 h-5"></i>
-            <span data-th="คำถาม" data-en="FAQ">คำถาม</span>
-        </button>
-        <button onclick="switchSection('venue')" id="mob-nav-venue" class="flex flex-col items-center gap-0.5 py-1 px-3 text-gray-400 font-semibold text-[10px] transition-all">
-            <i data-lucide="map" class="w-5 h-5"></i>
-            <span data-th="สถานที่" data-en="Venue">สถานที่</span>
-        </button>
-        <button onclick="switchSection('contact')" id="mob-nav-contact" class="flex flex-col items-center gap-0.5 py-1 px-3 text-gray-400 font-semibold text-[10px] transition-all">
-            <i data-lucide="phone" class="w-5 h-5"></i>
-            <span data-th="ติดต่อ" data-en="Contact">ติดต่อ</span>
-        </button>
-    </nav>
-
-    <!-- JS Core for Web Switching, Language Changing and Data Mapping -->
-    <script>
-        let currentLang = 'th';
-        let currentTab = 'home';
-
-        // 59 Shifts Data directly extracted from the PDF (December 2-17, 2026)
-        const scheduleData = [
-            // Wed 2 Dec
-            { date: "Wed 2 Dec 2026", shift: "00:00-04:00", keymen: "Pongvanich, Ratha (พงษ์วานิช, รฐา) • Pongvanich, Raviporn (พงษ์วานิช, ระวิพร)", volunteers: "" },
-            { date: "Wed 2 Dec 2026", shift: "12:00-17:00", keymen: "Scott, Dakota • Scott, Xemilla", volunteers: "Greene, Kezia" },
-            { date: "Wed 2 Dec 2026", shift: "14:30-17:55 (Greeters BKK)", keymen: "Sae-ung, Rachai (แซ่อึ้ง, ราชัย)", volunteers: "Cardillo, Lidia • Gaze, DonRay • Pfrengle, Ruthann" },
-            { date: "Wed 2 Dec 2026", shift: "18:15-20:15 (Greeters BKK)", keymen: "Sae-ung, Rachai (แซ่อึ้ง, ราชัย)", volunteers: "Cardillo, Lidia • Greene, Kezia" },
-            // Thu 3 Dec
-            { date: "Thu 3 Dec 2026", shift: "04:00-08:00", keymen: "Scott, Dakota • Scott, Xemilla", volunteers: "" },
-            { date: "Thu 3 Dec 2026", shift: "08:00-12:00", keymen: "Lewandowski, Marcel • Lewandowski, Kamila", volunteers: "" },
-            { date: "Thu 3 Dec 2026", shift: "12:00-17:00", keymen: "Vidal, William • Vidal, Cinthia", volunteers: "" },
-            { date: "Thu 3 Dec 2026", shift: "17:00-20:00", keymen: "Park, Hwan woo", volunteers: "" },
-            { date: "Thu 3 Dec 2026", shift: "17:55-22:30 (Greeters BKK)", keymen: "", volunteers: "Cardillo, Lidia • Gaze, DonRay" },
-            { date: "Thu 3 Dec 2026", shift: "20:00-23:59", keymen: "Park, Hwan woo", volunteers: "" },
-            // Fri 4 Dec
-            { date: "Fri 4 Dec 2026", shift: "00:00-04:00", keymen: "Scott, Dakota • Scott, Xemilla", volunteers: "" },
-            { date: "Fri 4 Dec 2026", shift: "04:00-08:00", keymen: "Robison, Asahn • Robison, Alonna", volunteers: "" },
-            { date: "Fri 4 Dec 2026", shift: "05:45-09:55 (Greeters BKK)", keymen: "", volunteers: "Keskinen, Pinja" },
-            { date: "Fri 4 Dec 2026", shift: "08:00-12:00", keymen: "Byun, Dongwook • Lee, Yoonjin", volunteers: "" },
-            { date: "Fri 4 Dec 2026", shift: "12:00-17:00", keymen: "Vidal, William • Vidal, Cinthia", volunteers: "De La Vega, Maricar • Greene, Kezia" },
-            { date: "Fri 4 Dec 2026", shift: "17:00-20:00", keymen: "Sae-ung, Rachai (แซ่อึ้ง, ราชัย)", volunteers: "Gaze, DonRay" },
-            { date: "Fri 4 Dec 2026", shift: "20:00-23:59", keymen: "Sae-ung, Rachai (แซ่อึ้ง, ราชัย)", volunteers: "Cardillo, Lidia • Harinasuta, Nathapat (หะริณสุต, ณฐภัทร) • Sriyingyong, Kawin" },
-            { date: "Fri 4 Dec 2026", shift: "21:00-01:50 (next day Greeters BKK)", keymen: "", volunteers: "Hill, Angie • Nakada, Mayumi" },
-            // Sat 5 Dec
-            { date: "Sat 5 Dec 2026", shift: "00:00-04:00", keymen: "Pongvanich, Ratha (พงษ์วานิช, รฐา) • Pongvanich, Raviporn (พงษ์วานิช, ระวิพร)", volunteers: "Sriyingyong, Kawin" },
-            { date: "Sat 5 Dec 2026", shift: "04:00-08:00", keymen: "Robison, Asahn • Robison, Alonna", volunteers: "Clark, Kyle • Pensook, Natchanon" },
-            { date: "Sat 5 Dec 2026", shift: "08:00-12:00", keymen: "Lewandowski, Marcel • Lewandowski, Kamila", volunteers: "Greene, Kezia • Shinozaki, Yukiko • Villanueva, Olivia" },
-            { date: "Sat 5 Dec 2026", shift: "12:00-17:00", keymen: "Lewandowski, Marcel • Lewandowski, Kamila • Matsuzaki, Nanae", volunteers: "Pfrengle, Ruthann • Shinozaki, Yukiko • Syvertsen, Rachael" },
-            { date: "Sat 5 Dec 2026", shift: "20:00-23:59", keymen: "Vidal, William • Vidal, Cinthia", volunteers: "Ando, Emiko • Clark, Kyle • Padra, Maïmouna • Sylvander, Åsa" },
-            { date: "Sat 5 Dec 2026", shift: "20:00-23:59 (Runners)", keymen: "Korhonen, Matti • Korhonen, Tanja", volunteers: "" },
-            // Sun 6 Dec
-            { date: "Sun 6 Dec 2026", shift: "00:00-04:00", keymen: "Baek, Yoojung", volunteers: "Betancourt, Zully • Maier, Isabel • Motykhlyayeva, Olga • Nakada, Mayumi • Shinozaki, Yukiko • Sriyingyong, Kawin • Watson, Kathryn" },
-            { date: "Sun 6 Dec 2026", shift: "00:00-04:00 (Runners)", keymen: "Park, Hwan woo", volunteers: "" },
-            { date: "Sun 6 Dec 2026", shift: "04:00-08:00", keymen: "Matsuzaki, Nanae", volunteers: "Chameau, Peggy • De La Vega, Maricar • Ito, Chie (อิโตะ, ชิเอะ) • Keskinen, Pinja • Motykhlyayeva, Olga • Youdell, Odette" },
-            { date: "Sun 6 Dec 2026", shift: "08:00-12:00", keymen: "Vidal, William • Vidal, Cinthia • Fukuda, Mami (福田, 真実)", volunteers: "Cardillo, Lidia • Chameau, Peggy • De La Vega, Maricar • Harinasuta, Nathapat (หะริณสุต, ณฐภัทร) • Hofmann, Paporn (โฮฟมันน์, ภาพร) • Syvertsen, Rachael" },
-            { date: "Sun 6 Dec 2026", shift: "08:00-12:00 (Runners)", keymen: "Pongvanich, Ratha (พงษ์วานิช, รฐา)", volunteers: "" },
-            { date: "Sun 6 Dec 2026", shift: "12:00-17:00", keymen: "Vidal, William • Vidal, Cinthia • Fukuda, Mami (福田, 真実)", volunteers: "Hill, Angie • Hofmann, Paporn (โฮฟมันน์, ภาพร) • Nagai, Yuna (永อยู่อิ่ม, ยูนะ) • Sylvander, Åsa • Syvertsen, Rachael • Tanioka, Mie" },
-            { date: "Sun 6 Dec 2026", shift: "12:00-17:00 (Runners)", keymen: "Park, Hwan woo", volunteers: "" },
-            { date: "Sun 6 Dec 2026", shift: "17:00-20:00", keymen: "Byun, Dongwook • Lee, Yoonjin", volunteers: "Gaze, DonRay • Nakada, Mayumi • Wajanaphisut, Saya (วจนะพิสุทธิ์, ศยา) • Young, Emily" },
-            { date: "Sun 6 Dec 2026", shift: "20:00-23:59", keymen: "Pongvanich, Ratha (พงษ์วานิช, รฐา) • Pongvanich, Raviporn (พงษ์วานิช, ระวิพร) • Sae-ung, Rachai (แซ่อึ้ง, ราชัย)", volunteers: "Betancourt, Zully • Ito, Chie (อิโตะ, ชิเอะ) • Maier, Isabel • Opitz, Doreen • Wajanaphisut, Saya (วจนะพิสุทธิ์, ศยา)" },
-            // Mon 7 Dec
-            { date: "Mon 7 Dec 2026", shift: "00:00-04:00", keymen: "Kashikura, Toshiya • Kashikura, Miyuki", volunteers: "Motykhlyayeva, Olga • Watson, Kathryn" },
-            { date: "Mon 7 Dec 2026", shift: "04:00-08:00", keymen: "Scott, Dakota • Scott, Xemilla", volunteers: "Motykhlyayeva, Olga • Torres, Johanna • Youdell, Odette" },
-            { date: "Mon 7 Dec 2026", shift: "08:00-12:00", keymen: "Vidal, William • Vidal, Cinthia", volunteers: "Ando, Emiko • Hofmann, Paporn (โฮฟมันน์, ภาพร) • Nagai, Yuna (永อยู่อิ่ม, ยูนะ) • Nakada, Mayumi • Pfrengle, Ruthann" },
-            { date: "Mon 7 Dec 2026", shift: "08:00-12:00 (Runners)", keymen: "Muñoz Asencio, Matsuzaki, Nanae • Superioridad, Joycee", volunteers: "" },
-            { date: "Mon 7 Dec 2026", shift: "12:00-17:00", keymen: "Lewandowski, Marcel • Lewandowski, Kamila", volunteers: "Brilouet, Isabelle • Harinasuta, Nathapat (หะริณสุต, ณฐภัทร) • Hill, Angie • Ito, Chie (อิโตะ, ชิเอะ) • Opitz, Doreen • Padra, Maïmouna • Pfrengle, Ruthann • Tanioka, Mie • Villanueva, Olivia" },
-            { date: "Mon 7 Dec 2026", shift: "17:00-20:00", keymen: "Byun, Dongwook • Lee, Yoonjin", volunteers: "Gaze, DonRay • Keskinen, Pinja • Sylvander, Åsa • Villanueva, Olivia" },
-            { date: "Mon 7 Dec 2026", shift: "20:00-23:59", keymen: "Hanyu, Yoshi • Hanyu, Erin", volunteers: "Betancourt, Zully • Keskinen, Pinja • Pensook, Natchanon" },
-            { date: "Mon 7 Dec 2026", shift: "20:00-23:59 (Runners)", keymen: "Park, Hwan woo", volunteers: "" },
-            // Tue 8 Dec
-            { date: "Tue 8 Dec 2026", shift: "00:00-04:00", keymen: "Robison, Asahn • Robison, Alonna", volunteers: "" },
-            { date: "Tue 8 Dec 2026", shift: "04:00-08:00", keymen: "Vidal, William • Vidal, Cinthia", volunteers: "Chameau, Peggy • Nagai, Yuna (永อยู่อิ่ม, ยูนะ)" },
-            { date: "Tue 8 Dec 2026", shift: "04:00-08:00 (Runners)", keymen: "Korhonen, Matti • Korhonen, Tanja", volunteers: "" },
-            { date: "Tue 8 Dec 2026", shift: "08:00-12:00", keymen: "Byun, Dongwook • Lee, Yoonjin", volunteers: "Betancourt, Zully • Padra, Maïmouna • Torres, Johanna" },
-            { date: "Tue 8 Dec 2026", shift: "08:00-12:00 (Runners)", keymen: "Matsuzaki, Nanae", volunteers: "" },
-            { date: "Tue 8 Dec 2026", shift: "12:00-17:00", keymen: "Young, Nick • Young, Emily", volunteers: "Hill, Angie • Wajanaphisut, Saya (วจนะพิสุทธิ์, ศยา) • Watson, Kathryn" },
-            { date: "Tue 8 Dec 2026", shift: "17:00-20:00", keymen: "Vidal, William • Vidal, Cinthia • Mauricio, Ana", volunteers: "Ando, Emiko • Maier, Isabel" },
-            { date: "Tue 8 Dec 2026", shift: "20:00-23:59", keymen: "Lewandowski, Marcel • Lewandowski, Kamila", volunteers: "Clark, Kyle • Opitz, Doreen" },
-            // Wed 9 Dec
-            { date: "Wed 9 Dec 2026", shift: "00:00-04:00", keymen: "Park, Hwan woo", volunteers: "" },
-            { date: "Wed 9 Dec 2026", shift: "04:00-08:00", keymen: "Scott, Dakota • Scott, Xemilla", volunteers: "Pensook, Natchanon • Torres, Johanna" },
-            { date: "Wed 9 Dec 2026", shift: "04:00-08:00 (Runners)", keymen: "Korhonen, Matti • Korhonen, Tanja", volunteers: "" },
-            { date: "Wed 9 Dec 2026", shift: "08:00-12:00", keymen: "Young, Nick • Young, Emily", volunteers: "" },
-            { date: "Wed 9 Dec 2026", shift: "12:00-17:00", keymen: "Byun, Dongwook • Lee, Yoonjin", volunteers: "Brilouet, Isabelle • Tanioka, Mie • Young, Emily" },
-            { date: "Wed 9 Dec 2026", shift: "17:00-20:00", keymen: "Vidal, William • Vidal, Cinthia", volunteers: "Betancourt, Zully • Maier, Isabel" },
-            { date: "Wed 9 Dec 2026", shift: "20:00-23:59", keymen: "Kashikura, Toshiya • Kashikura, Miyuki", volunteers: "" },
-            // Post-Convention Date Shifts
-            { date: "Mon 14 Dec 2026", shift: "08:00-10:00 (Post-Convention Desk)", keymen: "Both Teams", volunteers: "France, Janina • Motykhlyayeva, Olga • Ando, Emiko" },
-            { date: "Mon 14 Dec 2026", shift: "10:00-12:00 (Post-Convention Desk)", keymen: "Both Teams", volunteers: "Syvertsen, Rachael • van Huysteen, Kirsty" },
-            { date: "Mon 14 Dec 2026", shift: "12:00-14:00 (Post-Convention Desk)", keymen: "Both Teams", volunteers: "Iamdusadeebandit, Kittiporn (เอี่ยมดุษฎีบัณฑิต, กิตติภรณ์) • Opitz, Doreen" },
-            { date: "Mon 14 Dec 2026", shift: "14:00-16:00 (Post-Convention Desk)", keymen: "Both Teams", volunteers: "Ando, Emiko • Liddell, Lisa" },
-            
-            { date: "Tue 15 Dec 2026", shift: "08:00-10:00 (Post-Convention Desk)", keymen: "Both Teams", volunteers: "Misico, Nalani • Plunkett, Brianna" },
-            { date: "Tue 15 Dec 2026", shift: "10:00-12:00 (Post-Convention Desk)", keymen: "Both Teams", volunteers: "Liddell, Lisa • Opitz, Doreen" },
-            { date: "Tue 15 Dec 2026", shift: "12:00-14:00 (Post-Convention Desk)", keymen: "Both Teams", volunteers: "Keskinen, Pinja • Maneesaeng, Anchalee (มณีแสง, อัญชลี)" },
-            { date: "Tue 15 Dec 2026", shift: "14:00-16:00 (Post-Convention Desk)", keymen: "Both Teams", volunteers: "Fasher, Miela • Jefferson, Jessalyn" },
-
-            { date: "Wed 16 Dec 2026", shift: "08:00-10:00 (Post-Convention Desk)", keymen: "Both Teams", volunteers: "Fasher, Miela • Padra, Maïmouna • Brilouet, Isabelle" },
-            { date: "Wed 16 Dec 2026", shift: "10:00-12:00 (Post-Convention Desk)", keymen: "Both Teams", volunteers: "Brilouet, Isabelle • McTackett, Abigail" },
-            { date: "Wed 16 Dec 2026", shift: "12:00-14:00 (Post-Convention Desk)", keymen: "Both Teams", volunteers: "Ito, Chie (อิโตะ, ชิเอะ) • Shimamura, Yoko" },
-            { date: "Wed 16 Dec 2026", shift: "14:00-16:00 (Post-Convention Desk)", keymen: "Both Teams", volunteers: "Ando, Emiko • Sanguanmoo, Kanyawee (สงวนหมู่, กัญญาวีร์)" },
-
-            { date: "Thu 17 Dec 2026", shift: "08:00-10:00 (Post-Convention Desk)", keymen: "Both Teams", volunteers: "Brilouet, Isabelle • Saemue, Ahmi (แซ่หมื่อ, น.ส. อาหมี่)" },
-            { date: "Thu 17 Dec 2026", shift: "10:00-12:00 (Post-Convention Desk)", keymen: "Both Teams", volunteers: "Motykhlyayeva, Olga • Yuim, Kornwika (อยู่อิ่ม, กรวิกา)" },
-            { date: "Thu 17 Dec 2026", shift: "12:00-14:00 (Post-Convention Desk)", keymen: "Both Teams", volunteers: "McTackett, Abigail • Wajanaphisut, Saya (วจนะพิสุทธิ์, ศยา)" },
-            { date: "Thu 17 Dec 2026", shift: "14:00-16:00 (Post-Convention Desk)", keymen: "Both Teams", volunteers: "Sangchan, Surangkhana (แสงจันทร์, สุรางคนา) • Sylvander, Åsa" }
-        ];
-
-        // 5 Critical FAQ Data based on your exact answers
-        const faqData = [
-            {
-                id: "q1",
-                q: {
-                    th: "1. ควรทำอะไรบ้าง เมื่อเจอกับ Delegate",
-                    en: "1. What should I do when meeting a Delegate?"
-                },
-                a: {
-                    th: "กล่าวทักทายอย่างอบอุ่น ถามว่าเขาต้องการความช่วยเหลืออะไรไหม ตรวจสอบเช็คชื่อว่ามาถึงแล้ว พร้อมทั้งสอบถามวิธีการเดินทางไปโรงแรมของเขา จากนั้นเมื่อได้ข้อมูลครบเรียบร้อยแล้ว ให้ทำการส่งต่อผู้แทน (Delegate) ให้กับ Runner ดำเนินการต่อ",
-                    en: "Warmly greet them, ask if they need any assistance, check their name off the attendance list, and ask how they plan to get to their hotel. Once everything is noted, hand them over to a Runner to assist with their next steps."
-                }
-            },
-            {
-                id: "q2",
-                q: {
-                    th: "2. หาก Delegate ต้องการความช่วยเหลือ เช่นซื้อซิม แลกเงิน หรือไปห้องน้ำ ต้องทำอย่างไร",
-                    en: "2. What if a Delegate needs specific help, like buying a SIM card, exchanging money, or going to the restroom?"
-                },
-                a: {
-                    th: "อธิบายและบอกเส้นทางวิธีการเดินทางไปจุดต่างๆ เหล่านั้นให้ผู้แทนเข้าใจ และขอความกรุณาให้พวกเขากลับมาที่เคาน์เตอร์ information desk อีกครั้งหลังจากทำธุระเสร็จ เพื่อที่เราจะได้จัดเจ้าหน้าที่ Runner เพื่อส่งต่อพวกเขาไปยังขั้นตอนต่อไปได้อย่างถูกต้อง",
-                    en: "Guide and give them directions to those specific spots, and kindly ask them to return to the information desk once they are done so we can hand them over to a Runner for further transfer."
-                }
-            },
-            {
-                id: "q3",
-                q: {
-                    th: "3. เมื่อ Delegate กระเป๋าหายทำอย่างไร",
-                    en: "3. What should I do if a Delegate's baggage goes missing?"
-                },
-                a: {
-                    th: "สอบถามเส้นทางการเดินทางไปโรงแรมของเขาให้เรียบร้อยเพื่อบันทึกข้อมูล จากนั้นส่งต่อให้ Runner โดยมอบหมายให้ Runner พาผู้แทนไปชั้น 6 แผนก Lost & Found เพื่อทำเรื่องแจ้งกระเป๋าหาย เมื่อดำเนินการทุกอย่างเสร็จสิ้นแล้ว ให้ Runner นำทางพา Delegate ไปขึ้นรถเพื่อเดินทางไปโรงแรมต่อไป",
-                    en: "Double-check and record their hotel travel details, then hand them over to a Runner. Ask the Runner to accompany the Delegate to the Lost & Found department on the 6th floor. After the missing baggage process is completed, the Runner can then guide the Delegate to their transport heading to the hotel."
-                }
-            },
-            {
-                id: "q4",
-                q: {
-                    th: "4. ถ้า Delegate รู้สึกไม่สบาย ทำอย่างไร",
-                    en: "4. What if a Delegate feels unwell?"
-                },
-                a: {
-                    th: "ติดต่อขอความช่วยเหลือจากทีมพี่น้องฝ่ายดูแลความปลอดภัย (Safety team) ในบริเวณนั้นทันทีเพื่อให้เข้ามาช่วยปฐมพยาบาลหรือประสานการดูแลต่อ",
-                    en: "Immediately contact and request help from on-site Safety team brothers/sisters to come and provide necessary care or medical coordination."
-                }
-            },
-            {
-                id: "q5",
-                q: {
-                    th: "5. ถ้า Delegate ยังไม่มาในกะที่เราทำงาน แล้วจะต้องเปลี่ยนกะแล้ว เราควรทำอย่างไร",
-                    en: "5. What if the expected Delegate hasn't arrived by the end of our shift and it's time to rotate?"
-                },
-                a: {
-                    th: "รวบรวมข้อมูลรายชื่อและรายละเอียดของผู้ที่ยังเดินทางมาไม่ถึงในกะของเราทั้งหมด จากนั้นส่งต่อข้อมูลเหล่านี้ให้กับทีมงาน Keyman ประจำกะถัดไปเพื่อติดตามดูแลอย่างต่อเนื่อง",
-                    en: "Gather all data and details on the delegates who have not yet arrived during your shift, and pass this information on to the Keyman of the next shift for continuous tracking."
-                }
-            }
-        ];
-
-        // 5 airport floors venue data for Suvarnabhumi
-        const venueData = [
-            {
-                id: "floor4",
-                title: { th: "ชั้น 4: ขาออก (Departures)", en: "Floor 4: Departures" },
-                items: [
-                    { name: { th: "จุดตรวจค้นผู้โดยสาร", en: "Security Screening & Customs" }, detail: { th: "จุดสแกนสัมภาระและประทับตราพาสปอร์ตขาออก", en: "Terminal check counters and outbound immigration." } },
-                    { name: { th: "จุดบริการคืนภาษี (VAT Refund)", en: "VAT Refund for Tourists" }, detail: { th: "ห้องกระจกริมขวาสุดก่อนเข้าตม.", en: "VAT refund verification desks located before passport checkpoints." } },
-                    { name: { th: "เคาน์เตอร์เช็กอินเช็กสัมภาระ (Row A-W)", en: "Passenger Check-in Island Rows A-W" }, detail: { th: "แถวสายการบินต่างๆ และจุดสแกนกระเป๋า", en: "Airline counters for outbound checking." } }
-                ]
-            },
-            {
-                id: "floor3",
-                title: { th: "ชั้น 3: ร้านค้าและเลานจ์ (Facilities & Shops)", en: "Floor 3: Lounges & Dining" },
-                items: [
-                    { name: { th: "คลินิกสมิติเวช", en: "Samitivej Clinic (24H)" }, detail: { th: "การดูแลรักษาพยาบาลเบื้องต้น อยู่ใกล้โซนทางเชื่อม", en: "24-hour outpatient medical attention for volunteers & travelers." } },
-                    { name: { th: "โซนร้านอาหารและของฝาก", en: "Dinings & Shops" }, detail: { th: "สตรีทฟู้ด ร้านกาแฟ ร้านสะดวกซื้อ", en: "Various dining, fast food, and travel amenities." } }
-                ]
-            },
-            {
-                id: "floor2",
-                title: { th: "ชั้น 2: ผู้โดยสารขาเข้า (Arrivals)", en: "Floor 2: Arrivals Hall" },
-                items: [
-                    { name: { th: "เคาน์เตอร์อาสาสมัคร Information Desk BKK", en: "Information Desk Meeting Point" }, detail: { th: "จุดรวมพลและต้อนรับหลัก อยู่ใกล้ประตู 3 และ 4", en: "Where volunteers welcome and process arrive Delegates." } },
-                    { name: { th: "จุดรับสัมภาระและตม. ขาเข้า", en: "Immigration & Baggage Claims" }, detail: { th: "หลังออกจากประตูเครื่องบิน ตม. จะส่งผู้โดยสารออกมา", en: "Arrival pathways following baggage pickup exits." } },
-                    { name: { th: "บูธซื้อซิม แลกเงิน ค่ายมือถือ", en: "SIM, Currency Exchange & Telcos" }, detail: { th: "AIS, True, DTAC ตั้งอยู่ตลอดโถงผู้โดยสาร", en: "Essential communication services right outside exit doors." } }
-                ]
-            },
-            {
-                id: "floor1",
-                title: { th: "ชั้น 1: การขนส่งสาธารณะ (Ground Trans.)", en: "Floor 1: Public Transportation" },
-                items: [
-                    { name: { th: "รถรับ-ส่งสนามบินฟรี (Shuttle Bus to Don Mueang)", en: "Airport-Airport Free Shuttle" }, detail: { th: "รถเมล์ฟรีไปสนามบินดอนเมือง อยู่ใกล้ประตู 3", en: "Transfers to Don Mueang for travelers holding flight tickets." } },
-                    { name: { th: "จุดบริการรถแท็กซี่สาธารณะ (Public Taxi)", en: "Public Taxis & Buses" }, detail: { th: "จุดกดตั๋วคิวรถแท็กซี่นอกอาคาร", en: "Managed taxi ranks and queue card printing." } }
-                ]
-            },
-            {
-                id: "floorB",
-                title: { th: "ชั้น B: รถไฟแอร์พอร์ตลิงก์ (Airport Rail Link)", en: "Floor B: Airport Rail Link" },
-                items: [
-                    { name: { th: "สถานีรถไฟฟ้าแอร์พอร์ตเรลลิงก์ (ARL)", en: "Airport Rail Link (City Line)" }, detail: { th: "รถไฟด่วนเดินทางเข้าตัวเมืองกรุงเทพฯ", en: "Train transit connection straight into central Bangkok (Phaya Thai)." } },
-                    { name: { th: "จุดแลกเงินที่ให้เรทดีที่สุด (Currency Exchange Group)", en: "Value Currency Exchange Hub" }, detail: { th: "บูธธนาคารและร้านแลกเงินเอกชน เช่น Superrich (สีส้ม/สีเขียว)", en: "Subway level exchange services offering great exchange rates." } }
-                ]
-            }
-        ];
-
-        // Mapped Contact Data based on your photo details matched with the PDF Schedule Names
-        const contactData = [
-            { nameEn: "Lee, Yoonjin", nameTh: "ลี ยุนจิน (Yoonjin Lee)", isKeyman: true, tel: ["084-190-5431"] },
-            { nameEn: "Kashikura, Toshiya", nameTh: "คาชิคุระ โทชิยะ (Toshiya Kashikura)", isKeyman: true, tel: ["084-019-1014"] },
-            { nameEn: "Hanyu, Yoshi", nameTh: "ฮานิว โยชิฮารุ (Yoshiharu Hanyu)", isKeyman: true, tel: ["084-398-1500"] },
-            { nameEn: "Baek, Yoojung", nameTh: "ยูจอง แบก (Baek, Yoojung)", isKeyman: true, tel: ["083-617-9213"] },
-            { nameEn: "Byun, Dongwook", nameTh: "บยอน ดงอุค (DONG WOOK BYUN)", isKeyman: true, tel: ["084-190-5430"] },
-            { nameEn: "Lewandowski, Marcel", nameTh: "มาร์เซล เลวานดอฟสกี้ (Marcel Lewandowski)", isKeyman: true, tel: ["063-757-6964"] },
-            { nameEn: "Matsuzaki, Nanae", nameTh: "มัตสึซากิ นานาเอะ (Nanae Matsuzaki)", isKeyman: true, tel: ["099-092-3260"] },
-            { nameEn: "Robison, Asahn", nameTh: "อะส่าน โรบิสัน (Asahn Robison)", isKeyman: true, tel: ["+1 404-450-4487 (WhatsApp)", "+66 82-927-5692"] },
-            { nameEn: "Sae-ung, Rachai", nameTh: "ราชัย แซ่อึ้ง", isKeyman: true, tel: ["086-051-5507"] },
-            { nameEn: "Park, Hwan woo", nameTh: "ฮวาน วู พัค (Hwan woo Park)", isKeyman: true, tel: ["080-590-5464"] },
-            { nameEn: "Vidal, William", nameTh: "วิลเลียม วิดัล (William Vidal)", isKeyman: true, tel: ["098-462-4313"] },
-            { nameEn: "Scott, Dakota", nameTh: "ดาโกต้า คลอท สก็อต (Dakota Colt Scott)", isKeyman: true, tel: ["081-169-5027"] },
-            { nameEn: "Suthirat, Warayut", nameTh: "วรายุทธ สุทธิวาศ", isKeyman: true, tel: ["086-369-4306"] },
-            { nameEn: "Young, Nick", nameTh: "นิโคลาส ยัง (Nicholas Young)", isKeyman: true, tel: ["+66 6-3440-5345"] },
-            { nameEn: "Pongvanich, Ratha", nameTh: "รฐา พงษ์วานิช", isKeyman: true, tel: ["084-575-9404"] },
-            { nameEn: "Pongvanich, Raviporn", nameTh: "ระวิพร พงษ์วานิช", isKeyman: true, tel: ["090-982-1513"] }
-        ];
-
-        let selectedFloor = "floor2";
-
-        // Navigation section switching (Single-Page View Tab Logic)
-        function switchSection(sectionId) {
-            currentTab = sectionId;
-            
-            // Toggle Section displays
-            document.querySelectorAll('main > section').forEach(sec => {
-                sec.classList.add('hidden');
-            });
-            document.getElementById(`sec-${sectionId}`).classList.remove('hidden');
-
-            // Set styling on Sidebar & mobile app navigation
-            const sections = ['home', 'schedule', 'faq', 'venue', 'contact'];
-            sections.forEach(sec => {
-                const navDk = document.getElementById(`nav-${sec}`);
-                const navMob = document.getElementById(`mob-nav-${sec}`);
-                if(navDk) {
-                    if (sec === sectionId) {
-                        navDk.classList.add('bg-[#FDF1F7]', 'text-[#D4549E]', 'active-dot');
-                        navDk.classList.remove('text-gray-500');
-                    } else {
-                        navDk.classList.remove('bg-[#FDF1F7]', 'text-[#D4549E]', 'active-dot');
-                        navDk.classList.add('text-gray-500');
-                    }
-                }
-                if(navMob) {
-                    if(sec === sectionId) {
-                        navMob.classList.add('text-[#D4549E]', 'scale-105');
-                        navMob.classList.remove('text-gray-400');
-                    } else {
-                        navMob.classList.remove('text-[#D4549E]', 'scale-105');
-                        navMob.classList.add('text-gray-400');
-                    }
-                }
-            });
-
-            // Smooth scroll top on change
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // Toggle app locale
-        function setLanguage(lang) {
-            currentLang = lang;
-            
-            // Switch navigation toggles highlight state
-            const btnEnDk = document.getElementById('btn-lang-en-dk');
-            const btnThDk = document.getElementById('btn-lang-th-dk');
-            const btnEnMob = document.getElementById('btn-lang-en-mob');
-            const btnThMob = document.getElementById('btn-lang-th-mob');
-
-            if(lang === 'en') {
-                [btnEnDk, btnEnMob].forEach(el => { if(el) el.className = "px-3 py-1 bg-[#D4549E] text-white rounded-lg shadow-sm font-bold text-center"; });
-                [btnThDk, btnThMob].forEach(el => { if(el) el.className = "px-3 py-1 text-gray-500 hover:text-gray-900 rounded-lg font-bold text-center"; });
-            } else {
-                [btnThDk, btnThMob].forEach(el => { if(el) el.className = "px-3 py-1 bg-[#D4549E] text-white rounded-lg shadow-sm font-bold text-center"; });
-                [btnEnDk, btnEnMob].forEach(el => { if(el) el.className = "px-3 py-1 text-gray-500 hover:text-gray-900 rounded-lg font-bold text-center"; });
-            }
-
-            // Iterate language blocks
-            document.querySelectorAll('[data-th]').forEach(el => {
-                el.textContent = currentLang === 'th' ? el.getAttribute('data-th') : el.getAttribute('data-en');
-            });
-            document.querySelectorAll('[data-th-placeholder]').forEach(el => {
-                el.placeholder = currentLang === 'th' ? el.getAttribute('data-th-placeholder') : el.getAttribute('data-en-placeholder');
-            });
-
-            // Repopulate dynamic components
-            renderFAQ();
-            renderVenueTabs();
-            renderVenueContent();
-            renderContacts();
-            handleSearch();
-        }
-
-        // --- RENDER SCHEDULE (Searching/Gifting Shifts) ---
-        function handleSearch() {
-            const query = document.getElementById('schedule-search').value.trim().toLowerCase();
-            const resultsDiv = document.getElementById('schedule-results');
-            const placeholderDiv = document.getElementById('search-placeholder');
-            const metaDiv = document.getElementById('search-meta');
-            const tbody = document.getElementById('schedule-table-body');
-            const countSpan = document.getElementById('search-count');
-
-            if (!query) {
-                resultsDiv.classList.add('hidden');
-                metaDiv.classList.add('hidden');
-                placeholderDiv.classList.remove('hidden');
-                return;
-            }
-
-            placeholderDiv.classList.add('hidden');
-            resultsDiv.classList.remove('hidden');
-            metaDiv.classList.remove('hidden');
-
-            const matched = scheduleData.filter(item => {
-                return item.keymen.toLowerCase().includes(query) || 
-                       item.volunteers.toLowerCase().includes(query) ||
-                       item.date.toLowerCase().includes(query);
-            });
-
-            countSpan.textContent = currentLang === 'th' ? `พบ ${matched.length} กะทำงาน` : `Found ${matched.length} shifts`;
-
-            tbody.innerHTML = '';
-            if (matched.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="3" class="p-8 text-center text-gray-400 text-xs">
-                            ${currentLang === 'th' ? 'ไม่พบข้อมูลอาสาสมัครคนนี้' : 'No schedules found for this name'}
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-
-            matched.forEach(item => {
-                // Highlight found search string
-                const hl = (txt) => {
-                    if (!txt) return '<span class="text-gray-300">-</span>';
-                    const regex = new RegExp(`(${query})`, 'gi');
-                    return txt.replace(regex, `<span class="bg-[#FFD93A] text-gray-900 font-bold px-1 rounded">$1</span>`);
-                };
-
-                const tr = document.createElement('tr');
-                tr.className = "hover:bg-[#FDF9FC] transition-all";
-                tr.innerHTML = `
-                    <td class="p-4 border-b border-[#F5E6F0] text-xs align-top">
-                        <div class="font-bold text-gray-950">${item.date}</div>
-                        <div class="text-[#D4549E] font-extrabold mt-1 text-[11px]">${item.shift}</div>
-                    </td>
-                    <td class="p-4 border-b border-[#F5E6F0] text-xs font-semibold text-gray-800 align-top max-w-[200px] leading-relaxed">
-                        ${hl(item.keymen)}
-                    </td>
-                    <td class="p-4 border-b border-[#F5E6F0] text-xs text-gray-600 align-top leading-relaxed">
-                        ${hl(item.volunteers)}
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        function clearSearch() {
-            const input = document.getElementById('schedule-search');
-            input.value = '';
-            handleSearch();
-            input.focus();
-        }
-
-        // --- RENDER FAQ ---
-        function renderFAQ() {
-            const cont = document.getElementById('faq-accordion-container');
-            cont.innerHTML = '';
-            faqData.forEach((item, index) => {
-                const question = currentLang === 'th' ? item.q.th : item.q.en;
-                const answer = currentLang === 'th' ? item.a.th : item.a.en;
-                
-                const box = document.createElement('div');
-                box.className = "bg-white border border-[#F5E6F0] rounded-2xl overflow-hidden shadow-sm transition-all";
-                box.innerHTML = `
-                    <button onclick="toggleAccordion('${item.id}')" class="w-full p-5 text-left font-extrabold text-sm text-gray-900 flex items-center justify-between gap-4 hover:bg-[#FDF9FC] transition-all">
-                        <span>${question}</span>
-                        <i data-lucide="chevron-down" id="icon-${item.id}" class="w-4 h-4 text-gray-400 transition-transform"></i>
-                    </button>
-                    <div id="ans-${item.id}" class="hidden px-5 pb-5 text-xs text-gray-600 leading-relaxed border-t border-[#FDF1F7] pt-4 bg-[#FDF9FC]">
-                        ${answer}
-                    </div>
-                `;
-                cont.appendChild(box);
-            });
-            lucide.createIcons();
-        }
-
-        function toggleAccordion(id) {
-            const ans = document.getElementById(`ans-${id}`);
-            const icon = document.getElementById(`icon-${id}`);
-            if(ans.classList.contains('hidden')) {
-                ans.classList.remove('hidden');
-                icon.style.transform = 'rotate(180deg)';
-                icon.classList.add('text-[#D4549E]');
-            } else {
-                ans.classList.add('hidden');
-                icon.style.transform = 'rotate(0deg)';
-                icon.classList.remove('text-[#D4549E]');
-            }
-        }
-
-        // --- RENDER VENUE (Airport Map / Tab System) ---
-        function renderVenueTabs() {
-            const tabs = document.getElementById('venue-tabs');
-            tabs.innerHTML = '';
-            venueData.forEach(floor => {
-                const btn = document.createElement('button');
-                btn.onclick = () => selectVenueFloor(floor.id);
-                btn.className = `px-5 py-2.5 rounded-xl font-bold text-xs whitespace-nowrap transition-all border ${
-                    selectedFloor === floor.id 
-                    ? "bg-[#D4549E] text-white border-[#D4549E]" 
-                    : "bg-white text-gray-600 border-[#F5E6F0] hover:border-[#D4549E]"
-                }`;
-                btn.textContent = currentLang === 'th' ? floor.title.th : floor.title.en;
-                tabs.appendChild(btn);
-            });
-        }
-
-        function renderVenueContent() {
-            const floor = venueData.find(f => f.id === selectedFloor);
-            const content = document.getElementById('venue-floor-content');
-            content.innerHTML = '';
-
-            if(!floor) return;
-
-            const title = document.createElement('h3');
-            title.className = "font-extrabold text-gray-900 text-sm md:text-base border-b border-[#FDF1F7] pb-2";
-            title.textContent = currentLang === 'th' ? floor.title.th : floor.title.en;
-            content.appendChild(title);
-
-            const grid = document.createElement('div');
-            grid.className = "grid md:grid-cols-2 gap-4 mt-4";
-
-            floor.items.forEach(item => {
-                const itemDiv = document.createElement('div');
-                itemDiv.className = "bg-white p-4 rounded-xl border border-[#F5E6F0] flex gap-3";
-                itemDiv.innerHTML = `
-                    <div class="bg-[#FDF1F7] text-[#D4549E] p-2 rounded-lg self-start">
-                        <i data-lucide="navigation-2" class="w-4 h-4"></i>
-                    </div>
-                    <div>
-                        <h4 class="font-extrabold text-sm text-gray-900">${currentLang === 'th' ? item.name.th : item.name.en}</h4>
-                        <p class="text-xs text-gray-500 mt-1 leading-relaxed">${currentLang === 'th' ? item.detail.th : item.detail.en}</p>
-                    </div>
-                `;
-                grid.appendChild(itemDiv);
-            });
-
-            content.appendChild(grid);
-            lucide.createIcons();
-        }
-
-        function selectVenueFloor(id) {
-            selectedFloor = id;
-            renderVenueTabs();
-            renderVenueContent();
-        }
-
-        // --- RENDER KEYMEN CONTACTS DIRECTORY ---
-        function renderContacts() {
-            const cont = document.getElementById('contact-list-container');
-            cont.innerHTML = '';
-            contactData.forEach(person => {
-                const card = document.createElement('div');
-                card.className = "bg-white border border-[#F5E6F0] rounded-2xl p-5 shadow-sm hover:shadow-md hover:border-[#D4549E]/40 transition-all flex flex-col justify-between gap-4";
-                
-                let phoneSectionHTML = '';
-                person.tel.forEach(phone => {
-                    const cleanPhone = phone.replace(/\s*\(whatsapp\)/i, '').replace(/[^0-9+]/g, '');
-                    const isWA = phone.toLowerCase().includes('whatsapp');
-                    phoneSectionHTML += `
-                        <div class="flex items-center justify-between border-b border-gray-50 pb-2.5">
-                            <div class="flex items-center gap-2">
-                                <i data-lucide="${isWA ? 'message-square' : 'phone'}" class="w-3.5 h-3.5 text-gray-400"></i>
-                                <span class="text-xs font-bold ${isWA ? 'text-emerald-600' : 'text-gray-700'}">${phone}</span>
-                            </div>
-                            <div class="flex items-center gap-1.5">
-                                <button onclick="copyToClipboard('${cleanPhone}')" class="p-2 hover:bg-gray-100 rounded-lg text-gray-400 hover:text-gray-600 transition-all" title="คัดลอกเบอร์">
-                                    <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-                                </button>
-                                <a href="tel:${cleanPhone}" class="p-2 hover:bg-[#FDF1F7] rounded-lg text-gray-400 hover:text-[#D4549E] transition-all" title="โทรออก">
-                                    <i data-lucide="phone-call" class="w-3.5 h-3.5"></i>
-                                </a>
-                            </div>
-                        </div>
-                    `;
-                });
-
-                card.innerHTML = `
-                    <div class="flex items-start justify-between gap-2">
-                        <div class="flex items-center gap-3">
-                            <div class="bg-[#FDF1F7] text-[#D4549E] p-2 rounded-xl">
-                                <i data-lucide="user" class="w-5 h-5"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-extrabold text-sm text-gray-900">${person.nameTh}</h4>
-                                <p class="text-[10px] text-gray-400 font-bold tracking-wider uppercase mt-0.5">${person.nameEn}</p>
-                            </div>
-                        </div>
-                        <span class="bg-amber-100/70 text-amber-800 px-2 py-0.5 rounded-full text-[9px] font-extrabold tracking-wide uppercase">KEYMAN</span>
-                    </div>
-                    <div class="space-y-1.5 pt-2">
-                        ${phoneSectionHTML}
-                    </div>
-                `;
-                cont.appendChild(card);
-            });
-            lucide.createIcons();
-        }
-
-        // Global Copy Function
-        function copyToClipboard(val) {
-            navigator.clipboard.writeText(val).then(() => {
-                alert(currentLang === 'th' ? "คัดลอกเบอร์โทรแล้ว!" : "Copied to clipboard!");
-            });
-        }
-
-        // Init on first launch
-        window.addEventListener('DOMContentLoaded', () => {
-            switchSection('home');
-            setLanguage('th');
-        });
-    </script>
+    // Initialize App
+    document.addEventListener('DOMContentLoaded', () => {
+      updateStaticTexts();
+      renderSchedule();
+      renderFaq();
+      renderVenue();
+      renderContacts();
+      switchSection('home');
+      lucide.createIcons();
+    });
+  </script>
 </body>
 </html>
