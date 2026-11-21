@@ -1,1123 +1,865 @@
 <!DOCTYPE html>
-<html lang="th" class="scroll-smooth">
+<html lang="th">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Information Desk | Suvarnabhumi Airport Volunteer Guide</title>
-  
-  <!-- Google Fonts: Plus Jakarta Sans & Prompt -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Lucide Icons CDN -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['"Plus Jakarta Sans"', '"Prompt"', 'sans-serif'],
-          },
-          colors: {
-            brand: {
-              primary: '#165B9C',
-              dark: '#0F4375',
-              light: '#EAF2FA',
-              bg: '#F4F7FA',
-              text: '#10375C',
-              muted: '#64748B'
-            }
-          }
-        }
-      }
-    }
-  </script>
-
-  <style>
-    body {
-      font-family: 'Plus Jakarta Sans', 'Prompt', sans-serif;
-      background-color: #F4F7FA;
-      color: #10375C;
-    }
-    .accordion-content {
-      transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
-      max-height: 0;
-      opacity: 0;
-      overflow: hidden;
-    }
-    .accordion-item.active .accordion-content {
-      max-height: 500px;
-      opacity: 1;
-    }
-    .accordion-item.active .accordion-icon {
-      transform: rotate(180deg);
-    }
-    /* Hide scrollbar for horizontal tabs */
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-  </style>
-</head>
-<body class="antialiased selection:bg-brand-primary selection:text-white">
-
-  <!-- ==================== MOBILE TOP HEADER ==================== -->
-  <header class="lg:hidden fixed top-0 left-0 right-0 z-40 bg-white border-b border-slate-200/80 px-4 h-16 flex items-center justify-between shadow-2xs">
-    <a href="#home" class="flex items-center gap-3">
-      <div class="relative w-9 h-9 rounded-xl bg-brand-primary text-white flex items-center justify-center font-serif font-bold text-lg shadow-xs">
-        i
-        <span class="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-white text-brand-primary flex items-center justify-center shadow-xs border border-slate-100">
-          <i data-lucide="plane" class="w-2.5 h-2.5"></i>
-        </span>
-      </div>
-      <div>
-        <div class="font-bold text-sm text-brand-text leading-tight">Information Desk</div>
-        <div class="text-[10px] font-semibold tracking-wider text-slate-400 uppercase">BANGKOK • BKK</div>
-      </div>
-    </a>
-
-    <div class="flex items-center gap-2">
-      <!-- Mobile Quick Language Toggle -->
-      <div class="flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200">
-        <button onclick="setLanguage('en')" id="mob-lang-en" class="px-2 py-1 rounded-md text-xs font-bold transition-all cursor-pointer">EN</button>
-        <button onclick="setLanguage('th')" id="mob-lang-th" class="px-2 py-1 rounded-md text-xs font-bold transition-all cursor-pointer">TH</button>
-      </div>
-      <button onclick="toggleMobileSidebar()" class="p-2 rounded-xl text-slate-600 hover:bg-slate-100" aria-label="Open Menu">
-        <i data-lucide="menu" class="w-6 h-6"></i>
-      </button>
-    </div>
-  </header>
-
-  <!-- Mobile Sidebar Backdrop -->
-  <div id="sidebarBackdrop" onclick="closeMobileSidebar()" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-40 hidden lg:hidden"></div>
-
-  <!-- ==================== LEFT FIXED SIDEBAR (DESKTOP & MOBILE DRAWER) ==================== -->
-  <aside id="sidebar" class="fixed top-0 left-0 bottom-0 z-50 w-64 bg-white border-r border-slate-200/80 flex flex-col justify-between transition-transform duration-300 -translate-x-full lg:translate-x-0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Suvarnabhumi Airport - Information Desk Volunteer Guide</title>
     
-    <div class="p-6">
-      <!-- Brand Header -->
-      <div class="flex items-center justify-between mb-8">
-        <a href="#home" onclick="closeMobileSidebar()" class="flex items-center gap-3.5 group">
-          <div class="relative w-11 h-11 rounded-2xl bg-brand-primary text-white flex items-center justify-center font-serif font-bold text-2xl shadow-sm group-hover:bg-brand-dark transition-colors">
-            i
-            <span class="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-white text-brand-primary flex items-center justify-center shadow-sm border border-slate-100">
-              <i data-lucide="plus" class="w-3 h-3 stroke-[3]"></i>
-            </span>
-          </div>
-          <div>
-            <div class="font-bold text-base text-brand-text leading-tight">Information Desk</div>
-            <div class="text-[11px] font-semibold tracking-widest text-slate-400 uppercase mt-0.5">BANGKOK • BKK</div>
-          </div>
-        </a>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 
-        <button onclick="closeMobileSidebar()" class="lg:hidden p-1.5 rounded-lg text-slate-400 hover:bg-slate-100">
-          <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
-      </div>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-      <!-- Menu Group Title -->
-      <div class="text-[11px] font-bold tracking-wider text-slate-400 uppercase px-3 mb-3" data-i18n="sidebarGuideLabel">
-        VOLUNTEER GUIDE
-      </div>
+    <style>
+        body {
+            font-family: 'Prompt', 'Inter', sans-serif;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D4549E;
+            border-radius: 3px;
+        }
+        .active-dot {
+            position: relative;
+        }
+        .active-dot::after {
+            content: '';
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 6px;
+            background-color: #FFD93A;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body class="bg-[#FDF9FC] text-gray-800 min-h-screen flex flex-col xl:flex-row pb-20 xl:pb-0">
 
-      <!-- 5 Navigation Items -->
-      <nav class="space-y-1.5" id="sidebarNav">
-        <a href="#home" data-section="home" onclick="setActiveNav('home'); closeMobileSidebar();" class="nav-item flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-semibold transition-all bg-brand-light text-brand-primary">
-          <div class="flex items-center gap-3">
-            <i data-lucide="home" class="w-4 h-4"></i>
-            <span data-i18n="menuHome">Home</span>
-          </div>
-          <span class="nav-dot w-1.5 h-1.5 rounded-full bg-brand-primary"></span>
-        </a>
-
-        <a href="#schedule" data-section="schedule" onclick="setActiveNav('schedule'); closeMobileSidebar();" class="nav-item flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-text transition-all">
-          <div class="flex items-center gap-3">
-            <i data-lucide="calendar-check" class="w-4 h-4"></i>
-            <span data-i18n="menuSchedule">Duty Schedule</span>
-          </div>
-          <span class="nav-dot w-1.5 h-1.5 rounded-full bg-brand-primary hidden"></span>
-        </a>
-
-        <a href="#faq" data-section="faq" onclick="setActiveNav('faq'); closeMobileSidebar();" class="nav-item flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-text transition-all">
-          <div class="flex items-center gap-3">
-            <i data-lucide="help-circle" class="w-4 h-4"></i>
-            <span data-i18n="menuFaq">FAQ</span>
-          </div>
-          <span class="nav-dot w-1.5 h-1.5 rounded-full bg-brand-primary hidden"></span>
-        </a>
-
-        <a href="#venue" data-section="venue" onclick="setActiveNav('venue'); closeMobileSidebar();" class="nav-item flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-text transition-all">
-          <div class="flex items-center gap-3">
-            <i data-lucide="building-2" class="w-4 h-4"></i>
-            <span data-i18n="menuVenue">Venue Guide</span>
-          </div>
-          <span class="nav-dot w-1.5 h-1.5 rounded-full bg-brand-primary hidden"></span>
-        </a>
-
-        <a href="#contact" data-section="contact" onclick="setActiveNav('contact'); closeMobileSidebar();" class="nav-item flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-text transition-all">
-          <div class="flex items-center gap-3">
-            <i data-lucide="phone-call" class="w-4 h-4"></i>
-            <span data-i18n="menuContact">Contact</span>
-          </div>
-          <span class="nav-dot w-1.5 h-1.5 rounded-full bg-brand-primary hidden"></span>
-        </a>
-      </nav>
-    </div>
-
-    <!-- Bottom Language Switcher (Matching Reference Style) -->
-    <div class="p-6 border-t border-slate-100">
-      <div class="text-[11px] font-bold tracking-wider text-slate-400 uppercase mb-3" data-i18n="languageLabel">
-        LANGUAGE
-      </div>
-      <div class="grid grid-cols-2 gap-2">
-        <button id="lang-en" onclick="setLanguage('en')" class="py-2 px-3 rounded-xl text-xs font-bold border transition-all cursor-pointer">
-          EN
-        </button>
-        <button id="lang-th" onclick="setLanguage('th')" class="py-2 px-3 rounded-xl text-xs font-bold border transition-all cursor-pointer">
-          TH
-        </button>
-      </div>
-    </div>
-
-  </aside>
-
-  <!-- ==================== MAIN CONTENT AREA ==================== -->
-  <main class="lg:pl-64 pt-16 lg:pt-0 min-h-screen">
-    <div class="max-w-6xl mx-auto px-4 sm:px-8 lg:px-10 py-8 lg:py-10 space-y-14">
-
-      <!-- ==================== 1. HOME SECTION ==================== -->
-      <section id="home" class="scroll-mt-24 space-y-8">
-        
-        <!-- Hero Banner Card (Exact Layout Match) -->
-        <div class="bg-white rounded-3xl shadow-xs border border-slate-200/70 overflow-hidden grid grid-cols-1 md:grid-cols-12">
-          
-          <!-- Left Text Column -->
-          <div class="md:col-span-6 p-7 sm:p-10 lg:p-12 flex flex-col justify-center">
-            <div class="text-xs font-bold tracking-widest text-brand-primary uppercase mb-3" data-i18n="heroEyebrow">
-              BANGKOK • SUVARNABHUMI (BKK)
+    <!-- Top Mobile/Tablet Header -->
+    <header class="xl:hidden bg-white border-b border-[#F5E6F0] sticky top-0 z-40 px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <div class="bg-[#D4549E] text-white p-2 rounded-xl">
+                <i data-lucide="info" class="w-5 h-5"></i>
             </div>
-            <h1 class="text-3xl sm:text-4xl lg:text-[42px] font-extrabold text-brand-text tracking-tight leading-tight mb-4" data-i18n="heroTitle">
-              Information Desk
-            </h1>
-            <p class="text-slate-500 text-sm sm:text-base leading-relaxed mb-8 max-w-md" data-i18n="heroDesc">
-              All the essential information for Information Desk volunteers, in one easy place.
-            </p>
             <div>
-              <a href="#schedule" onclick="setActiveNav('schedule')" class="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-brand-primary hover:bg-brand-dark text-white font-semibold text-sm shadow-sm transition-all">
-                <i data-lucide="calendar-check" class="w-4 h-4"></i>
-                <span data-i18n="heroCtaBtn">Duty schedule</span>
-              </a>
+                <h1 class="font-bold text-sm text-[#D4549E] tracking-tight">Information Desk</h1>
+                <p class="text-[10px] text-gray-500 font-semibold tracking-wider uppercase">BKK Airport • Volunteer Guide</p>
             </div>
-          </div>
+        </div>
+        <!-- Language Switcher -->
+        <div class="flex bg-gray-100 rounded-lg p-0.5 text-xs font-semibold">
+            <button onclick="setLanguage('en')" id="btn-lang-en-mob" class="px-2.5 py-1 rounded-md transition-all duration-200">EN</button>
+            <button onclick="setLanguage('th')" id="btn-lang-th-mob" class="px-2.5 py-1 rounded-md transition-all duration-200">TH</button>
+        </div>
+    </header>
 
-          <!-- Right Welcoming Staff Image Column -->
-          <div class="md:col-span-6 relative min-h-[260px] sm:min-h-[320px] bg-slate-100">
-            <img 
-              src="https://images.unsplash.com/photo-1556745753-b2904692b3cd?auto=format&fit=crop&w=900&q=80" 
-              alt="Welcoming Information Desk Volunteers" 
-              class="w-full h-full object-cover object-center"
-            />
-            <!-- Subtle gradient blend on left edge for desktop -->
-            <div class="hidden md:block absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-white to-transparent"></div>
-          </div>
+    <!-- Sidebar Navigation (xl screens) -->
+    <aside class="hidden xl:flex flex-col w-72 bg-white border-r border-[#F5E6F0] h-screen sticky top-0 p-6 justify-between shrink-0">
+        <div class="space-y-8">
+            <div class="flex items-center gap-3">
+                <div class="bg-[#D4549E] text-white p-2.5 rounded-2xl shadow-md">
+                    <i data-lucide="info" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg text-[#D4549E] leading-none">Information Desk</h1>
+                    <p class="text-xs text-gray-400 font-bold uppercase tracking-wider mt-1">Suvarnabhumi • BKK</p>
+                </div>
+            </div>
+
+            <div>
+                <span class="text-[11px] font-bold text-gray-400 uppercase tracking-widest block mb-4">Volunteer Guide</span>
+                <nav class="space-y-1.5" id="desktop-nav">
+                    <button onclick="switchSection('home')" id="nav-home" class="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-left text-sm font-semibold transition-all group hover:bg-[#FDF9FC] hover:text-[#D4549E] text-gray-500">
+                        <i data-lucide="home" class="w-4 h-4 transition-transform group-hover:scale-110"></i>
+                        <span data-th="หน้าแรก" data-en="Home">หน้าแรก</span>
+                    </button>
+                    <button onclick="switchSection('schedule')" id="nav-schedule" class="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-left text-sm font-semibold transition-all group hover:bg-[#FDF9FC] hover:text-[#D4549E] text-gray-500">
+                        <i data-lucide="calendar" class="w-4 h-4 transition-transform group-hover:scale-110"></i>
+                        <span data-th="ตารางการทำงาน" data-en="Duty Schedule">ตารางการทำงาน</span>
+                    </button>
+                    <button onclick="switchSection('faq')" id="nav-faq" class="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-left text-sm font-semibold transition-all group hover:bg-[#FDF9FC] hover:text-[#D4549E] text-gray-500">
+                        <i data-lucide="help-circle" class="w-4 h-4 transition-transform group-hover:scale-110"></i>
+                        <span data-th="คำถามที่พบบ่อย" data-en="FAQ">คำถามที่พบบ่อย</span>
+                    </button>
+                    <button onclick="switchSection('venue')" id="nav-venue" class="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-left text-sm font-semibold transition-all group hover:bg-[#FDF9FC] hover:text-[#D4549E] text-gray-500">
+                        <i data-lucide="map" class="w-4 h-4 transition-transform group-hover:scale-110"></i>
+                        <span data-th="ข้อมูลสถานที่" data-en="Venue Guide">ข้อมูลสถานที่</span>
+                    </button>
+                    <button onclick="switchSection('contact')" id="nav-contact" class="w-full flex items-center gap-3.5 px-4 py-3 rounded-xl text-left text-sm font-semibold transition-all group hover:bg-[#FDF9FC] hover:text-[#D4549E] text-gray-500">
+                        <i data-lucide="phone" class="w-4 h-4 transition-transform group-hover:scale-110"></i>
+                        <span data-th="ติดต่อ" data-en="Contact">ติดต่อ</span>
+                    </button>
+                </nav>
+            </div>
         </div>
 
-        <!-- Quick Access Section (Matching 4-Column Cards) -->
-        <div>
-          <h2 class="text-lg font-bold text-brand-text mb-4" data-i18n="quickAccessTitle">Quick access</h2>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Desktop Language Switcher -->
+        <div class="space-y-3">
+            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest block">Language</span>
+            <div class="grid grid-cols-2 bg-gray-100 rounded-xl p-1 text-xs font-bold text-center">
+                <button onclick="setLanguage('en')" id="btn-lang-en-dk" class="py-2 rounded-lg transition-all">EN</button>
+                <button onclick="setLanguage('th')" id="btn-lang-th-dk" class="py-2 rounded-lg transition-all">TH</button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow p-4 md:p-8 xl:p-12 overflow-y-auto max-w-6xl mx-auto w-full">
+
+        <!-- ================= HOME SECTION ================= -->
+        <section id="sec-home" class="space-y-8 animate-fadeIn">
+            <!-- Hero Card -->
+            <div class="bg-white rounded-3xl border border-[#F5E6F0] overflow-hidden shadow-sm flex flex-col md:flex-row min-h-[350px]">
+                <div class="p-6 md:p-10 flex-1 flex flex-col justify-center space-y-6">
+                    <span class="bg-[#FDF1F7] text-[#D4549E] px-4 py-1.5 rounded-full text-xs font-bold tracking-wide self-start uppercase">BKK Suvarnabhumi Airport</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight">
+                        <span data-th="แผนกต้อนรับและให้ข้อมูล" data-en="Airport Information Desk">แผนกต้อนรับและให้ข้อมูล</span><br>
+                        <span class="text-[#D4549E]" data-th="สำหรับอาสาสมัคร" data-en="Volunteer Guide">สำหรับอาสาสมัคร</span>
+                    </h2>
+                    <p class="text-gray-500 text-sm md:text-base leading-relaxed" data-th="ยินดีต้อนรับเข้าสู่พอร์ทัลข้อมูลสำหรับอาสาสมัครแผนก Information Desk ณ สนามบินสุวรรณภูมิ รวบรวมข้อมูลที่จำเป็น ตารางงาน และแผนผังไว้ในที่เดียวเพื่อความสะดวกในการปฏิบัติหน้าที่" data-en="Welcome to the information portal for Suvarnabhumi Airport (BKK) Information Desk volunteers. Access your schedules, FAQs, layouts, and overseer contacts all in one convenient place.">
+                        ยินดีต้อนรับเข้าสู่พอร์ทัลข้อมูลสำหรับอาสาสมัครแผนก Information Desk ณ สนามบินสุวรรณภูมิ รวบรวมข้อมูลที่จำเป็น ตารางงาน และแผนผังไว้ในที่เดียวเพื่อความสะดวกในการปฏิบัติหน้าที่
+                    </p>
+                    <button onclick="switchSection('schedule')" class="bg-[#D4549E] text-white hover:bg-[#b03f80] px-6 py-3 rounded-xl font-semibold text-sm transition-all shadow-md shadow-pink-100 flex items-center gap-2 self-start group">
+                        <i data-lucide="calendar" class="w-4 h-4 transition-transform group-hover:scale-110"></i>
+                        <span data-th="เช็กตารางการทำงาน" data-en="Duty Schedule">เช็กตารางการทำงาน</span>
+                    </button>
+                </div>
+                <div class="flex-1 min-h-[250px] bg-gray-100 relative">
+                    <img src="https://i.postimg.cc/02Mx5hbv/Gemini-Generated-Image-x3nltjx3nltjx3nl.jpg?auto=format&fit=crop&q=80&w=1200" alt="Suvarnabhumi Airport Interior" class="w-full h-full object-cover">
+                    <!-- Fallback if URL fails -->
+                    <script>
+                        document.currentScript.previousElementSibling.onerror = function() {
+                            this.src = "image_7.png";
+                        }
+                    </script>
+                </div>
+            </div>
+
+            <!-- Quick Access Grid -->
+            <div>
+                <h3 class="font-extrabold text-lg text-gray-900 mb-4" data-th="เข้าถึงข้อมูลด่วน" data-en="Quick access">เข้าถึงข้อมูลด่วน</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <button onclick="switchSection('schedule')" class="bg-white p-5 rounded-2xl border border-[#F5E6F0] text-left hover:border-[#D4549E] hover:shadow-md transition-all group">
+                        <div class="bg-[#FDF1F7] text-[#D4549E] p-3 rounded-xl w-fit mb-4 group-hover:scale-105 transition-transform">
+                            <i data-lucide="calendar" class="w-5 h-5"></i>
+                        </div>
+                        <h4 class="font-bold text-sm text-gray-900" data-th="ตารางงานอาสาสมัคร" data-en="Duty schedule">ตารางงานอาสาสมัคร</h4>
+                        <p class="text-xs text-gray-400 mt-1" data-th="59 กะ, 56 อาสาสมัคร" data-en="59 shifts, 56 volunteers">59 กะ, 56 อาสาสมัคร</p>
+                    </button>
+                    <button onclick="switchSection('faq')" class="bg-white p-5 rounded-2xl border border-[#F5E6F0] text-left hover:border-[#D4549E] hover:shadow-md transition-all group">
+                        <div class="bg-amber-50 text-amber-500 p-3 rounded-xl w-fit mb-4 group-hover:scale-105 transition-transform">
+                            <i data-lucide="help-circle" class="w-5 h-5"></i>
+                        </div>
+                        <h4 class="font-bold text-sm text-gray-900" data-th="คำถามที่พบบ่อย" data-en="FAQ">คำถามที่พบบ่อย</h4>
+                        <p class="text-xs text-gray-400 mt-1" data-th="ข้อมูลคำตอบแก้ไขล่าสุด" data-en="Recently updated">ข้อมูลคำตอบแก้ไขล่าสุด</p>
+                    </button>
+                    <button onclick="switchSection('venue')" class="bg-white p-5 rounded-2xl border border-[#F5E6F0] text-left hover:border-[#D4549E] hover:shadow-md transition-all group">
+                        <div class="bg-emerald-50 text-emerald-500 p-3 rounded-xl w-fit mb-4 group-hover:scale-105 transition-transform">
+                            <i data-lucide="map" class="w-5 h-5"></i>
+                        </div>
+                        <h4 class="font-bold text-sm text-gray-900" data-th="ข้อมูลสถานที่" data-en="Venue guide">ข้อมูลสถานที่</h4>
+                        <p class="text-xs text-gray-400 mt-1" data-th="5 ชั้นอาคารผู้โดยสาร" data-en="5 airport floors">5 ชั้นอาคารผู้โดยสาร</p>
+                    </button>
+                    <button onclick="switchSection('contact')" class="bg-white p-5 rounded-2xl border border-[#F5E6F0] text-left hover:border-[#D4549E] hover:shadow-md transition-all group">
+                        <div class="bg-blue-50 text-blue-500 p-3 rounded-xl w-fit mb-4 group-hover:scale-105 transition-transform">
+                            <i data-lucide="phone" class="w-5 h-5"></i>
+                        </div>
+                        <h4 class="font-bold text-sm text-gray-900" data-th="ข้อมูลติดต่อทั้งหมด" data-en="Contact info">ข้อมูลติดต่อทั้งหมด</h4>
+                        <p class="text-xs text-gray-400 mt-1" data-th="Keyman & Overseer" data-en="Keyman & Overseer">Keyman & Overseer</p>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= DUTY SCHEDULE ================= -->
+        <section id="sec-schedule" class="hidden space-y-6 animate-fadeIn">
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-[#F5E6F0] space-y-6">
+                <div>
+                    <span class="text-[#D4549E] font-bold text-xs uppercase tracking-wider" data-th="ส่วนที่ 2 • 2–17 ธันวาคม 2569" data-en="Part 2 • 2–17 December 2026">ส่วนที่ 2 • 2–17 ธันวาคม 2569</span>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 mt-1" data-th="ตารางการทำงาน (59 กะ)" data-en="Duty Schedule (59 Shifts)">ตารางการทำงาน (59 กะ)</h2>
+                </div>
+
+                <!-- Search Input Group (Moved back to its own full-width layout, default to look visually empty) -->
+                <div class="bg-[#FDF9FC] border border-[#F5E6F0] p-6 rounded-2xl flex flex-col items-center justify-center text-center space-y-4">
+                    <div class="relative w-full max-w-lg">
+                        <i data-lucide="search" class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        <input type="text" id="schedule-search" oninput="handleSearch()" class="w-full bg-white border border-[#F5E6F0] rounded-xl pl-12 pr-4 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#D4549E]/30 focus:border-[#D4549E] transition-all font-medium" placeholder="พิมพ์ชื่อเล่นหรือชื่อจริงเพื่อค้นหา..." data-th-placeholder="พิมพ์ชื่อเพื่อค้นหากะทำงาน..." data-en-placeholder="Search Volunteer or Keyman name...">
+                    </div>
+                </div>
+
+                <!-- Default Search Guide -->
+                <div id="search-placeholder" class="py-16 text-center border-2 border-dashed border-[#F5E6F0] rounded-2xl space-y-4">
+                    <div class="bg-[#FDF1F7] text-[#D4549E] p-4 rounded-full w-fit mx-auto">
+                        <i data-lucide="search" class="w-8 h-8"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-extrabold text-lg text-gray-900" data-th="ค้นหารายชื่ออาสาสมัคร" data-en="Search Volunteer Name">ค้นหารายชื่ออาสาสมัคร</h4>
+                        <p class="text-xs text-gray-500 mt-1 px-4 max-w-md mx-auto" data-th="พิมพ์ชื่ออาสาสมัครหรือ Keyman ด้านบนเพื่อตรวจสอบวัน เวลาปฏิบัติหน้าที่ และรายชื่อเพื่อนร่วมทีมของคุณ" data-en="Type a volunteer or Keyman name above to view assigned dates, shift times, and teammates.">พิมพ์ชื่ออาสาสมัครหรือ Keyman ด้านบนเพื่อตรวจสอบวัน เวลาปฏิบัติหน้าที่ และรายชื่อเพื่อนร่วมทีมของคุณ</p>
+                    </div>
+                </div>
+
+                <!-- Search Result Count and Clear buttons -->
+                <div id="search-meta" class="hidden flex items-center justify-between">
+                    <span id="search-count" class="text-xs font-bold text-[#D4549E]">พบ 0 กะทำงาน</span>
+                    <button onclick="clearSearch()" class="text-xs font-bold text-gray-400 hover:text-gray-600 transition-all" data-th="ล้างคำค้นหา" data-en="Clear Search">ล้างคำค้นหา</button>
+                </div>
+
+                <!-- Dynamic Search Result Table -->
+                <div id="schedule-results" class="hidden overflow-x-auto border border-[#F5E6F0] rounded-2xl">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-[#FDF1F7] text-[#D4549E] font-bold text-xs uppercase tracking-wider border-b border-[#F5E6F0]">
+                            <tr>
+                                <th class="p-4" data-th="วัน-เวลา" data-en="Date & Time">วัน-เวลา</th>
+                                <th class="p-4" data-th="หัวหน้ากะ (Keymen)" data-en="Keymen on Duty">หัวหน้ากะ (Keymen)</th>
+                                <th class="p-4" data-th="อาสาสมัคร (Volunteers)" data-en="Volunteers">อาสาสมัคร (Volunteers)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="schedule-table-body" class="divide-y divide-[#F5E6F0] bg-white font-medium">
+                            <!-- Injected by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= FAQ SECTION ================= -->
+        <section id="sec-faq" class="hidden space-y-6 animate-fadeIn">
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-[#F5E6F0]">
+                <div class="mb-6">
+                    <span class="text-[#D4549E] font-bold text-xs uppercase tracking-wider" data-th="คู่มือการรับมือสถานการณ์ต่างๆ" data-en="Situational Guides & Handbooks">คู่มือการรับมือสถานการณ์ต่างๆ</span>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 mt-1" data-th="คำถามที่พบบ่อย (FAQ)" data-en="FAQ">คำถามที่พบบ่อย (FAQ)</h2>
+                </div>
+
+                <div class="space-y-3" id="faq-accordion-container">
+                    <!-- FAQ Items are dynamic -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= VENUE GUIDE ================= -->
+        <section id="sec-venue" class="hidden space-y-6 animate-fadeIn">
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-[#F5E6F0] space-y-6">
+                <div>
+                    <span class="text-[#D4549E] font-bold text-xs uppercase tracking-wider" data-th="แผนผังอาคารผู้โดยสาร" data-en="Suvarnabhumi Passenger Terminal Info">แผนผังอาคารผู้โดยสาร</span>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 mt-1" data-th="ข้อมูลสถานที่ (Venue Guide)" data-en="Venue Guide">ข้อมูลสถานที่ (Venue Guide)</h2>
+                </div>
+
+                <!-- Tabs -->
+                <div class="flex gap-2 overflow-x-auto pb-2 border-b border-[#F5E6F0]" id="venue-tabs">
+                    <!-- Javascript Injected -->
+                </div>
+
+                <!-- Active Floor Display -->
+                <div id="venue-floor-content" class="bg-[#FDF9FC] border border-[#F5E6F0] rounded-2xl p-6 space-y-4">
+                    <!-- JavaScript Injected -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= CONTACT SECTION ================= -->
+        <section id="sec-contact" class="hidden space-y-6 animate-fadeIn">
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-[#F5E6F0] space-y-6">
+                <div>
+                    <span class="text-[#D4549E] font-bold text-xs uppercase tracking-wider" data-th="รายชื่อผู้ประสานงานและทีมหน้างาน" data-en="Operation Overseer & On-site Keymen Contact">รายชื่อผู้ประสานงานและทีมหน้างาน</span>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 mt-1" data-th="ข้อมูลติดต่อ (Contact)" data-en="Contact">ข้อมูลติดต่อ (Contact)</h2>
+                </div>
+
+                <!-- Directory Grid -->
+                <div class="grid md:grid-cols-2 gap-4" id="contact-list-container">
+                    <!-- Javascript Injected -->
+                </div>
+
+                <!-- Emergy Contact Strip / BKK Information Desk Overseer -->
+                <div class="bg-rose-50 border border-rose-100 rounded-2xl p-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-[#D4549E] text-white p-2.5 rounded-xl">
+                            <i data-lucide="radio" class="w-6 h-6 animate-pulse"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-extrabold text-gray-900 text-sm md:text-base" data-th="ผู้ดูแลแผนกประชาสัมพันธ์ (Overseer)" data-en="Information Desk Overseer">ผู้ดูแลแผนกประชาสัมพันธ์ (Overseer)</h4>
+                            <p class="text-xs font-semibold text-[#D4549E] mt-0.5" data-th="รฐา พงษ์วานิช (Ratha Pongvanich)" data-en="Ratha Pongvanich">รฐา พงษ์วานิช (Ratha Pongvanich)</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 self-stretch md:self-auto">
+                        <button onclick="copyToClipboard('0845759404')" class="flex-1 md:flex-initial bg-white border border-rose-200 hover:border-[#D4549E] px-4 py-2.5 rounded-xl font-bold text-xs text-gray-700 flex items-center justify-center gap-2 transition-all">
+                            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                            <span data-th="คัดลอกเบอร์" data-en="Copy">คัดลอกเบอร์</span>
+                        </button>
+                        <a href="tel:0845759404" class="flex-1 md:flex-initial bg-[#D4549E] hover:bg-[#b03f80] text-white px-5 py-2.5 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-md shadow-pink-100">
+                            <i data-lucide="phone-call" class="w-3.5 h-3.5 animate-bounce"></i>
+                            <span>084-575-9404</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Bottom Navigation App Bar (xs to lg screens) -->
+    <nav class="xl:hidden bg-white/95 backdrop-blur-md border-t border-[#F5E6F0] fixed bottom-0 left-0 right-0 z-50 flex items-center justify-around py-2 px-1">
+        <button onclick="switchSection('home')" id="mob-nav-home" class="flex flex-col items-center gap-0.5 py-1 px-3 text-gray-400 font-semibold text-[10px] transition-all">
+            <i data-lucide="home" class="w-5 h-5"></i>
+            <span data-th="หน้าแรก" data-en="Home">หน้าแรก</span>
+        </button>
+        <button onclick="switchSection('schedule')" id="mob-nav-schedule" class="flex flex-col items-center gap-0.5 py-1 px-3 text-gray-400 font-semibold text-[10px] transition-all">
+            <i data-lucide="calendar" class="w-5 h-5"></i>
+            <span data-th="ตาราง" data-en="Schedule">ตาราง</span>
+        </button>
+        <button onclick="switchSection('faq')" id="mob-nav-faq" class="flex flex-col items-center gap-0.5 py-1 px-3 text-gray-400 font-semibold text-[10px] transition-all">
+            <i data-lucide="help-circle" class="w-5 h-5"></i>
+            <span data-th="คำถาม" data-en="FAQ">คำถาม</span>
+        </button>
+        <button onclick="switchSection('venue')" id="mob-nav-venue" class="flex flex-col items-center gap-0.5 py-1 px-3 text-gray-400 font-semibold text-[10px] transition-all">
+            <i data-lucide="map" class="w-5 h-5"></i>
+            <span data-th="สถานที่" data-en="Venue">สถานที่</span>
+        </button>
+        <button onclick="switchSection('contact')" id="mob-nav-contact" class="flex flex-col items-center gap-0.5 py-1 px-3 text-gray-400 font-semibold text-[10px] transition-all">
+            <i data-lucide="phone" class="w-5 h-5"></i>
+            <span data-th="ติดต่อ" data-en="Contact">ติดต่อ</span>
+        </button>
+    </nav>
+
+    <!-- JS Core for Web Switching, Language Changing and Data Mapping -->
+    <script>
+        let currentLang = 'th';
+        let currentTab = 'home';
+
+        // 59 Shifts Data directly extracted from the PDF (December 2-17, 2026)
+        const scheduleData = [
+            // Wed 2 Dec
+            { date: "Wed 2 Dec 2026", shift: "00:00-04:00", keymen: "Pongvanich, Ratha (พงษ์วานิช, รฐา) • Pongvanich, Raviporn (พงษ์วานิช, ระวิพร)", volunteers: "" },
+            { date: "Wed 2 Dec 2026", shift: "12:00-17:00", keymen: "Scott, Dakota • Scott, Xemilla", volunteers: "Greene, Kezia" },
+            { date: "Wed 2 Dec 2026", shift: "14:30-17:55 (Greeters BKK)", keymen: "Sae-ung, Rachai (แซ่อึ้ง, ราชัย)", volunteers: "Cardillo, Lidia • Gaze, DonRay • Pfrengle, Ruthann" },
+            { date: "Wed 2 Dec 2026", shift: "18:15-20:15 (Greeters BKK)", keymen: "Sae-ung, Rachai (แซ่อึ้ง, ราชัย)", volunteers: "Cardillo, Lidia • Greene, Kezia" },
+            // Thu 3 Dec
+            { date: "Thu 3 Dec 2026", shift: "04:00-08:00", keymen: "Scott, Dakota • Scott, Xemilla", volunteers: "" },
+            { date: "Thu 3 Dec 2026", shift: "08:00-12:00", keymen: "Lewandowski, Marcel • Lewandowski, Kamila", volunteers: "" },
+            { date: "Thu 3 Dec 2026", shift: "12:00-17:00", keymen: "Vidal, William • Vidal, Cinthia", volunteers: "" },
+            { date: "Thu 3 Dec 2026", shift: "17:00-20:00", keymen: "Park, Hwan woo", volunteers: "" },
+            { date: "Thu 3 Dec 2026", shift: "17:55-22:30 (Greeters BKK)", keymen: "", volunteers: "Cardillo, Lidia • Gaze, DonRay" },
+            { date: "Thu 3 Dec 2026", shift: "20:00-23:59", keymen: "Park, Hwan woo", volunteers: "" },
+            // Fri 4 Dec
+            { date: "Fri 4 Dec 2026", shift: "00:00-04:00", keymen: "Scott, Dakota • Scott, Xemilla", volunteers: "" },
+            { date: "Fri 4 Dec 2026", shift: "04:00-08:00", keymen: "Robison, Asahn • Robison, Alonna", volunteers: "" },
+            { date: "Fri 4 Dec 2026", shift: "05:45-09:55 (Greeters BKK)", keymen: "", volunteers: "Keskinen, Pinja" },
+            { date: "Fri 4 Dec 2026", shift: "08:00-12:00", keymen: "Byun, Dongwook • Lee, Yoonjin", volunteers: "" },
+            { date: "Fri 4 Dec 2026", shift: "12:00-17:00", keymen: "Vidal, William • Vidal, Cinthia", volunteers: "De La Vega, Maricar • Greene, Kezia" },
+            { date: "Fri 4 Dec 2026", shift: "17:00-20:00", keymen: "Sae-ung, Rachai (แซ่อึ้ง, ราชัย)", volunteers: "Gaze, DonRay" },
+            { date: "Fri 4 Dec 2026", shift: "20:00-23:59", keymen: "Sae-ung, Rachai (แซ่อึ้ง, ราชัย)", volunteers: "Cardillo, Lidia • Harinasuta, Nathapat (หะริณสุต, ณฐภัทร) • Sriyingyong, Kawin" },
+            { date: "Fri 4 Dec 2026", shift: "21:00-01:50 (next day Greeters BKK)", keymen: "", volunteers: "Hill, Angie • Nakada, Mayumi" },
+            // Sat 5 Dec
+            { date: "Sat 5 Dec 2026", shift: "00:00-04:00", keymen: "Pongvanich, Ratha (พงษ์วานิช, รฐา) • Pongvanich, Raviporn (พงษ์วานิช, ระวิพร)", volunteers: "Sriyingyong, Kawin" },
+            { date: "Sat 5 Dec 2026", shift: "04:00-08:00", keymen: "Robison, Asahn • Robison, Alonna", volunteers: "Clark, Kyle • Pensook, Natchanon" },
+            { date: "Sat 5 Dec 2026", shift: "08:00-12:00", keymen: "Lewandowski, Marcel • Lewandowski, Kamila", volunteers: "Greene, Kezia • Shinozaki, Yukiko • Villanueva, Olivia" },
+            { date: "Sat 5 Dec 2026", shift: "12:00-17:00", keymen: "Lewandowski, Marcel • Lewandowski, Kamila • Matsuzaki, Nanae", volunteers: "Pfrengle, Ruthann • Shinozaki, Yukiko • Syvertsen, Rachael" },
+            { date: "Sat 5 Dec 2026", shift: "20:00-23:59", keymen: "Vidal, William • Vidal, Cinthia", volunteers: "Ando, Emiko • Clark, Kyle • Padra, Maïmouna • Sylvander, Åsa" },
+            { date: "Sat 5 Dec 2026", shift: "20:00-23:59 (Runners)", keymen: "Korhonen, Matti • Korhonen, Tanja", volunteers: "" },
+            // Sun 6 Dec
+            { date: "Sun 6 Dec 2026", shift: "00:00-04:00", keymen: "Baek, Yoojung", volunteers: "Betancourt, Zully • Maier, Isabel • Motykhlyayeva, Olga • Nakada, Mayumi • Shinozaki, Yukiko • Sriyingyong, Kawin • Watson, Kathryn" },
+            { date: "Sun 6 Dec 2026", shift: "00:00-04:00 (Runners)", keymen: "Park, Hwan woo", volunteers: "" },
+            { date: "Sun 6 Dec 2026", shift: "04:00-08:00", keymen: "Matsuzaki, Nanae", volunteers: "Chameau, Peggy • De La Vega, Maricar • Ito, Chie (อิโตะ, ชิเอะ) • Keskinen, Pinja • Motykhlyayeva, Olga • Youdell, Odette" },
+            { date: "Sun 6 Dec 2026", shift: "08:00-12:00", keymen: "Vidal, William • Vidal, Cinthia • Fukuda, Mami (福田, 真実)", volunteers: "Cardillo, Lidia • Chameau, Peggy • De La Vega, Maricar • Harinasuta, Nathapat (หะริณสุต, ณฐภัทร) • Hofmann, Paporn (โฮฟมันน์, ภาพร) • Syvertsen, Rachael" },
+            { date: "Sun 6 Dec 2026", shift: "08:00-12:00 (Runners)", keymen: "Pongvanich, Ratha (พงษ์วานิช, รฐา)", volunteers: "" },
+            { date: "Sun 6 Dec 2026", shift: "12:00-17:00", keymen: "Vidal, William • Vidal, Cinthia • Fukuda, Mami (福田, 真実)", volunteers: "Hill, Angie • Hofmann, Paporn (โฮฟมันน์, ภาพร) • Nagai, Yuna (永อยู่อิ่ม, ยูนะ) • Sylvander, Åsa • Syvertsen, Rachael • Tanioka, Mie" },
+            { date: "Sun 6 Dec 2026", shift: "12:00-17:00 (Runners)", keymen: "Park, Hwan woo", volunteers: "" },
+            { date: "Sun 6 Dec 2026", shift: "17:00-20:00", keymen: "Byun, Dongwook • Lee, Yoonjin", volunteers: "Gaze, DonRay • Nakada, Mayumi • Wajanaphisut, Saya (วจนะพิสุทธิ์, ศยา) • Young, Emily" },
+            { date: "Sun 6 Dec 2026", shift: "20:00-23:59", keymen: "Pongvanich, Ratha (พงษ์วานิช, รฐา) • Pongvanich, Raviporn (พงษ์วานิช, ระวิพร) • Sae-ung, Rachai (แซ่อึ้ง, ราชัย)", volunteers: "Betancourt, Zully • Ito, Chie (อิโตะ, ชิเอะ) • Maier, Isabel • Opitz, Doreen • Wajanaphisut, Saya (วจนะพิสุทธิ์, ศยา)" },
+            // Mon 7 Dec
+            { date: "Mon 7 Dec 2026", shift: "00:00-04:00", keymen: "Kashikura, Toshiya • Kashikura, Miyuki", volunteers: "Motykhlyayeva, Olga • Watson, Kathryn" },
+            { date: "Mon 7 Dec 2026", shift: "04:00-08:00", keymen: "Scott, Dakota • Scott, Xemilla", volunteers: "Motykhlyayeva, Olga • Torres, Johanna • Youdell, Odette" },
+            { date: "Mon 7 Dec 2026", shift: "08:00-12:00", keymen: "Vidal, William • Vidal, Cinthia", volunteers: "Ando, Emiko • Hofmann, Paporn (โฮฟมันน์, ภาพร) • Nagai, Yuna (永อยู่อิ่ม, ยูนะ) • Nakada, Mayumi • Pfrengle, Ruthann" },
+            { date: "Mon 7 Dec 2026", shift: "08:00-12:00 (Runners)", keymen: "Muñoz Asencio, Matsuzaki, Nanae • Superioridad, Joycee", volunteers: "" },
+            { date: "Mon 7 Dec 2026", shift: "12:00-17:00", keymen: "Lewandowski, Marcel • Lewandowski, Kamila", volunteers: "Brilouet, Isabelle • Harinasuta, Nathapat (หะริณสุต, ณฐภัทร) • Hill, Angie • Ito, Chie (อิโตะ, ชิเอะ) • Opitz, Doreen • Padra, Maïmouna • Pfrengle, Ruthann • Tanioka, Mie • Villanueva, Olivia" },
+            { date: "Mon 7 Dec 2026", shift: "17:00-20:00", keymen: "Byun, Dongwook • Lee, Yoonjin", volunteers: "Gaze, DonRay • Keskinen, Pinja • Sylvander, Åsa • Villanueva, Olivia" },
+            { date: "Mon 7 Dec 2026", shift: "20:00-23:59", keymen: "Hanyu, Yoshi • Hanyu, Erin", volunteers: "Betancourt, Zully • Keskinen, Pinja • Pensook, Natchanon" },
+            { date: "Mon 7 Dec 2026", shift: "20:00-23:59 (Runners)", keymen: "Park, Hwan woo", volunteers: "" },
+            // Tue 8 Dec
+            { date: "Tue 8 Dec 2026", shift: "00:00-04:00", keymen: "Robison, Asahn • Robison, Alonna", volunteers: "" },
+            { date: "Tue 8 Dec 2026", shift: "04:00-08:00", keymen: "Vidal, William • Vidal, Cinthia", volunteers: "Chameau, Peggy • Nagai, Yuna (永อยู่อิ่ม, ยูนะ)" },
+            { date: "Tue 8 Dec 2026", shift: "04:00-08:00 (Runners)", keymen: "Korhonen, Matti • Korhonen, Tanja", volunteers: "" },
+            { date: "Tue 8 Dec 2026", shift: "08:00-12:00", keymen: "Byun, Dongwook • Lee, Yoonjin", volunteers: "Betancourt, Zully • Padra, Maïmouna • Torres, Johanna" },
+            { date: "Tue 8 Dec 2026", shift: "08:00-12:00 (Runners)", keymen: "Matsuzaki, Nanae", volunteers: "" },
+            { date: "Tue 8 Dec 2026", shift: "12:00-17:00", keymen: "Young, Nick • Young, Emily", volunteers: "Hill, Angie • Wajanaphisut, Saya (วจนะพิสุทธิ์, ศยา) • Watson, Kathryn" },
+            { date: "Tue 8 Dec 2026", shift: "17:00-20:00", keymen: "Vidal, William • Vidal, Cinthia • Mauricio, Ana", volunteers: "Ando, Emiko • Maier, Isabel" },
+            { date: "Tue 8 Dec 2026", shift: "20:00-23:59", keymen: "Lewandowski, Marcel • Lewandowski, Kamila", volunteers: "Clark, Kyle • Opitz, Doreen" },
+            // Wed 9 Dec
+            { date: "Wed 9 Dec 2026", shift: "00:00-04:00", keymen: "Park, Hwan woo", volunteers: "" },
+            { date: "Wed 9 Dec 2026", shift: "04:00-08:00", keymen: "Scott, Dakota • Scott, Xemilla", volunteers: "Pensook, Natchanon • Torres, Johanna" },
+            { date: "Wed 9 Dec 2026", shift: "04:00-08:00 (Runners)", keymen: "Korhonen, Matti • Korhonen, Tanja", volunteers: "" },
+            { date: "Wed 9 Dec 2026", shift: "08:00-12:00", keymen: "Young, Nick • Young, Emily", volunteers: "" },
+            { date: "Wed 9 Dec 2026", shift: "12:00-17:00", keymen: "Byun, Dongwook • Lee, Yoonjin", volunteers: "Brilouet, Isabelle • Tanioka, Mie • Young, Emily" },
+            { date: "Wed 9 Dec 2026", shift: "17:00-20:00", keymen: "Vidal, William • Vidal, Cinthia", volunteers: "Betancourt, Zully • Maier, Isabel" },
+            { date: "Wed 9 Dec 2026", shift: "20:00-23:59", keymen: "Kashikura, Toshiya • Kashikura, Miyuki", volunteers: "" },
+            // Post-Convention Date Shifts
+            { date: "Mon 14 Dec 2026", shift: "08:00-10:00 (Post-Convention Desk)", keymen: "Both Teams", volunteers: "France, Janina • Motykhlyayeva, Olga • Ando, Emiko" },
+            { date: "Mon 14 Dec 2026", shift: "10:00-12:00 (Post-Convention Desk)", keymen: "Both Teams", volunteers: "Syvertsen, Rachael • van Huysteen, Kirsty" },
+            { date: "Mon 14 Dec 2026", shift: "12:00-14:00 (Post-Convention Desk)", keymen: "Both Teams", volunteers: "Iamdusadeebandit, Kittiporn (เอี่ยมดุษฎีบัณฑิต, กิตติภรณ์) • Opitz, Doreen" },
+            { date: "Mon 14 Dec 2026", shift: "14:00-16:00 (Post-Convention Desk)", keymen: "Both Teams", volunteers: "Ando, Emiko • Liddell, Lisa" },
             
-            <!-- Card 1: Duty Schedule -->
-            <a href="#schedule" onclick="setActiveNav('schedule')" class="group bg-white p-6 rounded-2xl border border-slate-200/70 shadow-2xs hover:shadow-md hover:border-brand-primary/40 transition-all">
-              <div class="w-11 h-11 rounded-xl bg-blue-50 text-brand-primary flex items-center justify-center mb-5 group-hover:bg-brand-primary group-hover:text-white transition-colors">
-                <i data-lucide="calendar-clock" class="w-5 h-5"></i>
-              </div>
-              <h3 class="font-bold text-base text-brand-text mb-1" data-i18n="qa1Title">Duty Schedule</h3>
-              <p class="text-xs text-slate-400 leading-relaxed" data-i18n="qa1Desc">Search your shift time & teammates on duty.</p>
-            </a>
+            { date: "Tue 15 Dec 2026", shift: "08:00-10:00 (Post-Convention Desk)", keymen: "Both Teams", volunteers: "Misico, Nalani • Plunkett, Brianna" },
+            { date: "Tue 15 Dec 2026", shift: "10:00-12:00 (Post-Convention Desk)", keymen: "Both Teams", volunteers: "Liddell, Lisa • Opitz, Doreen" },
+            { date: "Tue 15 Dec 2026", shift: "12:00-14:00 (Post-Convention Desk)", keymen: "Both Teams", volunteers: "Keskinen, Pinja • Maneesaeng, Anchalee (มณีแสง, อัญชลี)" },
+            { date: "Tue 15 Dec 2026", shift: "14:00-16:00 (Post-Convention Desk)", keymen: "Both Teams", volunteers: "Fasher, Miela • Jefferson, Jessalyn" },
 
-            <!-- Card 2: FAQ -->
-            <a href="#faq" onclick="setActiveNav('faq')" class="group bg-white p-6 rounded-2xl border border-slate-200/70 shadow-2xs hover:shadow-md hover:border-brand-primary/40 transition-all">
-              <div class="w-11 h-11 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center mb-5 group-hover:bg-sky-600 group-hover:text-white transition-colors">
-                <i data-lucide="help-circle" class="w-5 h-5"></i>
-              </div>
-              <h3 class="font-bold text-base text-brand-text mb-1" data-i18n="qa2Title">FAQ</h3>
-              <p class="text-xs text-slate-400 leading-relaxed" data-i18n="qa2Desc">Common passenger questions & airport rules.</p>
-            </a>
+            { date: "Wed 16 Dec 2026", shift: "08:00-10:00 (Post-Convention Desk)", keymen: "Both Teams", volunteers: "Fasher, Miela • Padra, Maïmouna • Brilouet, Isabelle" },
+            { date: "Wed 16 Dec 2026", shift: "10:00-12:00 (Post-Convention Desk)", keymen: "Both Teams", volunteers: "Brilouet, Isabelle • McTackett, Abigail" },
+            { date: "Wed 16 Dec 2026", shift: "12:00-14:00 (Post-Convention Desk)", keymen: "Both Teams", volunteers: "Ito, Chie (อิโตะ, ชิเอะ) • Shimamura, Yoko" },
+            { date: "Wed 16 Dec 2026", shift: "14:00-16:00 (Post-Convention Desk)", keymen: "Both Teams", volunteers: "Ando, Emiko • Sanguanmoo, Kanyawee (สงวนหมู่, กัญญาวีร์)" },
 
-            <!-- Card 3: Venue Guide -->
-            <a href="#venue" onclick="setActiveNav('venue')" class="group bg-white p-6 rounded-2xl border border-slate-200/70 shadow-2xs hover:shadow-md hover:border-brand-primary/40 transition-all">
-              <div class="w-11 h-11 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center mb-5 group-hover:bg-teal-600 group-hover:text-white transition-colors">
-                <i data-lucide="building-2" class="w-5 h-5"></i>
-              </div>
-              <h3 class="font-bold text-base text-brand-text mb-1" data-i18n="qa3Title">Venue Guide</h3>
-              <p class="text-xs text-slate-400 leading-relaxed" data-i18n="qa3Desc">Terminal floors (B to 4), services & facilities.</p>
-            </a>
+            { date: "Thu 17 Dec 2026", shift: "08:00-10:00 (Post-Convention Desk)", keymen: "Both Teams", volunteers: "Brilouet, Isabelle • Saemue, Ahmi (แซ่หมื่อ, น.ส. อาหมี่)" },
+            { date: "Thu 17 Dec 2026", shift: "10:00-12:00 (Post-Convention Desk)", keymen: "Both Teams", volunteers: "Motykhlyayeva, Olga • Yuim, Kornwika (อยู่อิ่ม, กรวิกา)" },
+            { date: "Thu 17 Dec 2026", shift: "12:00-14:00 (Post-Convention Desk)", keymen: "Both Teams", volunteers: "McTackett, Abigail • Wajanaphisut, Saya (วจนะพิสุทธิ์, ศยา)" },
+            { date: "Thu 17 Dec 2026", shift: "14:00-16:00 (Post-Convention Desk)", keymen: "Both Teams", volunteers: "Sangchan, Surangkhana (แสงจันทร์, สุรางคนา) • Sylvander, Åsa" }
+        ];
 
-            <!-- Card 4: Contact -->
-            <a href="#contact" onclick="setActiveNav('contact')" class="group bg-white p-6 rounded-2xl border border-slate-200/70 shadow-2xs hover:shadow-md hover:border-brand-primary/40 transition-all">
-              <div class="w-11 h-11 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center mb-5 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
-                <i data-lucide="phone-call" class="w-5 h-5"></i>
-              </div>
-              <h3 class="font-bold text-base text-brand-text mb-1" data-i18n="qa4Title">Contact</h3>
-              <p class="text-xs text-slate-400 leading-relaxed" data-i18n="qa4Desc">Supervisors & Keyman phone numbers.</p>
-            </a>
+        // 5 Critical FAQ Data based on your exact answers
+        const faqData = [
+            {
+                id: "q1",
+                q: {
+                    th: "1. ควรทำอะไรบ้าง เมื่อเจอกับ Delegate",
+                    en: "1. What should I do when meeting a Delegate?"
+                },
+                a: {
+                    th: "กล่าวทักทายอย่างอบอุ่น ถามว่าเขาต้องการความช่วยเหลืออะไรไหม ตรวจสอบเช็คชื่อว่ามาถึงแล้ว พร้อมทั้งสอบถามวิธีการเดินทางไปโรงแรมของเขา จากนั้นเมื่อได้ข้อมูลครบเรียบร้อยแล้ว ให้ทำการส่งต่อผู้แทน (Delegate) ให้กับ Runner ดำเนินการต่อ",
+                    en: "Warmly greet them, ask if they need any assistance, check their name off the attendance list, and ask how they plan to get to their hotel. Once everything is noted, hand them over to a Runner to assist with their next steps."
+                }
+            },
+            {
+                id: "q2",
+                q: {
+                    th: "2. หาก Delegate ต้องการความช่วยเหลือ เช่นซื้อซิม แลกเงิน หรือไปห้องน้ำ ต้องทำอย่างไร",
+                    en: "2. What if a Delegate needs specific help, like buying a SIM card, exchanging money, or going to the restroom?"
+                },
+                a: {
+                    th: "อธิบายและบอกเส้นทางวิธีการเดินทางไปจุดต่างๆ เหล่านั้นให้ผู้แทนเข้าใจ และขอความกรุณาให้พวกเขากลับมาที่เคาน์เตอร์ information desk อีกครั้งหลังจากทำธุระเสร็จ เพื่อที่เราจะได้จัดเจ้าหน้าที่ Runner เพื่อส่งต่อพวกเขาไปยังขั้นตอนต่อไปได้อย่างถูกต้อง",
+                    en: "Guide and give them directions to those specific spots, and kindly ask them to return to the information desk once they are done so we can hand them over to a Runner for further transfer."
+                }
+            },
+            {
+                id: "q3",
+                q: {
+                    th: "3. เมื่อ Delegate กระเป๋าหายทำอย่างไร",
+                    en: "3. What should I do if a Delegate's baggage goes missing?"
+                },
+                a: {
+                    th: "สอบถามเส้นทางการเดินทางไปโรงแรมของเขาให้เรียบร้อยเพื่อบันทึกข้อมูล จากนั้นส่งต่อให้ Runner โดยมอบหมายให้ Runner พาผู้แทนไปชั้น 6 แผนก Lost & Found เพื่อทำเรื่องแจ้งกระเป๋าหาย เมื่อดำเนินการทุกอย่างเสร็จสิ้นแล้ว ให้ Runner นำทางพา Delegate ไปขึ้นรถเพื่อเดินทางไปโรงแรมต่อไป",
+                    en: "Double-check and record their hotel travel details, then hand them over to a Runner. Ask the Runner to accompany the Delegate to the Lost & Found department on the 6th floor. After the missing baggage process is completed, the Runner can then guide the Delegate to their transport heading to the hotel."
+                }
+            },
+            {
+                id: "q4",
+                q: {
+                    th: "4. ถ้า Delegate รู้สึกไม่สบาย ทำอย่างไร",
+                    en: "4. What if a Delegate feels unwell?"
+                },
+                a: {
+                    th: "ติดต่อขอความช่วยเหลือจากทีมพี่น้องฝ่ายดูแลความปลอดภัย (Safety team) ในบริเวณนั้นทันทีเพื่อให้เข้ามาช่วยปฐมพยาบาลหรือประสานการดูแลต่อ",
+                    en: "Immediately contact and request help from on-site Safety team brothers/sisters to come and provide necessary care or medical coordination."
+                }
+            },
+            {
+                id: "q5",
+                q: {
+                    th: "5. ถ้า Delegate ยังไม่มาในกะที่เราทำงาน แล้วจะต้องเปลี่ยนกะแล้ว เราควรทำอย่างไร",
+                    en: "5. What if the expected Delegate hasn't arrived by the end of our shift and it's time to rotate?"
+                },
+                a: {
+                    th: "รวบรวมข้อมูลรายชื่อและรายละเอียดของผู้ที่ยังเดินทางมาไม่ถึงในกะของเราทั้งหมด จากนั้นส่งต่อข้อมูลเหล่านี้ให้กับทีมงาน Keyman ประจำกะถัดไปเพื่อติดตามดูแลอย่างต่อเนื่อง",
+                    en: "Gather all data and details on the delegates who have not yet arrived during your shift, and pass this information on to the Keyman of the next shift for continuous tracking."
+                }
+            }
+        ];
 
-          </div>
-        </div>
-      </section>
+        // 5 airport floors venue data for Suvarnabhumi
+        const venueData = [
+            {
+                id: "floor4",
+                title: { th: "ชั้น 4: ขาออก (Departures)", en: "Floor 4: Departures" },
+                items: [
+                    { name: { th: "จุดตรวจค้นผู้โดยสาร", en: "Security Screening & Customs" }, detail: { th: "จุดสแกนสัมภาระและประทับตราพาสปอร์ตขาออก", en: "Terminal check counters and outbound immigration." } },
+                    { name: { th: "จุดบริการคืนภาษี (VAT Refund)", en: "VAT Refund for Tourists" }, detail: { th: "ห้องกระจกริมขวาสุดก่อนเข้าตม.", en: "VAT refund verification desks located before passport checkpoints." } },
+                    { name: { th: "เคาน์เตอร์เช็กอินเช็กสัมภาระ (Row A-W)", en: "Passenger Check-in Island Rows A-W" }, detail: { th: "แถวสายการบินต่างๆ และจุดสแกนกระเป๋า", en: "Airline counters for outbound checking." } }
+                ]
+            },
+            {
+                id: "floor3",
+                title: { th: "ชั้น 3: ร้านค้าและเลานจ์ (Facilities & Shops)", en: "Floor 3: Lounges & Dining" },
+                items: [
+                    { name: { th: "คลินิกสมิติเวช", en: "Samitivej Clinic (24H)" }, detail: { th: "การดูแลรักษาพยาบาลเบื้องต้น อยู่ใกล้โซนทางเชื่อม", en: "24-hour outpatient medical attention for volunteers & travelers." } },
+                    { name: { th: "โซนร้านอาหารและของฝาก", en: "Dinings & Shops" }, detail: { th: "สตรีทฟู้ด ร้านกาแฟ ร้านสะดวกซื้อ", en: "Various dining, fast food, and travel amenities." } }
+                ]
+            },
+            {
+                id: "floor2",
+                title: { th: "ชั้น 2: ผู้โดยสารขาเข้า (Arrivals)", en: "Floor 2: Arrivals Hall" },
+                items: [
+                    { name: { th: "เคาน์เตอร์อาสาสมัคร Information Desk BKK", en: "Information Desk Meeting Point" }, detail: { th: "จุดรวมพลและต้อนรับหลัก อยู่ใกล้ประตู 3 และ 4", en: "Where volunteers welcome and process arrive Delegates." } },
+                    { name: { th: "จุดรับสัมภาระและตม. ขาเข้า", en: "Immigration & Baggage Claims" }, detail: { th: "หลังออกจากประตูเครื่องบิน ตม. จะส่งผู้โดยสารออกมา", en: "Arrival pathways following baggage pickup exits." } },
+                    { name: { th: "บูธซื้อซิม แลกเงิน ค่ายมือถือ", en: "SIM, Currency Exchange & Telcos" }, detail: { th: "AIS, True, DTAC ตั้งอยู่ตลอดโถงผู้โดยสาร", en: "Essential communication services right outside exit doors." } }
+                ]
+            },
+            {
+                id: "floor1",
+                title: { th: "ชั้น 1: การขนส่งสาธารณะ (Ground Trans.)", en: "Floor 1: Public Transportation" },
+                items: [
+                    { name: { th: "รถรับ-ส่งสนามบินฟรี (Shuttle Bus to Don Mueang)", en: "Airport-Airport Free Shuttle" }, detail: { th: "รถเมล์ฟรีไปสนามบินดอนเมือง อยู่ใกล้ประตู 3", en: "Transfers to Don Mueang for travelers holding flight tickets." } },
+                    { name: { th: "จุดบริการรถแท็กซี่สาธารณะ (Public Taxi)", en: "Public Taxis & Buses" }, detail: { th: "จุดกดตั๋วคิวรถแท็กซี่นอกอาคาร", en: "Managed taxi ranks and queue card printing." } }
+                ]
+            },
+            {
+                id: "floorB",
+                title: { th: "ชั้น B: รถไฟแอร์พอร์ตลิงก์ (Airport Rail Link)", en: "Floor B: Airport Rail Link" },
+                items: [
+                    { name: { th: "สถานีรถไฟฟ้าแอร์พอร์ตเรลลิงก์ (ARL)", en: "Airport Rail Link (City Line)" }, detail: { th: "รถไฟด่วนเดินทางเข้าตัวเมืองกรุงเทพฯ", en: "Train transit connection straight into central Bangkok (Phaya Thai)." } },
+                    { name: { th: "จุดแลกเงินที่ให้เรทดีที่สุด (Currency Exchange Group)", en: "Value Currency Exchange Hub" }, detail: { th: "บูธธนาคารและร้านแลกเงินเอกชน เช่น Superrich (สีส้ม/สีเขียว)", en: "Subway level exchange services offering great exchange rates." } }
+                ]
+            }
+        ];
 
-      <!-- ==================== 2. DUTY SCHEDULE SECTION ==================== -->
-      <section id="schedule" class="scroll-mt-24 bg-white rounded-3xl p-6 sm:p-8 lg:p-10 border border-slate-200/70 shadow-2xs">
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
-          <div>
-            <span class="text-xs font-bold tracking-wider text-brand-primary uppercase" data-i18n="secScheduleTag">VOLUNTEER ROSTER</span>
-            <h2 class="text-2xl font-bold text-brand-text mt-1" data-i18n="secScheduleTitle">Duty Schedule</h2>
-            <p class="text-sm text-slate-500 mt-1" data-i18n="secScheduleDesc">Search your name to view your assigned shift, counter post, and fellow teammates.</p>
-          </div>
-        </div>
+        // Mapped Contact Data based on your photo details matched with the PDF Schedule Names
+        const contactData = [
+            { nameEn: "Lee, Yoonjin", nameTh: "ลี ยุนจิน (Yoonjin Lee)", isKeyman: true, tel: ["084-190-5431"] },
+            { nameEn: "Kashikura, Toshiya", nameTh: "คาชิคุระ โทชิยะ (Toshiya Kashikura)", isKeyman: true, tel: ["084-019-1014"] },
+            { nameEn: "Hanyu, Yoshi", nameTh: "ฮานิว โยชิฮารุ (Yoshiharu Hanyu)", isKeyman: true, tel: ["084-398-1500"] },
+            { nameEn: "Baek, Yoojung", nameTh: "ยูจอง แบก (Baek, Yoojung)", isKeyman: true, tel: ["083-617-9213"] },
+            { nameEn: "Byun, Dongwook", nameTh: "บยอน ดงอุค (DONG WOOK BYUN)", isKeyman: true, tel: ["084-190-5430"] },
+            { nameEn: "Lewandowski, Marcel", nameTh: "มาร์เซล เลวานดอฟสกี้ (Marcel Lewandowski)", isKeyman: true, tel: ["063-757-6964"] },
+            { nameEn: "Matsuzaki, Nanae", nameTh: "มัตสึซากิ นานาเอะ (Nanae Matsuzaki)", isKeyman: true, tel: ["099-092-3260"] },
+            { nameEn: "Robison, Asahn", nameTh: "อะส่าน โรบิสัน (Asahn Robison)", isKeyman: true, tel: ["+1 404-450-4487 (WhatsApp)", "+66 82-927-5692"] },
+            { nameEn: "Sae-ung, Rachai", nameTh: "ราชัย แซ่อึ้ง", isKeyman: true, tel: ["086-051-5507"] },
+            { nameEn: "Park, Hwan woo", nameTh: "ฮวาน วู พัค (Hwan woo Park)", isKeyman: true, tel: ["080-590-5464"] },
+            { nameEn: "Vidal, William", nameTh: "วิลเลียม วิดัล (William Vidal)", isKeyman: true, tel: ["098-462-4313"] },
+            { nameEn: "Scott, Dakota", nameTh: "ดาโกต้า คลอท สก็อต (Dakota Colt Scott)", isKeyman: true, tel: ["081-169-5027"] },
+            { nameEn: "Suthirat, Warayut", nameTh: "วรายุทธ สุทธิวาศ", isKeyman: true, tel: ["086-369-4306"] },
+            { nameEn: "Young, Nick", nameTh: "นิโคลาส ยัง (Nicholas Young)", isKeyman: true, tel: ["+66 6-3440-5345"] },
+            { nameEn: "Pongvanich, Ratha", nameTh: "รฐา พงษ์วานิช", isKeyman: true, tel: ["084-575-9404"] },
+            { nameEn: "Pongvanich, Raviporn", nameTh: "ระวิพร พงษ์วานิช", isKeyman: true, tel: ["090-982-1513"] }
+        ];
 
-        <!-- Search & Shift Filter Bar -->
-        <div class="bg-brand-bg p-4 rounded-2xl mb-6 grid grid-cols-1 md:grid-cols-12 gap-3">
-          <div class="md:col-span-7 relative">
-            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
-            <input 
-              type="text" 
-              id="scheduleSearch" 
-              oninput="renderSchedule()"
-              placeholder="Search volunteer name e.g. Nat, Ploy, Alex..." 
-              class="w-full pl-10 pr-9 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent"
-            />
-            <button id="clearSearchBtn" onclick="clearScheduleSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 cursor-pointer">
-              <i data-lucide="x-circle" class="w-4 h-4"></i>
-            </button>
-          </div>
+        let selectedFloor = "floor2";
 
-          <div class="md:col-span-5 flex gap-1.5">
-            <button onclick="setShiftFilter('ALL')" data-shift="ALL" class="shift-btn flex-1 py-2 px-2.5 rounded-xl text-xs font-bold transition-all bg-brand-primary text-white cursor-pointer" data-i18n="filterAll">All</button>
-            <button onclick="setShiftFilter('MORNING')" data-shift="MORNING" class="shift-btn flex-1 py-2 px-2.5 rounded-xl text-xs font-semibold bg-white text-slate-600 border border-slate-200 hover:bg-blue-50 transition-all cursor-pointer" data-i18n="filterMorning">Morning</button>
-            <button onclick="setShiftFilter('AFTERNOON')" data-shift="AFTERNOON" class="shift-btn flex-1 py-2 px-2.5 rounded-xl text-xs font-semibold bg-white text-slate-600 border border-slate-200 hover:bg-blue-50 transition-all cursor-pointer" data-i18n="filterAfternoon">Afternoon</button>
-            <button onclick="setShiftFilter('NIGHT')" data-shift="NIGHT" class="shift-btn flex-1 py-2 px-2.5 rounded-xl text-xs font-semibold bg-white text-slate-600 border border-slate-200 hover:bg-blue-50 transition-all cursor-pointer" data-i18n="filterNight">Night</button>
-          </div>
-        </div>
+        // Navigation section switching (Single-Page View Tab Logic)
+        function switchSection(sectionId) {
+            currentTab = sectionId;
+            
+            // Toggle Section displays
+            document.querySelectorAll('main > section').forEach(sec => {
+                sec.classList.add('hidden');
+            });
+            document.getElementById(`sec-${sectionId}`).classList.remove('hidden');
 
-        <!-- Schedule Cards Grid -->
-        <div id="scheduleGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          <!-- Rendered by JS -->
-        </div>
+            // Set styling on Sidebar & mobile app navigation
+            const sections = ['home', 'schedule', 'faq', 'venue', 'contact'];
+            sections.forEach(sec => {
+                const navDk = document.getElementById(`nav-${sec}`);
+                const navMob = document.getElementById(`mob-nav-${sec}`);
+                if(navDk) {
+                    if (sec === sectionId) {
+                        navDk.classList.add('bg-[#FDF1F7]', 'text-[#D4549E]', 'active-dot');
+                        navDk.classList.remove('text-gray-500');
+                    } else {
+                        navDk.classList.remove('bg-[#FDF1F7]', 'text-[#D4549E]', 'active-dot');
+                        navDk.classList.add('text-gray-500');
+                    }
+                }
+                if(navMob) {
+                    if(sec === sectionId) {
+                        navMob.classList.add('text-[#D4549E]', 'scale-105');
+                        navMob.classList.remove('text-gray-400');
+                    } else {
+                        navMob.classList.remove('text-[#D4549E]', 'scale-105');
+                        navMob.classList.add('text-gray-400');
+                    }
+                }
+            });
 
-        <!-- Empty Search State -->
-        <div id="scheduleEmpty" class="hidden text-center py-10 bg-brand-bg rounded-2xl border border-dashed border-slate-300">
-          <i data-lucide="user-x" class="w-9 h-9 text-slate-400 mx-auto mb-2"></i>
-          <p class="font-bold text-sm text-brand-text" data-i18n="noResultTitle">No matching volunteer found</p>
-          <p class="text-xs text-slate-500 mt-1" data-i18n="noResultSub">Try another name or click "All" to see all shifts.</p>
-        </div>
-      </section>
-
-      <!-- ==================== 3. FAQ SECTION ==================== -->
-      <section id="faq" class="scroll-mt-24 bg-white rounded-3xl p-6 sm:p-8 lg:p-10 border border-slate-200/70 shadow-2xs">
-        <div class="mb-6">
-          <span class="text-xs font-bold tracking-wider text-brand-primary uppercase" data-i18n="secFaqTag">KNOWLEDGE BASE</span>
-          <h2 class="text-2xl font-bold text-brand-text mt-1" data-i18n="secFaqTitle">Frequently Asked Questions (FAQ)</h2>
-          <p class="text-sm text-slate-500 mt-1" data-i18n="secFaqDesc">Quick answers for common passenger inquiries and volunteer guidelines.</p>
-        </div>
-
-        <div id="faqContainer" class="space-y-3">
-          <!-- Rendered by JS -->
-        </div>
-      </section>
-
-      <!-- ==================== 4. VENUE GUIDE SECTION ==================== -->
-      <section id="venue" class="scroll-mt-24 bg-white rounded-3xl p-6 sm:p-8 lg:p-10 border border-slate-200/70 shadow-2xs">
-        <div class="mb-6">
-          <span class="text-xs font-bold tracking-wider text-brand-primary uppercase" data-i18n="secVenueTag">TERMINAL DIRECTORY</span>
-          <h2 class="text-2xl font-bold text-brand-text mt-1" data-i18n="secVenueTitle">Venue Guide</h2>
-          <p class="text-sm text-slate-500 mt-1" data-i18n="secVenueDesc">Explore facilities, gates, and Information Counters across all 5 floors (Floor B to Floor 4).</p>
-        </div>
-
-        <!-- Floor Tabs -->
-        <div class="flex overflow-x-auto pb-2 mb-6 gap-2 no-scrollbar" id="floorTabs">
-          <!-- Rendered by JS -->
-        </div>
-
-        <!-- Floor Details Card -->
-        <div id="floorDetailCard" class="bg-brand-bg rounded-2xl p-6 border border-slate-200/60">
-          <!-- Rendered by JS -->
-        </div>
-      </section>
-
-      <!-- ==================== 5. CONTACT SECTION ==================== -->
-      <section id="contact" class="scroll-mt-24 bg-white rounded-3xl p-6 sm:p-8 lg:p-10 border border-slate-200/70 shadow-2xs">
-        <div class="mb-6">
-          <span class="text-xs font-bold tracking-wider text-brand-primary uppercase" data-i18n="secContactTag">COMMAND & SUPPORT</span>
-          <h2 class="text-2xl font-bold text-brand-text mt-1" data-i18n="secContactTitle">Supervisors & Keyman Contacts</h2>
-          <p class="text-sm text-slate-500 mt-1" data-i18n="secContactDesc">Direct phone numbers and radio channels for zone Keymen and coordinators.</p>
-        </div>
-
-        <!-- Contact Cards Grid -->
-        <div id="contactGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <!-- Rendered by JS -->
-        </div>
-
-        <!-- Emergency Hotline Bar -->
-        <div class="mt-6 p-5 rounded-2xl bg-brand-light border border-blue-200/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div class="flex items-center gap-3.5">
-            <div class="w-10 h-10 rounded-xl bg-brand-primary text-white flex items-center justify-center shrink-0">
-              <i data-lucide="shield-alert" class="w-5 h-5"></i>
-            </div>
-            <div>
-              <h3 class="font-bold text-sm text-brand-text" data-i18n="emergencyTitle">Suvarnabhumi Airport Emergency & AOT Contact Center</h3>
-              <p class="text-xs text-slate-600 mt-0.5" data-i18n="emergencySub">24/7 Medical, Security, and Airport Operations Support</p>
-            </div>
-          </div>
-          <a href="tel:1722" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-primary hover:bg-brand-dark text-white font-bold text-xs transition-colors shrink-0">
-            <i data-lucide="phone" class="w-3.5 h-3.5"></i>
-            <span>1722 / 02-132-1888</span>
-          </a>
-        </div>
-      </section>
-
-      <!-- Footer -->
-      <footer class="text-center text-xs text-slate-400 pb-6">
-        <p data-i18n="footerNote">Information Desk Volunteer Guide • Suvarnabhumi Airport (BKK)</p>
-      </footer>
-
-    </div>
-  </main>
-
-  <!-- Toast Notification -->
-  <div id="toast" class="fixed bottom-5 right-5 z-50 hidden items-center gap-2 bg-brand-text text-white px-4 py-3 rounded-xl shadow-lg text-xs font-medium">
-    <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
-    <span id="toastMsg">Copied!</span>
-  </div>
-
-  <!-- ==================== JAVASCRIPT ==================== -->
-  <script>
-    // Default language set to English ('en') to match the clean visual reference, toggleable to Thai ('th') anytime
-    let currentLang = 'en';
-    let currentShiftFilter = 'ALL';
-    let currentFloorId = 'F4';
-
-    // 1. Translations Dictionary
-    const i18n = {
-      en: {
-        sidebarGuideLabel: 'VOLUNTEER GUIDE',
-        languageLabel: 'LANGUAGE',
-        menuHome: 'Home',
-        menuSchedule: 'Duty Schedule',
-        menuFaq: 'FAQ',
-        menuVenue: 'Venue Guide',
-        menuContact: 'Contact',
-        heroEyebrow: 'BANGKOK • SUVARNABHUMI (BKK)',
-        heroTitle: 'Information Desk',
-        heroDesc: 'All the essential information for Information Desk volunteers, in one easy place.',
-        heroCtaBtn: 'Duty schedule',
-        quickAccessTitle: 'Quick access',
-        qa1Title: 'Duty Schedule',
-        qa1Desc: 'Search your shift time & teammates on duty.',
-        qa2Title: 'FAQ',
-        qa2Desc: 'Common passenger questions & airport rules.',
-        qa3Title: 'Venue Guide',
-        qa3Desc: 'Terminal floors (B to 4), services & facilities.',
-        qa4Title: 'Contact',
-        qa4Desc: 'Supervisors & Keyman phone numbers.',
-        secScheduleTag: 'VOLUNTEER ROSTER',
-        secScheduleTitle: 'Duty Schedule',
-        secScheduleDesc: 'Search your name to view your assigned shift, counter post, and fellow teammates.',
-        searchPlaceholder: 'Search volunteer name e.g. Nat, Ploy, Alex...',
-        filterAll: 'All',
-        filterMorning: 'Morning',
-        filterAfternoon: 'Afternoon',
-        filterNight: 'Night',
-        noResultTitle: 'No matching volunteer found',
-        noResultSub: 'Try another name or click "All" to see all shifts.',
-        coworkersLabel: 'Teammates working together:',
-        stationLabel: 'Assigned Counter:',
-        secFaqTag: 'KNOWLEDGE BASE',
-        secFaqTitle: 'Frequently Asked Questions (FAQ)',
-        secFaqDesc: 'Quick answers for common passenger inquiries and volunteer guidelines.',
-        secVenueTag: 'TERMINAL DIRECTORY',
-        secVenueTitle: 'Venue Guide',
-        secVenueDesc: 'Explore facilities, gates, and Information Counters across all 5 floors (Floor B to Floor 4).',
-        secContactTag: 'COMMAND & SUPPORT',
-        secContactTitle: 'Supervisors & Keyman Contacts',
-        secContactDesc: 'Direct phone numbers and radio channels for zone Keymen and coordinators.',
-        emergencyTitle: 'Suvarnabhumi Airport Emergency & AOT Contact Center',
-        emergencySub: '24/7 Medical, Security, and Airport Operations Support',
-        footerNote: 'Information Desk Volunteer Guide • Suvarnabhumi Airport (BKK)',
-        callBtn: 'Call',
-        copyBtn: 'Copy',
-        copiedToast: 'Phone number copied'
-      },
-      th: {
-        sidebarGuideLabel: 'คู่มืออาสาสมัคร',
-        languageLabel: 'ภาษา / LANGUAGE',
-        menuHome: 'หน้าแรก (Home)',
-        menuSchedule: 'ตารางปฏิบัติงาน',
-        menuFaq: 'คำถามที่พบบ่อย',
-        menuVenue: 'ข้อมูลแต่ละชั้น',
-        menuContact: 'ติดต่อผู้ดูแล',
-        heroEyebrow: 'กรุงเทพฯ • ท่าอากาศยานสุวรรณภูมิ (BKK)',
-        heroTitle: 'Information Desk',
-        heroDesc: 'รวมข้อมูลสำคัญทั้งหมดสำหรับอาสาสมัครแผนก Information Desk ไว้ในที่เดียว ใช้งานง่าย รวดเร็ว',
-        heroCtaBtn: 'ดูตารางปฏิบัติงาน',
-        quickAccessTitle: 'ทางลัดเข้าสู่เมนู (Quick access)',
-        qa1Title: 'Duty Schedule',
-        qa1Desc: 'ค้นหาชื่อ กะเวลาเข้างาน และเพื่อนร่วมทีม',
-        qa2Title: 'FAQ',
-        qa2Desc: 'รวมคำถามที่พบบ่อยและแนวทางการตอบผู้โดยสาร',
-        qa3Title: 'Venue Guide',
-        qa3Desc: 'ข้อมูลจุดบริการและสิ่งอำนวยความสะดวกทั้ง 5 ชั้น',
-        qa4Title: 'Contact',
-        qa4Desc: 'รายชื่อและเบอร์โทรติดต่อผู้ดูแลและ Keyman',
-        secScheduleTag: 'ตารางเวรปฏิบัติงาน',
-        secScheduleTitle: 'Duty Schedule (ตารางการทำงาน)',
-        secScheduleDesc: 'พิมพ์ชื่อเล่นหรือชื่อจริงเพื่อค้นหากะเวลาเข้างาน จุดประจำการ และอาสาสมัครที่ทำงานร่วมกัน',
-        searchPlaceholder: 'ค้นหาชื่ออาสาสมัคร เช่น นัท, พลอย, Alex, สมชาย...',
-        filterAll: 'ทั้งหมด',
-        filterMorning: 'กะเช้า',
-        filterAfternoon: 'กะบ่าย',
-        filterNight: 'กะดึก',
-        noResultTitle: 'ไม่พบรายชื่ออาสาสมัครที่ค้นหา',
-        noResultSub: 'ลองตรวจสอบตัวสะกด หรือกดปุ่ม "ทั้งหมด" เพื่อดูตารางรวม',
-        coworkersLabel: 'ทีมงานที่ปฏิบัติงานร่วมกันในกะนี้:',
-        stationLabel: 'จุดประจำการ:',
-        secFaqTag: 'คลังข้อมูลตอบคำถาม',
-        secFaqTitle: 'คำถามที่พบบ่อย (FAQ)',
-        secFaqDesc: 'แนวทางการตอบคำถามผู้โดยสาร กฎระเบียบการปฏิบัติงาน และข้อมูลบริการในสนามบิน',
-        secVenueTag: 'แผนผังอาคารผู้โดยสาร',
-        secVenueTitle: 'Venue Guide (ข้อมูลแต่ละชั้น)',
-        secVenueDesc: 'เลือกดูข้อมูลจุดบริการ ประตูทางออก และสิ่งอำนวยความสะดวกตั้งแต่ชั้น B ถึง ชั้น 4',
-        secContactTag: 'ศูนย์ประสานงาน',
-        secContactTitle: 'รายชื่อและเบอร์ติดต่อผู้ดูแล & Keyman',
-        secContactDesc: 'ช่องทางติดต่อผู้ดูแลประจำโซนและผู้ประสานงานหลักเมื่อต้องการความช่วยเหลือหน้างาน',
-        emergencyTitle: 'ศูนย์ประสานงานเหตุฉุกเฉิน ท่าอากาศยานสุวรรณภูมิ (AOT Contact Center)',
-        emergencySub: 'ให้บริการตลอด 24 ชั่วโมง สำหรับแจ้งเหตุฉุกเฉินทางการแพทย์ หรือความปลอดภัย',
-        footerNote: 'คู่มืออาสาสมัครแผนก Information Desk • ท่าอากาศยานสุวรรณภูมิ (BKK)',
-        callBtn: 'โทรออก',
-        copyBtn: 'คัดลอก',
-        copiedToast: 'คัดลอกเบอร์โทรศัพท์แล้ว'
-      }
-    };
-
-    // 2. Duty Schedule Dataset
-    const dutyData = [
-      {
-        id: 'S1',
-        shiftType: 'MORNING',
-        shiftName: { th: 'กะเช้า (Morning)', en: 'Morning Shift' },
-        time: '06:00 - 14:00',
-        station: { th: 'ชั้น 4 ประตู 4 (Main Info Counter)', en: 'Level 4, Gate 4 (Main Counter)' },
-        badgeClass: 'bg-amber-50 text-amber-700 border-amber-200',
-        members: [
-          { name: 'นัท (Nat)', role: 'Keyman' },
-          { name: 'พลอย (Ploy)', role: 'Volunteer' },
-          { name: 'Alex Chen', role: 'EN / CN' },
-          { name: 'ต้น (Ton)', role: 'Volunteer' }
-        ]
-      },
-      {
-        id: 'S2',
-        shiftType: 'MORNING',
-        shiftName: { th: 'กะเช้า (Morning)', en: 'Morning Shift' },
-        time: '06:00 - 14:00',
-        station: { th: 'ชั้น 2 ขาเข้า ประตู 5', en: 'Level 2 Arrivals, Gate 5' },
-        badgeClass: 'bg-amber-50 text-amber-700 border-amber-200',
-        members: [
-          { name: 'สมชาย (Somchai)', role: 'Keyman' },
-          { name: 'มิ้นท์ (Mint)', role: 'Volunteer' },
-          { name: 'Kenji Sato', role: 'EN / JP' }
-        ]
-      },
-      {
-        id: 'S3',
-        shiftType: 'AFTERNOON',
-        shiftName: { th: 'กะบ่าย (Afternoon)', en: 'Afternoon Shift' },
-        time: '14:00 - 22:00',
-        station: { th: 'ชั้น 4 ประตู 4 (Main Info Counter)', en: 'Level 4, Gate 4 (Main Counter)' },
-        badgeClass: 'bg-blue-50 text-brand-primary border-blue-200',
-        members: [
-          { name: 'แพรว (Praew)', role: 'Keyman' },
-          { name: 'บอส (Boss)', role: 'Volunteer' },
-          { name: 'Sarah Jenkins', role: 'EN' },
-          { name: 'เจมส์ (James)', role: 'Volunteer' }
-        ]
-      },
-      {
-        id: 'S4',
-        shiftType: 'AFTERNOON',
-        shiftName: { th: 'กะบ่าย (Afternoon)', en: 'Afternoon Shift' },
-        time: '14:00 - 22:00',
-        station: { th: 'ชั้น 2 ขาเข้า ประตู 3', en: 'Level 2 Arrivals, Gate 3' },
-        badgeClass: 'bg-blue-50 text-brand-primary border-blue-200',
-        members: [
-          { name: 'กานต์ (Karn)', role: 'Keyman' },
-          { name: 'ใบเฟิร์น (Baifern)', role: 'Volunteer' },
-          { name: 'Min-ji Kim', role: 'EN / KR' }
-        ]
-      },
-      {
-        id: 'S5',
-        shiftType: 'NIGHT',
-        shiftName: { th: 'กะดึก (Night)', en: 'Night Shift' },
-        time: '22:00 - 06:00',
-        station: { th: 'ชั้น 4 ประตู 5 (24-Hr Desk)', en: 'Level 4, Gate 5 (24-Hr Desk)' },
-        badgeClass: 'bg-indigo-50 text-indigo-700 border-indigo-200',
-        members: [
-          { name: 'เอก (Ek)', role: 'Keyman' },
-          { name: 'ปาล์ม (Palm)', role: 'Volunteer' },
-          { name: 'David Miller', role: 'EN' }
-        ]
-      },
-      {
-        id: 'S6',
-        shiftType: 'NIGHT',
-        shiftName: { th: 'กะดึก (Night)', en: 'Night Shift' },
-        time: '22:00 - 06:00',
-        station: { th: 'ชั้น 2 ขาเข้า ประตู 5', en: 'Level 2 Arrivals, Gate 5' },
-        badgeClass: 'bg-indigo-50 text-indigo-700 border-indigo-200',
-        members: [
-          { name: 'วิน (Win)', role: 'Keyman' },
-          { name: 'เมย์ (May)', role: 'Volunteer' }
-        ]
-      }
-    ];
-
-    // 3. FAQ Dataset
-    const faqData = [
-      {
-        q: {
-          th: '1. อาสาสมัครต้องมารายงานตัวก่อนเวลาเข้ากะกี่นาที และจุดลงชื่ออยู่ที่ไหน?',
-          en: '1. How early should volunteers arrive before their shift, and where is check-in?'
-        },
-        a: {
-          th: 'กรุณามารายงานตัวก่อนเวลาเข้ากะอย่างน้อย 15 นาที ที่ห้องพักอาสาสมัคร (Volunteer Briefing Room) ชั้น 4 ด้านหลัง Row W เพื่อรับวิทยุสื่อสาร ป้ายชื่อ และฟังบรีฟข้อมูลเที่ยวบินประจำวันจาก Keyman',
-          en: 'Please arrive at least 15 minutes prior to your shift at the Volunteer Briefing Room on Level 4 (behind Row W) to collect your walkie-talkie, ID badge, and attend the daily briefing with your Keyman.'
+            // Smooth scroll top on change
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-      },
-      {
-        q: {
-          th: '2. หากผู้โดยสารสอบถามจุดทำ VAT Refund (คืนภาษีนักท่องเที่ยว) ต้องแนะนำอย่างไร?',
-          en: '2. Where do we direct passengers asking for VAT Refund for Tourists?'
-        },
-        a: {
-          th: 'มี 2 ขั้นตอน: (1) ก่อนเช็กอินโหลดกระเป๋า ให้ผู้โดยสารนำสินค้าไปประทับตราที่ด่านศุลกากร (Customs Inspection) ชั้น 4 บริเวณหลัง Row W (ใกล้ประตู 10) และ (2) หลังผ่านจุดตรวจคนเข้าเมือง (Immigration) ให้ไปรับเงินคืนที่เคาน์เตอร์ VAT Refund บริเวณ Concourse D',
-          en: 'Two steps: (1) Before check-in, passengers must get goods inspected at Customs Inspection on Level 4 behind Row W (near Gate 10). (2) After Immigration, they can claim their refund at the VAT Refund counters in Concourse D.'
+
+        // Toggle app locale
+        function setLanguage(lang) {
+            currentLang = lang;
+            
+            // Switch navigation toggles highlight state
+            const btnEnDk = document.getElementById('btn-lang-en-dk');
+            const btnThDk = document.getElementById('btn-lang-th-dk');
+            const btnEnMob = document.getElementById('btn-lang-en-mob');
+            const btnThMob = document.getElementById('btn-lang-th-mob');
+
+            if(lang === 'en') {
+                [btnEnDk, btnEnMob].forEach(el => { if(el) el.className = "px-3 py-1 bg-[#D4549E] text-white rounded-lg shadow-sm font-bold text-center"; });
+                [btnThDk, btnThMob].forEach(el => { if(el) el.className = "px-3 py-1 text-gray-500 hover:text-gray-900 rounded-lg font-bold text-center"; });
+            } else {
+                [btnThDk, btnThMob].forEach(el => { if(el) el.className = "px-3 py-1 bg-[#D4549E] text-white rounded-lg shadow-sm font-bold text-center"; });
+                [btnEnDk, btnEnMob].forEach(el => { if(el) el.className = "px-3 py-1 text-gray-500 hover:text-gray-900 rounded-lg font-bold text-center"; });
+            }
+
+            // Iterate language blocks
+            document.querySelectorAll('[data-th]').forEach(el => {
+                el.textContent = currentLang === 'th' ? el.getAttribute('data-th') : el.getAttribute('data-en');
+            });
+            document.querySelectorAll('[data-th-placeholder]').forEach(el => {
+                el.placeholder = currentLang === 'th' ? el.getAttribute('data-th-placeholder') : el.getAttribute('data-en-placeholder');
+            });
+
+            // Repopulate dynamic components
+            renderFAQ();
+            renderVenueTabs();
+            renderVenueContent();
+            renderContacts();
+            handleSearch();
         }
-      },
-      {
-        q: {
-          th: '3. จุดขึ้นรถรับ-ส่งฟรี (Free Shuttle Bus) ไปสนามบินดอนเมือง (DMK) อยู่ที่ไหน?',
-          en: '3. Where is the Free Shuttle Bus to Don Mueang Airport (DMK)?'
-        },
-        a: {
-          th: 'อยู่ที่ ชั้น 2 ประตู 3 (Level 2, Gate 3) เปิดให้บริการตั้งแต่เวลา 05:00 – 24:00 น. โดยผู้โดยสารต้องแสดง Boarding Pass หรือตั๋วเครื่องบินที่มีเที่ยวบินต่อเครื่องที่สนามบินดอนเมืองในวันเดียวกัน',
-          en: 'Located at Level 2, Gate 3. Operates from 05:00 to 24:00 hrs. Passengers must present a valid boarding pass or flight itinerary departing from Don Mueang Airport on the same day.'
+
+        // --- RENDER SCHEDULE (Searching/Gifting Shifts) ---
+        function handleSearch() {
+            const query = document.getElementById('schedule-search').value.trim().toLowerCase();
+            const resultsDiv = document.getElementById('schedule-results');
+            const placeholderDiv = document.getElementById('search-placeholder');
+            const metaDiv = document.getElementById('search-meta');
+            const tbody = document.getElementById('schedule-table-body');
+            const countSpan = document.getElementById('search-count');
+
+            if (!query) {
+                resultsDiv.classList.add('hidden');
+                metaDiv.classList.add('hidden');
+                placeholderDiv.classList.remove('hidden');
+                return;
+            }
+
+            placeholderDiv.classList.add('hidden');
+            resultsDiv.classList.remove('hidden');
+            metaDiv.classList.remove('hidden');
+
+            const matched = scheduleData.filter(item => {
+                return item.keymen.toLowerCase().includes(query) || 
+                       item.volunteers.toLowerCase().includes(query) ||
+                       item.date.toLowerCase().includes(query);
+            });
+
+            countSpan.textContent = currentLang === 'th' ? `พบ ${matched.length} กะทำงาน` : `Found ${matched.length} shifts`;
+
+            tbody.innerHTML = '';
+            if (matched.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="3" class="p-8 text-center text-gray-400 text-xs">
+                            ${currentLang === 'th' ? 'ไม่พบข้อมูลอาสาสมัครคนนี้' : 'No schedules found for this name'}
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            matched.forEach(item => {
+                // Highlight found search string
+                const hl = (txt) => {
+                    if (!txt) return '<span class="text-gray-300">-</span>';
+                    const regex = new RegExp(`(${query})`, 'gi');
+                    return txt.replace(regex, `<span class="bg-[#FFD93A] text-gray-900 font-bold px-1 rounded">$1</span>`);
+                };
+
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-[#FDF9FC] transition-all";
+                tr.innerHTML = `
+                    <td class="p-4 border-b border-[#F5E6F0] text-xs align-top">
+                        <div class="font-bold text-gray-950">${item.date}</div>
+                        <div class="text-[#D4549E] font-extrabold mt-1 text-[11px]">${item.shift}</div>
+                    </td>
+                    <td class="p-4 border-b border-[#F5E6F0] text-xs font-semibold text-gray-800 align-top max-w-[200px] leading-relaxed">
+                        ${hl(item.keymen)}
+                    </td>
+                    <td class="p-4 border-b border-[#F5E6F0] text-xs text-gray-600 align-top leading-relaxed">
+                        ${hl(item.volunteers)}
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
         }
-      },
-      {
-        q: {
-          th: '4. กรณีผู้โดยสารทำของหาย หรือลืมสัมภาระบนรถแท็กซี่ ต้องประสานงานที่ใด?',
-          en: '4. What should we do if a passenger loses an item or leaves luggage in a taxi?'
-        },
-        a: {
-          th: 'ให้พาหรือแนะนำผู้โดยสารติดต่อเคาน์เตอร์ Lost & Found (ศูนย์บริการทรัพย์สินสูญหาย) ที่ชั้น 2 บริเวณใกล้ประตู 5 หรือโทรประสานงานภายในเบอร์ 1722 หากเป็นแท็กซี่สาธารณะให้สอบถามสลิปคิวรถแท็กซี่จากชั้น 1 เพื่อตรวจสอบทะเบียนรถ',
-          en: 'Direct the passenger to the Lost & Found Counter on Level 2 (near Gate 5) or call 1722. If left in a public taxi, ask for their taxi queue ticket from Level 1 to trace the license plate.'
+
+        function clearSearch() {
+            const input = document.getElementById('schedule-search');
+            input.value = '';
+            handleSearch();
+            input.focus();
         }
-      },
-      {
-        q: {
-          th: '5. จุดบริการซิมการ์ด (SIM Card) และแลกเงินตราต่างประเทศ (Currency Exchange) เปิด 24 ชม. อยู่ที่ใด?',
-          en: '5. Where can passengers find 24-hour SIM Cards and Currency Exchange?'
-        },
-        a: {
-          th: 'บูธจำหน่ายซิมการ์ด (AIS, True, dtac) และธนาคารแลกเปลี่ยนเงินตราเปิดให้บริการตลอด 24 ชั่วโมง บริเวณชั้น 2 ห้องโถงผู้โดยสารขาเข้า (ระหว่างประตู 4 ถึง ประตู 7) และชั้น B ทางเชื่อมรถไฟฟ้า Airport Rail Link (มีเรทพิเศษเช่น SuperRich)',
-          en: '24-hour SIM card booths (AIS, True, dtac) and bank exchange counters are located throughout Level 2 Arrivals Hall (Gates 4–7). Additional money changers (e.g., SuperRich) are on Basement Level (B) near the Airport Rail Link.'
+
+        // --- RENDER FAQ ---
+        function renderFAQ() {
+            const cont = document.getElementById('faq-accordion-container');
+            cont.innerHTML = '';
+            faqData.forEach((item, index) => {
+                const question = currentLang === 'th' ? item.q.th : item.q.en;
+                const answer = currentLang === 'th' ? item.a.th : item.a.en;
+                
+                const box = document.createElement('div');
+                box.className = "bg-white border border-[#F5E6F0] rounded-2xl overflow-hidden shadow-sm transition-all";
+                box.innerHTML = `
+                    <button onclick="toggleAccordion('${item.id}')" class="w-full p-5 text-left font-extrabold text-sm text-gray-900 flex items-center justify-between gap-4 hover:bg-[#FDF9FC] transition-all">
+                        <span>${question}</span>
+                        <i data-lucide="chevron-down" id="icon-${item.id}" class="w-4 h-4 text-gray-400 transition-transform"></i>
+                    </button>
+                    <div id="ans-${item.id}" class="hidden px-5 pb-5 text-xs text-gray-600 leading-relaxed border-t border-[#FDF1F7] pt-4 bg-[#FDF9FC]">
+                        ${answer}
+                    </div>
+                `;
+                cont.appendChild(box);
+            });
+            lucide.createIcons();
         }
-      }
-    ];
 
-    // 4. Venue Guide (5 Floors) Dataset
-    const venueData = [
-      {
-        id: 'F4',
-        code: 'Floor 4',
-        title: { th: 'ชั้น 4 : ผู้โดยสารขาออก (Departures)', en: 'Level 4 : International & Domestic Departures' },
-        badge: { th: 'จุดปฏิบัติงานหลัก', en: 'Main Duty Zone' },
-        desc: {
-          th: 'ห้องโถงเช็กอินหลัก (Row A - W) จุดตรวจหนังสือเดินทางขาออก และเคาน์เตอร์ Information Desk หลัก',
-          en: 'Main Check-in Hall (Rows A–W), Outbound Immigration checkpoints, and Main Information Counters.'
-        },
-        highlights: [
-          { icon: 'info', text: { th: 'Information Counter หลัก: บริเวณประตู 4 และ ประตู 5', en: 'Main Information Counters: Near Gate 4 & Gate 5' } },
-          { icon: 'badge-dollar-sign', text: { th: 'จุดตรวจประทับตรา VAT Refund (ศุลกากร): ด้านหลัง Row W (ใกล้ประตู 10)', en: 'VAT Refund Customs Inspection: Behind Row W (near Gate 10)' } },
-          { icon: 'package', text: { th: 'บริการห่อกระเป๋า (Baggage Wrapping) และไปรษณีย์ไทย: ด้านหลัง Row W', en: 'Baggage Wrapping & Thailand Post: Behind Row W' } },
-          { icon: 'alert-triangle', text: { th: 'จุดแจ้งชำระค่าปรับอยู่เกินกำหนด (Overstay): ฝ่ายตรวจคนเข้าเมือง โซน 2', en: 'Overstay Fine Counter: Departure Immigration Zone 2' } }
-        ]
-      },
-      {
-        id: 'F3',
-        code: 'Floor 3',
-        title: { th: 'ชั้น 3 : ร้านอาหารและจุดนัดพบ (Meeting Point)', en: 'Level 3 : Restaurants, Lounges & Meeting Point' },
-        badge: { th: 'โซนร้านค้า & อาหาร', en: 'Dining & Services' },
-        desc: {
-          th: 'ศูนย์รวมร้านอาหารนานาชาติ ร้านกาแฟ จุดนัดพบหลัก (Meeting Point) และทางเชื่อมไปโรงแรม Novotel',
-          en: 'International restaurants, cafes, main Meeting Point, and walkway access to Novotel Suvarnabhumi Hotel.'
-        },
-        highlights: [
-          { icon: 'users', text: { th: 'จุดนัดพบหลัก (Meeting Point): บริเวณกึ่งกลางชั้น 3 ใกล้ประตู 4-5', en: 'Main Meeting Point: Central area near Gates 4–5' } },
-          { icon: 'utensils', text: { th: 'ร้านอาหารและคาเฟ่เปิด 24 ชม. ทั้งฝั่งตะวันออกและตะวันตก', en: '24-Hour Restaurants & Cafes across East and West wings' } },
-          { icon: 'heart-pulse', text: { th: 'คลินิกการแพทย์สมิติเวช (Medical Clinic): ฝั่งตะวันออก ชั้น 3', en: 'Samitivej Medical Clinic: East Wing, Level 3' } },
-          { icon: 'hotel', text: { th: 'ทางเดินเชื่อมไปโรงแรม Novotel และอาคารจอดรถ (Car Park)', en: 'Skywalk connection to Novotel Hotel & Car Park Buildings' } }
-        ]
-      },
-      {
-        id: 'F2',
-        code: 'Floor 2',
-        title: { th: 'ชั้น 2 : ผู้โดยสารขาเข้า (Arrivals)', en: 'Level 2 : International & Domestic Arrivals' },
-        badge: { th: 'จุดปฏิบัติงานหลัก', en: 'Main Duty Zone' },
-        desc: {
-          th: 'ห้องโถงรับผู้โดยสารขาเข้า จุดรับกระเป๋า ศุลกากร เคาน์เตอร์โรงแรม ซิมการ์ด และรถรับส่งสนามบินดอนเมือง',
-          en: 'Arrivals Hall, Baggage Claim, Customs, Hotel Limousine desks, SIM Card booths, and DMK Shuttle Bus.'
-        },
-        highlights: [
-          { icon: 'info', text: { th: 'Information Counter ขาเข้า: บริเวณประตู 3 และ ประตู 5', en: 'Arrivals Information Counters: Near Gate 3 & Gate 5' } },
-          { icon: 'bus', text: { th: 'รถ Shuttle Bus ฟรีไปสนามบินดอนเมือง (DMK): ประตู 3 (05:00-24:00 น.)', en: 'Free Shuttle Bus to Don Mueang (DMK): Gate 3 (05:00–24:00)' } },
-          { icon: 'smartphone', text: { th: 'บูธซิมการ์ด (AIS/True/dtac) & แลกเงิน: ระหว่างประตู 4 - ประตู 7', en: 'SIM Card Booths & Currency Exchange: Between Gates 4–7' } },
-          { icon: 'search', text: { th: 'ศูนย์บริการทรัพย์สินสูญหาย (Lost & Found): ใกล้ประตู 5', en: 'Lost & Found Office: Near Gate 5' } }
-        ]
-      },
-      {
-        id: 'F1',
-        code: 'Floor 1',
-        title: { th: 'ชั้น 1 : ศูนย์ขนส่งสาธารณะและศูนย์อาหาร (Ground Transport)', en: 'Level 1 : Public Taxi, Bus & Magic Food Point' },
-        badge: { th: 'จุดต่อรถสาธารณะ', en: 'Transport Hub' },
-        desc: {
-          th: 'จุดขึ้นรถแท็กซี่สาธารณะ รถบัสเข้าเมือง (Airport Express / รถตู้) และศูนย์อาหารราคาประหยัด Magic Food Point',
-          en: 'Public Metered Taxi kiosks, City Buses (S1/LimoBus), Intercity Buses, and Magic Food Point.'
-        },
-        highlights: [
-          { icon: 'car', text: { th: 'จุดกดบัตรคิวรถแท็กซี่สาธารณะ (Public Taxi): ประตู 4 และ ประตู 7', en: 'Public Taxi Ticket Kiosks: Outside Gate 4 & Gate 7' } },
-          { icon: 'bus-front', text: { th: 'รถบัสเข้าเมือง (สาย S1 ไปข้าวสาร / รถบัสไปพัทยา-หัวหิน): ประตู 7-8', en: 'City Bus S1 (Khao San) & Pattaya/Hua Hin Buses: Gates 7–8' } },
-          { icon: 'soup', text: { th: 'ศูนย์อาหารราคาประหยัด (Magic Food Point): สุดทางเดินฝั่งตะวันออก ใกล้ประตู 8', en: 'Magic Food Point (Budget Food Court): Far East end near Gate 8' } },
-          { icon: 'luggage', text: { th: 'จุดรับฝากกระเป๋า (Left Baggage): ใกล้ประตู 4', en: 'Left Baggage Storage: Near Gate 4' } }
-        ]
-      },
-      {
-        id: 'FB',
-        code: 'Floor B',
-        title: { th: 'ชั้น B : รถไฟฟ้า Airport Rail Link และร้านแลกเงิน', en: 'Level B : Airport Rail Link (ARL) & Exchange' },
-        badge: { th: 'รถไฟฟ้าเข้าเมือง', en: 'Rail Connection' },
-        desc: {
-          th: 'สถานีรถไฟฟ้าเชื่อมท่าอากาศยานสุวรรณภูมิ (ARL) เข้าสู่ใจกลางกรุงเทพฯ (พญาไท / มักกะสัน) และโซนร้านแลกเงินเรทดี',
-          en: 'Airport Rail Link (ARL) station to downtown Bangkok (Phaya Thai / Makkasan) and high-rate money changers.'
-        },
-        highlights: [
-          { icon: 'train', text: { th: 'สถานีรถไฟฟ้า Airport Rail Link (ARL): เชื่อมต่อ BTS พญาไท และ MRT เพชรบุรี', en: 'Airport Rail Link Station: Connects to BTS Phaya Thai & MRT Phetchaburi' } },
-          { icon: 'banknote', text: { th: 'โซนร้านแลกเงินเรทพิเศษ (SuperRich, Value+, Happy Rich): ทางเดินก่อนเข้าสถานี ARL', en: 'Best-Rate Money Changers (SuperRich, etc.): Along ARL walkway' } },
-          { icon: 'shopping-bag', text: { th: 'ร้านสะดวกซื้อ (7-Eleven, Lawson) และร้านขายยา', en: 'Convenience Stores (7-Eleven, Lawson) & Pharmacy' } }
-        ]
-      }
-    ];
-
-    // 5. Contacts & Keyman Dataset
-    const contactData = [
-      {
-        name: { th: 'คุณวิชัย รัตนกุล (พี่ชัย)', en: 'Wichai Rattanakul (P\'Chai)' },
-        role: { th: 'หัวหน้าผู้ดูแลโครงการ (Project Manager)', en: 'Project Manager / Operations Head' },
-        zone: { th: 'ดูแลภาพรวมทุกชั้น (24 ชม.)', en: 'Overall Operations (All Floors)' },
-        phone: '081-234-5678',
-        radio: 'CH-01',
-        highlight: true
-      },
-      {
-        name: { th: 'คุณศิริพร วงศ์สุวรรณ (พี่นก)', en: 'Siriporn Wongsuwan (P\'Nok)' },
-        role: { th: 'Keyman ประจำชั้น 4 (ขาออก)', en: 'Level 4 Keyman (Departures)' },
-        zone: { th: 'ชั้น 4 ประตู 1 - 10 & Row A-W', en: 'Level 4 Gates 1–10 & Rows A–W' },
-        phone: '089-876-5432',
-        radio: 'CH-02',
-        highlight: false
-      },
-      {
-        name: { th: 'คุณธนากร เจริญสุข (พี่ก้อง)', en: 'Thanakorn Charoensuk (P\'Kong)' },
-        role: { th: 'Keyman ประจำชั้น 2 (ขาเข้า)', en: 'Level 2 Keyman (Arrivals)' },
-        zone: { th: 'ชั้น 2 ประตู 1 - 10 & Shuttle Bus', en: 'Level 2 Gates 1–10 & Shuttle Bus' },
-        phone: '086-555-1234',
-        radio: 'CH-03',
-        highlight: false
-      },
-      {
-        name: { th: 'คุณปิยะธิดา แก้วใส (พี่มิว)', en: 'Piyathida Kaewsai (P\'Mew)' },
-        role: { th: 'ผู้ประสานงานตารางกะ (Roster Lead)', en: 'Shift & Roster Coordinator' },
-        zone: { th: 'แจ้งลา / สลับกะ / เบิกอุปกรณ์', en: 'Leave / Shift Swap / Equipment' },
-        phone: '082-999-4567',
-        radio: 'CH-01',
-        highlight: false
-      },
-      {
-        name: { th: 'คุณอเล็กซานเดอร์ ลี (Alex)', en: 'Alexander Lee (Alex)' },
-        role: { th: 'Keyman ฝ่ายภาษาต่างประเทศ', en: 'Foreign Language Support Lead' },
-        zone: { th: 'ประสานงานล่าม EN / CN / JP / KR', en: 'EN / CN / JP / KR Interpreter Lead' },
-        phone: '084-321-9876',
-        radio: 'CH-04',
-        highlight: false
-      },
-      {
-        name: { th: 'ห้องพักอาสาสมัคร (Volunteer Desk)', en: 'Volunteer Briefing Room' },
-        role: { th: 'จุดลงชื่อและวิทยุสื่อสาร', en: 'Check-in & Radio Base' },
-        zone: { th: 'ชั้น 4 ด้านหลัง Row W', en: 'Level 4 Behind Row W' },
-        phone: '02-132-9900',
-        radio: 'BASE',
-        highlight: false
-      }
-    ];
-
-    // ==================== RENDER & UI LOGIC ====================
-
-    function updateLanguageButtons() {
-      const enBtn = document.getElementById('lang-en');
-      const thBtn = document.getElementById('lang-th');
-      const mobEn = document.getElementById('mob-lang-en');
-      const mobTh = document.getElementById('mob-lang-th');
-
-      const activeClasses = 'bg-brand-primary text-white border-brand-primary shadow-2xs';
-      const inactiveClasses = 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50';
-
-      if (currentLang === 'en') {
-        enBtn.className = `py-2 px-3 rounded-xl text-xs font-bold border transition-all cursor-pointer ${activeClasses}`;
-        thBtn.className = `py-2 px-3 rounded-xl text-xs font-bold border transition-all cursor-pointer ${inactiveClasses}`;
-        mobEn.className = 'px-2.5 py-1 rounded-md text-xs font-bold bg-brand-primary text-white transition-all cursor-pointer';
-        mobTh.className = 'px-2.5 py-1 rounded-md text-xs font-bold text-slate-600 transition-all cursor-pointer';
-      } else {
-        thBtn.className = `py-2 px-3 rounded-xl text-xs font-bold border transition-all cursor-pointer ${activeClasses}`;
-        enBtn.className = `py-2 px-3 rounded-xl text-xs font-bold border transition-all cursor-pointer ${inactiveClasses}`;
-        mobTh.className = 'px-2.5 py-1 rounded-md text-xs font-bold bg-brand-primary text-white transition-all cursor-pointer';
-        mobEn.className = 'px-2.5 py-1 rounded-md text-xs font-bold text-slate-600 transition-all cursor-pointer';
-      }
-    }
-
-    function updateStaticTexts() {
-      const dict = i18n[currentLang];
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (dict[key]) el.textContent = dict[key];
-      });
-      document.getElementById('scheduleSearch').placeholder = dict.searchPlaceholder;
-      document.documentElement.lang = currentLang;
-      updateLanguageButtons();
-    }
-
-    function setLanguage(lang) {
-      currentLang = lang;
-      updateStaticTexts();
-      renderSchedule();
-      renderFaq();
-      renderVenue();
-      renderContacts();
-    }
-
-    function setActiveNav(sectionId) {
-      document.querySelectorAll('.nav-item').forEach(link => {
-        const isTarget = link.getAttribute('data-section') === sectionId;
-        const dot = link.querySelector('.nav-dot');
-        if (isTarget) {
-          link.className = 'nav-item flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-semibold transition-all bg-brand-light text-brand-primary';
-          if (dot) dot.classList.remove('hidden');
-        } else {
-          link.className = 'nav-item flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-text transition-all';
-          if (dot) dot.classList.add('hidden');
+        function toggleAccordion(id) {
+            const ans = document.getElementById(`ans-${id}`);
+            const icon = document.getElementById(`icon-${id}`);
+            if(ans.classList.contains('hidden')) {
+                ans.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
+                icon.classList.add('text-[#D4549E]');
+            } else {
+                ans.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+                icon.classList.remove('text-[#D4549E]');
+            }
         }
-      });
-    }
 
-    function renderSchedule() {
-      const query = document.getElementById('scheduleSearch').value.trim().toLowerCase();
-      document.getElementById('clearSearchBtn').classList.toggle('hidden', query.length === 0);
+        // --- RENDER VENUE (Airport Map / Tab System) ---
+        function renderVenueTabs() {
+            const tabs = document.getElementById('venue-tabs');
+            tabs.innerHTML = '';
+            venueData.forEach(floor => {
+                const btn = document.createElement('button');
+                btn.onclick = () => selectVenueFloor(floor.id);
+                btn.className = `px-5 py-2.5 rounded-xl font-bold text-xs whitespace-nowrap transition-all border ${
+                    selectedFloor === floor.id 
+                    ? "bg-[#D4549E] text-white border-[#D4549E]" 
+                    : "bg-white text-gray-600 border-[#F5E6F0] hover:border-[#D4549E]"
+                }`;
+                btn.textContent = currentLang === 'th' ? floor.title.th : floor.title.en;
+                tabs.appendChild(btn);
+            });
+        }
 
-      const filtered = dutyData.filter(item => {
-        const matchesShift = currentShiftFilter === 'ALL' || item.shiftType === currentShiftFilter;
-        const matchesQuery = query === '' || 
-          item.members.some(m => m.name.toLowerCase().includes(query)) ||
-          item.station[currentLang].toLowerCase().includes(query);
-        return matchesShift && matchesQuery;
-      });
+        function renderVenueContent() {
+            const floor = venueData.find(f => f.id === selectedFloor);
+            const content = document.getElementById('venue-floor-content');
+            content.innerHTML = '';
 
-      const grid = document.getElementById('scheduleGrid');
-      const emptyState = document.getElementById('scheduleEmpty');
+            if(!floor) return;
 
-      if (filtered.length === 0) {
-        grid.innerHTML = '';
-        emptyState.classList.remove('hidden');
-        lucide.createIcons();
-        return;
-      }
+            const title = document.createElement('h3');
+            title.className = "font-extrabold text-gray-900 text-sm md:text-base border-b border-[#FDF1F7] pb-2";
+            title.textContent = currentLang === 'th' ? floor.title.th : floor.title.en;
+            content.appendChild(title);
 
-      emptyState.classList.add('hidden');
-      const dict = i18n[currentLang];
+            const grid = document.createElement('div');
+            grid.className = "grid md:grid-cols-2 gap-4 mt-4";
 
-      grid.innerHTML = filtered.map(item => {
-        const membersHtml = item.members.map(member => {
-          const isMatch = query !== '' && member.name.toLowerCase().includes(query);
-          return `
-            <div class="flex items-center justify-between py-2 px-3 rounded-xl text-xs ${isMatch ? 'bg-brand-primary text-white font-bold shadow-2xs' : 'bg-white text-slate-700 border border-slate-100'}">
-              <div class="flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full ${isMatch ? 'bg-amber-300' : 'bg-brand-primary'}"></span>
-                <span>${member.name}</span>
-              </div>
-              <span class="text-[10px] px-2 py-0.5 rounded-md ${isMatch ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'}">${member.role}</span>
-            </div>
-          `;
-        }).join('');
+            floor.items.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = "bg-white p-4 rounded-xl border border-[#F5E6F0] flex gap-3";
+                itemDiv.innerHTML = `
+                    <div class="bg-[#FDF1F7] text-[#D4549E] p-2 rounded-lg self-start">
+                        <i data-lucide="navigation-2" class="w-4 h-4"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-extrabold text-sm text-gray-900">${currentLang === 'th' ? item.name.th : item.name.en}</h4>
+                        <p class="text-xs text-gray-500 mt-1 leading-relaxed">${currentLang === 'th' ? item.detail.th : item.detail.en}</p>
+                    </div>
+                `;
+                grid.appendChild(itemDiv);
+            });
 
-        return `
-          <div class="bg-brand-bg rounded-2xl border border-slate-200/70 p-5 flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between gap-2 mb-3">
-                <span class="text-[11px] font-bold px-2.5 py-1 rounded-lg border ${item.badgeClass}">
-                  ${item.shiftName[currentLang]}
-                </span>
-                <span class="text-xs font-bold text-brand-text bg-white px-2.5 py-1 rounded-lg border border-slate-200/70 flex items-center gap-1">
-                  <i data-lucide="clock" class="w-3.5 h-3.5 text-brand-primary"></i>
-                  ${item.time}
-                </span>
-              </div>
+            content.appendChild(grid);
+            lucide.createIcons();
+        }
 
-              <div class="mb-3.5 pb-3 border-b border-slate-200/70">
-                <p class="text-[11px] text-slate-400">${dict.stationLabel}</p>
-                <p class="text-xs font-bold text-brand-text mt-0.5 flex items-center gap-1.5">
-                  <i data-lucide="map-pin" class="w-3.5 h-3.5 text-brand-primary shrink-0"></i>
-                  <span>${item.station[currentLang]}</span>
-                </p>
-              </div>
+        function selectVenueFloor(id) {
+            selectedFloor = id;
+            renderVenueTabs();
+            renderVenueContent();
+        }
 
-              <p class="text-[11px] font-semibold text-slate-500 mb-2">${dict.coworkersLabel}</p>
-              <div class="space-y-1.5">
-                ${membersHtml}
-              </div>
-            </div>
-          </div>
-        `;
-      }).join('');
+        // --- RENDER KEYMEN CONTACTS DIRECTORY ---
+        function renderContacts() {
+            const cont = document.getElementById('contact-list-container');
+            cont.innerHTML = '';
+            contactData.forEach(person => {
+                const card = document.createElement('div');
+                card.className = "bg-white border border-[#F5E6F0] rounded-2xl p-5 shadow-sm hover:shadow-md hover:border-[#D4549E]/40 transition-all flex flex-col justify-between gap-4";
+                
+                let phoneSectionHTML = '';
+                person.tel.forEach(phone => {
+                    const cleanPhone = phone.replace(/\s*\(whatsapp\)/i, '').replace(/[^0-9+]/g, '');
+                    const isWA = phone.toLowerCase().includes('whatsapp');
+                    phoneSectionHTML += `
+                        <div class="flex items-center justify-between border-b border-gray-50 pb-2.5">
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="${isWA ? 'message-square' : 'phone'}" class="w-3.5 h-3.5 text-gray-400"></i>
+                                <span class="text-xs font-bold ${isWA ? 'text-emerald-600' : 'text-gray-700'}">${phone}</span>
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <button onclick="copyToClipboard('${cleanPhone}')" class="p-2 hover:bg-gray-100 rounded-lg text-gray-400 hover:text-gray-600 transition-all" title="คัดลอกเบอร์">
+                                    <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                                </button>
+                                <a href="tel:${cleanPhone}" class="p-2 hover:bg-[#FDF1F7] rounded-lg text-gray-400 hover:text-[#D4549E] transition-all" title="โทรออก">
+                                    <i data-lucide="phone-call" class="w-3.5 h-3.5"></i>
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                });
 
-      lucide.createIcons();
-    }
+                card.innerHTML = `
+                    <div class="flex items-start justify-between gap-2">
+                        <div class="flex items-center gap-3">
+                            <div class="bg-[#FDF1F7] text-[#D4549E] p-2 rounded-xl">
+                                <i data-lucide="user" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-extrabold text-sm text-gray-900">${person.nameTh}</h4>
+                                <p class="text-[10px] text-gray-400 font-bold tracking-wider uppercase mt-0.5">${person.nameEn}</p>
+                            </div>
+                        </div>
+                        <span class="bg-amber-100/70 text-amber-800 px-2 py-0.5 rounded-full text-[9px] font-extrabold tracking-wide uppercase">KEYMAN</span>
+                    </div>
+                    <div class="space-y-1.5 pt-2">
+                        ${phoneSectionHTML}
+                    </div>
+                `;
+                cont.appendChild(card);
+            });
+            lucide.createIcons();
+        }
 
-    function setShiftFilter(shift) {
-      currentShiftFilter = shift;
-      document.querySelectorAll('.shift-btn').forEach(btn => {
-        const isActive = btn.getAttribute('data-shift') === shift;
-        btn.className = isActive
-          ? 'shift-btn flex-1 py-2 px-2.5 rounded-xl text-xs font-bold transition-all bg-brand-primary text-white cursor-pointer'
-          : 'shift-btn flex-1 py-2 px-2.5 rounded-xl text-xs font-semibold bg-white text-slate-600 border border-slate-200 hover:bg-blue-50 transition-all cursor-pointer';
-      });
-      renderSchedule();
-    }
+        // Global Copy Function
+        function copyToClipboard(val) {
+            navigator.clipboard.writeText(val).then(() => {
+                alert(currentLang === 'th' ? "คัดลอกเบอร์โทรแล้ว!" : "Copied to clipboard!");
+            });
+        }
 
-    function clearScheduleSearch() {
-      document.getElementById('scheduleSearch').value = '';
-      renderSchedule();
-    }
-
-    function renderFaq() {
-      const container = document.getElementById('faqContainer');
-      container.innerHTML = faqData.map((item, index) => `
-        <div class="accordion-item bg-brand-bg rounded-2xl border border-slate-200/70 overflow-hidden ${index === 0 ? 'active' : ''}">
-          <button onclick="this.parentElement.classList.toggle('active')" class="w-full px-5 py-4 text-left flex items-center justify-between gap-4 hover:bg-slate-100/70 transition-colors cursor-pointer">
-            <span class="font-bold text-sm text-brand-text">${item.q[currentLang]}</span>
-            <i data-lucide="chevron-down" class="accordion-icon w-4 h-4 text-brand-primary shrink-0 transition-transform duration-200"></i>
-          </button>
-          <div class="accordion-content px-5">
-            <div class="pb-4 pt-2 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-200/60">
-              ${item.a[currentLang]}
-            </div>
-          </div>
-        </div>
-      `).join('');
-      lucide.createIcons();
-    }
-
-    function renderVenue() {
-      const tabsContainer = document.getElementById('floorTabs');
-      tabsContainer.innerHTML = venueData.map(floor => {
-        const isActive = floor.id === currentFloorId;
-        return `
-          <button 
-            onclick="currentFloorId='${floor.id}'; renderVenue();" 
-            class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm whitespace-nowrap transition-all border cursor-pointer ${
-              isActive 
-                ? 'bg-brand-primary text-white border-brand-primary shadow-2xs' 
-                : 'bg-brand-bg text-slate-600 border-slate-200/70 hover:bg-blue-50 hover:text-brand-primary'
-            }"
-          >
-            ${floor.code}
-          </button>
-        `;
-      }).join('');
-
-      const activeFloor = venueData.find(f => f.id === currentFloorId);
-      const detailCard = document.getElementById('floorDetailCard');
-
-      detailCard.innerHTML = `
-        <div class="pb-5 border-b border-slate-200/80">
-          <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-lg bg-brand-light text-brand-primary text-xs font-bold mb-2">
-            <span>${activeFloor.code}</span>
-            <span>•</span>
-            <span>${activeFloor.badge[currentLang]}</span>
-          </div>
-          <h3 class="text-lg sm:text-xl font-bold text-brand-text">${activeFloor.title[currentLang]}</h3>
-          <p class="text-xs sm:text-sm text-slate-500 mt-1">${activeFloor.desc[currentLang]}</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-5">
-          ${activeFloor.highlights.map(h => `
-            <div class="flex items-start gap-3 p-3.5 bg-white rounded-xl border border-slate-200/70">
-              <div class="w-9 h-9 rounded-lg bg-brand-light text-brand-primary flex items-center justify-center shrink-0">
-                <i data-lucide="${h.icon}" class="w-4 h-4"></i>
-              </div>
-              <p class="text-xs sm:text-sm font-medium text-slate-700 leading-snug pt-0.5">${h.text[currentLang]}</p>
-            </div>
-          `).join('')}
-        </div>
-      `;
-      lucide.createIcons();
-    }
-
-    function renderContacts() {
-      const grid = document.getElementById('contactGrid');
-      const dict = i18n[currentLang];
-
-      grid.innerHTML = contactData.map(person => `
-        <div class="rounded-2xl p-5 border transition-all flex flex-col justify-between ${
-          person.highlight 
-            ? 'bg-brand-light/70 border-blue-200' 
-            : 'bg-brand-bg border-slate-200/70'
-        }">
-          <div>
-            <div class="flex items-center justify-between gap-2 mb-2.5">
-              <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-md ${
-                person.highlight ? 'bg-brand-primary text-white' : 'bg-white text-brand-primary border border-slate-200/80'
-              }">
-                ${person.role[currentLang]}
-              </span>
-              <span class="text-[11px] font-mono font-semibold px-2 py-0.5 rounded bg-white text-slate-600 border border-slate-200/80">
-                📻 ${person.radio}
-              </span>
-            </div>
-
-            <h3 class="text-base font-bold text-brand-text">${person.name[currentLang]}</h3>
-            <p class="text-xs text-slate-500 mt-1 flex items-center gap-1">
-              <i data-lucide="map-pin" class="w-3.5 h-3.5 text-brand-primary shrink-0"></i>
-              <span>${person.zone[currentLang]}</span>
-            </p>
-          </div>
-
-          <div class="mt-5 pt-3.5 border-t border-slate-200/80 flex items-center justify-between gap-2">
-            <span class="font-mono text-sm font-bold text-brand-text">${person.phone}</span>
-            <div class="flex items-center gap-1.5">
-              <button 
-                onclick="copyPhone('${person.phone}')" 
-                class="p-2 rounded-lg bg-white hover:bg-slate-100 text-slate-600 border border-slate-200 transition-colors cursor-pointer" 
-                title="${dict.copyBtn}"
-              >
-                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-              </button>
-              <a 
-                href="tel:${person.phone.replace(/-/g, '')}" 
-                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-brand-primary hover:bg-brand-dark text-white font-bold text-xs transition-colors"
-              >
-                <i data-lucide="phone" class="w-3 h-3"></i>
-                <span>${dict.callBtn}</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      `).join('');
-      lucide.createIcons();
-    }
-
-    // Mobile Sidebar Controls
-    function toggleMobileSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      const backdrop = document.getElementById('sidebarBackdrop');
-      sidebar.classList.toggle('-translate-x-full');
-      backdrop.classList.toggle('hidden');
-    }
-
-    function closeMobileSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      const backdrop = document.getElementById('sidebarBackdrop');
-      sidebar.classList.add('-translate-x-full');
-      backdrop.classList.add('hidden');
-    }
-
-    // Copy Phone Helper (with fallback for sandboxed iframes)
-    function copyPhone(phone) {
-      const showToast = () => {
-        const toast = document.getElementById('toast');
-        document.getElementById('toastMsg').textContent = `${i18n[currentLang].copiedToast} (${phone})`;
-        toast.classList.remove('hidden');
-        toast.classList.add('flex');
-        setTimeout(() => {
-          toast.classList.add('hidden');
-          toast.classList.remove('flex');
-        }, 2500);
-      };
-
-      if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(phone).then(showToast).catch(() => fallbackCopy(phone, showToast));
-      } else {
-        fallbackCopy(phone, showToast);
-      }
-    }
-
-    function fallbackCopy(text, callback) {
-      const textArea = document.createElement('textarea');
-      textArea.value = text;
-      textArea.style.position = 'fixed';
-      textArea.style.left = '-9999px';
-      document.body.appendChild(textArea);
-      textArea.select();
-      try {
-        document.execCommand('copy');
-        callback();
-      } catch (err) {}
-      document.body.removeChild(textArea);
-    }
-
-    // Scroll Spy to highlight active sidebar menu item automatically
-    function initScrollSpy() {
-      const sections = ['home', 'schedule', 'faq', 'venue', 'contact'];
-      window.addEventListener('scroll', () => {
-        let current = 'home';
-        const scrollPos = window.scrollY + 180;
-        sections.forEach(id => {
-          const el = document.getElementById(id);
-          if (el && el.offsetTop <= scrollPos) {
-            current = id;
-          }
+        // Init on first launch
+        window.addEventListener('DOMContentLoaded', () => {
+            switchSection('home');
+            setLanguage('th');
         });
-        setActiveNav(current);
-      }, { passive: true });
-    }
-
-    // Initialize App
-    document.addEventListener('DOMContentLoaded', () => {
-      updateStaticTexts();
-      renderSchedule();
-      renderFaq();
-      renderVenue();
-      renderContacts();
-      initScrollSpy();
-      lucide.createIcons();
-    });
-  </script>
+    </script>
 </body>
 </html>
