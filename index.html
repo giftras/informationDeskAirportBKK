@@ -108,6 +108,13 @@
       <span class="text-[11px] font-medium tracking-tight" data-i18n="shortMenuSchedule">Schedule</span>
     </button>
 
+    <button onclick="switchSection('allocation')" data-section="allocation" class="bottom-nav-item flex-1 flex flex-col items-center justify-center gap-1 py-1.5 rounded-xl text-slate-500 hover:text-brand-text transition-all cursor-pointer">
+      <div class="nav-pill px-3.5 py-1 rounded-full bg-transparent transition-colors">
+        <i data-lucide="layers" class="w-5 h-5"></i>
+      </div>
+      <span class="text-[11px] font-medium tracking-tight" data-i18n="shortMenuAllocation">Groups</span>
+    </button>
+
     <button onclick="switchSection('faq')" data-section="faq" class="bottom-nav-item flex-1 flex flex-col items-center justify-center gap-1 py-1.5 rounded-xl text-slate-500 hover:text-brand-text transition-all cursor-pointer">
       <div class="nav-pill px-3.5 py-1 rounded-full bg-transparent transition-colors">
         <i data-lucide="help-circle" class="w-5 h-5"></i>
@@ -169,6 +176,14 @@
           <div class="flex items-center gap-3">
             <i data-lucide="calendar-check" class="w-4 h-4"></i>
             <span data-i18n="menuSchedule">Duty Schedule</span>
+          </div>
+          <span class="nav-dot w-1.5 h-1.5 rounded-full bg-brand-primary hidden"></span>
+        </button>
+
+        <button type="button" data-section="allocation" onclick="switchSection('allocation')" class="nav-item w-full flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-text transition-all cursor-pointer">
+          <div class="flex items-center gap-3">
+            <i data-lucide="layers" class="w-4 h-4"></i>
+            <span data-i18n="menuAllocation">Desk Allocation</span>
           </div>
           <span class="nav-dot w-1.5 h-1.5 rounded-full bg-brand-primary hidden"></span>
         </button>
@@ -261,7 +276,7 @@
         <!-- Quick Access Section (Matching 4-Column Cards) -->
         <div>
           <h2 class="text-lg font-bold text-brand-text mb-4" data-i18n="quickAccessTitle">Quick access</h2>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             
             <!-- Card 1: Duty Schedule -->
             <button type="button" onclick="switchSection('schedule')" class="group text-left bg-white p-6 rounded-2xl border border-slate-200/70 shadow-2xs hover:shadow-md hover:border-brand-primary/40 transition-all cursor-pointer">
@@ -272,27 +287,36 @@
               <p class="text-xs text-slate-400 leading-relaxed" data-i18n="qa1Desc">Search your shift time & teammates on duty.</p>
             </button>
 
-            <!-- Card 2: FAQ -->
-            <button type="button" onclick="switchSection('faq')" class="group text-left bg-white p-6 rounded-2xl border border-slate-200/70 shadow-2xs hover:shadow-md hover:border-brand-primary/40 transition-all cursor-pointer">
+            <!-- Card 2: Desk Allocation -->
+            <button type="button" onclick="switchSection('allocation')" class="group text-left bg-white p-6 rounded-2xl border border-slate-200/70 shadow-2xs hover:shadow-md hover:border-brand-primary/40 transition-all cursor-pointer">
               <div class="w-11 h-11 rounded-xl bg-amber-100/80 text-amber-800 flex items-center justify-center mb-5 group-hover:bg-brand-accent group-hover:text-brand-text transition-colors">
+                <i data-lucide="layers" class="w-5 h-5"></i>
+              </div>
+              <h3 class="font-bold text-base text-brand-text mb-1" data-i18n="qaAllocTitle">Desk Allocation</h3>
+              <p class="text-xs text-slate-400 leading-relaxed" data-i18n="qaAllocDesc">Check how many groups & hotels per shift.</p>
+            </button>
+
+            <!-- Card 3: FAQ -->
+            <button type="button" onclick="switchSection('faq')" class="group text-left bg-white p-6 rounded-2xl border border-slate-200/70 shadow-2xs hover:shadow-md hover:border-brand-primary/40 transition-all cursor-pointer">
+              <div class="w-11 h-11 rounded-xl bg-brand-light text-brand-primary flex items-center justify-center mb-5 group-hover:bg-brand-primary group-hover:text-white transition-colors">
                 <i data-lucide="help-circle" class="w-5 h-5"></i>
               </div>
               <h3 class="font-bold text-base text-brand-text mb-1" data-i18n="qa2Title">FAQ</h3>
               <p class="text-xs text-slate-400 leading-relaxed" data-i18n="qa2Desc">Common passenger questions & airport rules.</p>
             </button>
 
-            <!-- Card 3: Venue Guide -->
+            <!-- Card 4: Venue Guide -->
             <button type="button" onclick="switchSection('venue')" class="group text-left bg-white p-6 rounded-2xl border border-slate-200/70 shadow-2xs hover:shadow-md hover:border-brand-primary/40 transition-all cursor-pointer">
-              <div class="w-11 h-11 rounded-xl bg-brand-light text-brand-primary flex items-center justify-center mb-5 group-hover:bg-brand-primary group-hover:text-white transition-colors">
+              <div class="w-11 h-11 rounded-xl bg-amber-100/80 text-amber-800 flex items-center justify-center mb-5 group-hover:bg-brand-accent group-hover:text-brand-text transition-colors">
                 <i data-lucide="building-2" class="w-5 h-5"></i>
               </div>
               <h3 class="font-bold text-base text-brand-text mb-1" data-i18n="qa3Title">Venue Guide</h3>
               <p class="text-xs text-slate-400 leading-relaxed" data-i18n="qa3Desc">Terminal floors (B to 4), services & facilities.</p>
             </button>
 
-            <!-- Card 4: Contact -->
+            <!-- Card 5: Contact -->
             <button type="button" onclick="switchSection('contact')" class="group text-left bg-white p-6 rounded-2xl border border-slate-200/70 shadow-2xs hover:shadow-md hover:border-brand-primary/40 transition-all cursor-pointer">
-              <div class="w-11 h-11 rounded-xl bg-amber-100/80 text-amber-800 flex items-center justify-center mb-5 group-hover:bg-brand-accent group-hover:text-brand-text transition-colors">
+              <div class="w-11 h-11 rounded-xl bg-brand-light text-brand-primary flex items-center justify-center mb-5 group-hover:bg-brand-primary group-hover:text-white transition-colors">
                 <i data-lucide="phone-call" class="w-5 h-5"></i>
               </div>
               <h3 class="font-bold text-base text-brand-text mb-1" data-i18n="qa4Title">Contact</h3>
@@ -347,6 +371,73 @@
           <i data-lucide="user-x" class="w-9 h-9 text-slate-400 mx-auto mb-2"></i>
           <p class="font-bold text-sm text-brand-text" data-i18n="noResultTitle">No matching volunteer found</p>
           <p class="text-xs text-slate-500 mt-1" data-i18n="noResultSub">Try checking the spelling or search with another name.</p>
+        </div>
+      </section>
+
+      <!-- ==================== 2.5 DESK ALLOCATION (WELCOME GROUPS) SECTION ==================== -->
+      <section id="allocation" class="app-section hidden bg-white rounded-3xl p-6 sm:p-8 lg:p-10 border border-slate-200/70 shadow-2xs">
+        <div class="mb-6">
+          <span class="text-xs font-bold tracking-wider text-brand-primary uppercase" data-i18n="secAllocTag">KEYMAN DESK PLANNER • 2–9 DEC 2026</span>
+          <h2 class="text-2xl font-bold text-brand-text mt-1" data-i18n="secAllocTitle">Welcome Desk Grouping</h2>
+          <p class="text-sm text-slate-500 mt-1" data-i18n="secAllocDesc">Filter by date and shift time to see how many welcome groups to form and which hotels belong to each group.</p>
+        </div>
+
+        <!-- Filters Bar -->
+        <div class="bg-brand-bg p-4 rounded-2xl mb-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <!-- Date Select -->
+            <div>
+              <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1 px-1" data-i18n="allocFilterDate">Date (วันที่)</label>
+              <select id="allocDateFilter" onchange="renderAllocation()" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-brand-text focus:outline-none focus:ring-2 focus:ring-brand-primary">
+                <option value="" data-i18n="allocSelectDateDefault">-- Select Date (เลือกวันที่) --</option>
+                <option value="ALL" data-i18n="allocAllDatesOption">All Dates (2 – 9 Dec 2026)</option>
+                <option value="Wed 2 Dec">Wed 2 Dec 2026</option>
+                <option value="Thu 3 Dec">Thu 3 Dec 2026</option>
+                <option value="Fri 4 Dec">Fri 4 Dec 2026</option>
+                <option value="Sat 5 Dec">Sat 5 Dec 2026</option>
+                <option value="Sun 6 Dec">Sun 6 Dec 2026 (Peak)</option>
+                <option value="Mon 7 Dec">Mon 7 Dec 2026 (Peak)</option>
+                <option value="Tue 8 Dec">Tue 8 Dec 2026</option>
+                <option value="Wed 9 Dec">Wed 9 Dec 2026</option>
+              </select>
+            </div>
+
+            <!-- Shift Time Select -->
+            <div>
+              <label class="block text-[11px] font-bold text-slate-500 uppercase mb-1 px-1" data-i18n="allocFilterShift">Shift Time (กะเวลา)</label>
+              <select id="allocShiftFilter" onchange="renderAllocation()" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-brand-text focus:outline-none focus:ring-2 focus:ring-brand-primary">
+                <option value="" data-i18n="allocSelectShiftDefault">-- Select Shift Time (เลือกกะเวลา) --</option>
+                <option value="ALL" data-i18n="allocAllShiftsOption">All Shifts (ทุกกะเวลา)</option>
+                <option value="00:00-04:00">00:00 - 04:00</option>
+                <option value="04:00-08:00">04:00 - 08:00</option>
+                <option value="08:00-12:00">08:00 - 12:00</option>
+                <option value="12:00-17:00">12:00 - 17:00</option>
+                <option value="17:00-20:00">17:00 - 20:00</option>
+                <option value="20:00-23:59">20:00 - 23:59</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Initial Prompt State (Before Selecting Date or Shift) -->
+        <div id="allocationInitial" class="text-center py-12 bg-brand-bg rounded-2xl border border-dashed border-slate-300">
+          <div class="w-12 h-12 rounded-2xl bg-brand-light text-brand-primary flex items-center justify-center mx-auto mb-3">
+            <i data-lucide="layers" class="w-6 h-6"></i>
+          </div>
+          <p class="font-bold text-base text-brand-text" data-i18n="allocInitialTitle">เลือกวันที่หรือกะเวลา</p>
+          <p class="text-xs sm:text-sm text-slate-500 mt-1" data-i18n="allocInitialSub">กรุณาเลือกวันที่หรือช่วงเวลากะจากเมนูด้านบน เพื่อดูจำนวนกลุ่มต้อนรับและรายชื่อโรงแรม</p>
+        </div>
+
+        <!-- Allocation Results List -->
+        <div id="allocationGrid" class="hidden space-y-4">
+          <!-- Rendered by JS -->
+        </div>
+
+        <!-- Empty Allocation State -->
+        <div id="allocationEmpty" class="hidden text-center py-10 bg-brand-bg rounded-2xl border border-dashed border-slate-300">
+          <i data-lucide="calendar-x" class="w-9 h-9 text-slate-400 mx-auto mb-2"></i>
+          <p class="font-bold text-sm text-brand-text" data-i18n="allocEmptyTitle">No matching shift found</p>
+          <p class="text-xs text-slate-500 mt-1" data-i18n="allocEmptySub">Try selecting a different date, shift time, or clearing your search.</p>
         </div>
       </section>
 
@@ -450,11 +541,13 @@
         languageLabel: 'LANGUAGE',
         menuHome: 'Home',
         menuSchedule: 'Duty Schedule',
+        menuAllocation: 'Welcome Groups',
         menuFaq: 'FAQ',
         menuVenue: 'Venue Guide',
         menuContact: 'Contact',
         shortMenuHome: 'Home',
         shortMenuSchedule: 'Schedule',
+        shortMenuAllocation: 'Groups',
         shortMenuFaq: 'FAQ',
         shortMenuVenue: 'Venue',
         shortMenuContact: 'Contact',
@@ -465,14 +558,33 @@
         quickAccessTitle: 'Quick access',
         qa1Title: 'Duty Schedule',
         qa1Desc: 'Search your shift time & teammates on duty.',
+        qaAllocTitle: 'Welcome Groups',
+        qaAllocDesc: 'Check how many groups & hotels per shift.',
         qa2Title: 'FAQ',
         qa2Desc: 'Common passenger questions & airport rules.',
         qa3Title: 'Venue Guide',
         qa3Desc: 'Terminal floors (B to 4), services & facilities.',
         qa4Title: 'Contact',
         qa4Desc: 'Supervisors & Keyman phone numbers.',
+        secAllocTag: 'KEYMAN DESK PLANNER • 2–9 DEC 2026',
+        secAllocTitle: 'Welcome Desk Grouping',
+        secAllocDesc: 'Select a date or shift time to see how many welcome groups to set up and which hotels are assigned to each group.',
+        allocFilterDate: 'Date',
+        allocFilterShift: 'Shift Time',
+        allocSelectDateDefault: '-- Select Date --',
+        allocAllDatesOption: 'All Dates (2 – 9 Dec 2026)',
+        allocSelectShiftDefault: '-- Select Shift Time --',
+        allocAllShiftsOption: 'All Shifts',
+        allocInitialTitle: 'Select Date or Shift Time',
+        allocInitialSub: 'Please select a date or shift time above to view welcome groups and assigned hotels.',
+        allocGroupsBadge: 'Groups to Form',
+        allocNoGroupsBadge: '0 Groups (No Arrivals)',
+        allocDeskLabel: 'Group',
+        allocNoteLabel: 'Note:',
+        allocEmptyTitle: 'No matching shift found',
+        allocEmptySub: 'Try selecting another date or shift time.',
         secScheduleTag: 'VOLUNTEER ROSTER • 2–17 DEC 2026',
-        secScheduleTitle: 'Duty Schedule (59 Shifts)',
+        secScheduleTitle: 'Duty Schedule (61 Shifts)',
         secScheduleDesc: 'Search your name to view your assigned date, shift time, Keymen, and fellow teammates.',
         searchPlaceholder: 'Search volunteer or Keyman e.g. Ando, Pongwanich, Vidal...',
         initialSearchTitle: 'Search Volunteer Name',
@@ -486,6 +598,9 @@
         secFaqTag: 'KNOWLEDGE BASE',
         secFaqTitle: 'Frequently Asked Questions (FAQ)',
         secFaqDesc: 'Quick answers for common passenger inquiries and volunteer guidelines.',
+        faqHotelsTitle: 'Delegate Hotels (6 Official Hotels)',
+        faqHotelsDesc: 'List of hotels where Delegates are staying, with quick Google Maps navigation links.',
+        openMapBtn: 'Open Google Maps',
         secVenueTag: 'TERMINAL DIRECTORY',
         secVenueTitle: 'Venue Guide',
         secVenueDesc: 'Explore facilities, gates, and Information Counters across all 5 floors (Floor B to Floor 4).',
@@ -504,11 +619,13 @@
         languageLabel: 'ภาษา / LANGUAGE',
         menuHome: 'หน้าแรก (Home)',
         menuSchedule: 'ตารางปฏิบัติงาน',
+        menuAllocation: 'จัดกลุ่มต้อนรับ',
         menuFaq: 'คำถามที่พบบ่อย',
         menuVenue: 'ข้อมูลแต่ละชั้น',
         menuContact: 'ติดต่อผู้ดูแล',
         shortMenuHome: 'หน้าแรก',
         shortMenuSchedule: 'ตารางงาน',
+        shortMenuAllocation: 'จัดกลุ่ม',
         shortMenuFaq: 'คำถาม',
         shortMenuVenue: 'แต่ละชั้น',
         shortMenuContact: 'ติดต่อ',
@@ -519,14 +636,33 @@
         quickAccessTitle: 'ทางลัดเข้าสู่เมนู (Quick access)',
         qa1Title: 'Duty Schedule',
         qa1Desc: 'ค้นหาชื่อ กะเวลาเข้างาน และเพื่อนร่วมทีม',
+        qaAllocTitle: 'จัดกลุ่มต้อนรับ',
+        qaAllocDesc: 'เช็กจำนวนกลุ่มและรายชื่อโรงแรมแยกตามกะเวลา',
         qa2Title: 'FAQ',
         qa2Desc: 'รวมคำถามที่พบบ่อยและแนวทางการตอบผู้โดยสาร',
         qa3Title: 'Venue Guide',
         qa3Desc: 'ข้อมูลจุดบริการและสิ่งอำนวยความสะดวกทั้ง 5 ชั้น',
         qa4Title: 'Contact',
         qa4Desc: 'รายชื่อและเบอร์โทรติดต่อผู้ดูแลและ Keyman',
+        secAllocTag: 'คู่มือจัดกลุ่มสำหรับ KEYMAN • 2–9 ธ.ค. 2026',
+        secAllocTitle: 'จัดกลุ่มต้อนรับ (Welcome Groups)',
+        secAllocDesc: 'ค้นหาตามวันที่หรือกะเวลา เพื่อดูว่าต้องจัดกี่กลุ่มต้อนรับ และแต่ละกลุ่มดูแลโรงแรมใดบ้าง',
+        allocFilterDate: 'เลือกวันที่ (Date)',
+        allocFilterShift: 'เลือกกะเวลา (Shift)',
+        allocSelectDateDefault: '-- เลือกวันที่ --',
+        allocAllDatesOption: 'ทุกวัน (2 – 9 ธ.ค. 2026)',
+        allocSelectShiftDefault: '-- เลือกกะเวลา --',
+        allocAllShiftsOption: 'ทุกกะเวลา',
+        allocInitialTitle: 'เลือกวันที่หรือกะเวลา',
+        allocInitialSub: 'กรุณาเลือกวันที่หรือช่วงเวลากะจากเมนูด้านบน เพื่อดูจำนวนกลุ่มต้อนรับและรายชื่อโรงแรม',
+        allocGroupsBadge: 'กลุ่มที่ต้องจัด',
+        allocNoGroupsBadge: '0 กลุ่ม (ไม่มี Delegate)',
+        allocDeskLabel: 'กลุ่มที่',
+        allocNoteLabel: 'หมายเหตุ:',
+        allocEmptyTitle: 'ไม่พบข้อมูลกะเวลาที่ค้นหา',
+        allocEmptySub: 'ลองเปลี่ยนตัวเลือกวันที่หรือกะเวลา',
         secScheduleTag: 'ตารางเวรปฏิบัติงาน • 2–17 ธ.ค. 2026',
-        secScheduleTitle: 'Duty Schedule (ตารางการทำงาน 59 กะ)',
+        secScheduleTitle: 'Duty Schedule (ตารางการทำงาน 61 กะ)',
         secScheduleDesc: 'พิมพ์ชื่อเพื่อค้นหาวัน เวลาเข้างาน Keyman และทีมอาสาสมัครที่ปฏิบัติงานร่วมกัน',
         searchPlaceholder: 'ค้นหารายชื่ออาสาสมัคร หรือ Keyman เช่น พงษ์วานิช, Vidal, Ando...',
         initialSearchTitle: 'ค้นหารายชื่ออาสาสมัคร',
@@ -540,6 +676,9 @@
         secFaqTag: 'คลังข้อมูลตอบคำถาม',
         secFaqTitle: 'คำถามที่พบบ่อย (FAQ)',
         secFaqDesc: 'แนวทางการตอบคำถามผู้โดยสาร กฎระเบียบการปฏิบัติงาน และข้อมูลบริการในสนามบิน',
+        faqHotelsTitle: 'โรงแรมที่ Delegate พัก (Delegate Hotels)',
+        faqHotelsDesc: 'รายชื่อโรงแรมทั้ง 6 แห่งที่ Delegate เข้าพัก พร้อมปุ่มกดเปิดแผนที่ Google Maps ได้ทันที',
+        openMapBtn: 'เปิด Google Maps',
         secVenueTag: 'แผนผังอาคารผู้โดยสาร',
         secVenueTitle: 'Venue Guide (ข้อมูลแต่ละชั้น)',
         secVenueDesc: 'เลือกดูข้อมูลจุดบริการ ประตูทางออก และสิ่งอำนวยความสะดวกตั้งแต่ชั้น B ถึง ชั้น 4',
@@ -555,12 +694,13 @@
       }
     };
 
-    // 2. Real Duty Schedule Dataset (59 Shifts from BKK Airport Department PDF)
+    // 2. Real Duty Schedule Dataset (61 Shifts from BKK Airport Department PDF + Updated Additions)
     const dutyData = [
       // Wed 2 Dec 2026
       { dateCode: '2 Dec', dateLabel: 'Wed 2 Dec', time: '00:00-04:00', type: 'regular', keymen: ['Pongwanich, Ratra (พงษ์วานิช, รฐา)', 'Pongwanich, Raviporn (พงษ์วานิช, ระวิพร)'], volunteers: [] },
       { dateCode: '2 Dec', dateLabel: 'Wed 2 Dec', time: '08:00-12:00', type: 'regular', keymen: [], volunteers: [] },
       { dateCode: '2 Dec', dateLabel: 'Wed 2 Dec', time: '12:00-17:00', type: 'regular', keymen: ['Scott, Dakota', 'Scott, Xemilla'], volunteers: ['Greene, Kezia'] },
+      { dateCode: '2 Dec', dateLabel: 'Wed 2 Dec', time: '20:00-23:59', type: 'regular', keymen: ['Robison, Asahn'], volunteers: [] },
 
       // Thu 3 Dec 2026
       { dateCode: '3 Dec', dateLabel: 'Thu 3 Dec', time: '04:00-08:00', type: 'regular', keymen: ['Scott, Dakota', 'Scott, Xemilla'], volunteers: [] },
@@ -582,6 +722,7 @@
       { dateCode: '5 Dec', dateLabel: 'Sat 5 Dec', time: '04:00-08:00', type: 'regular', keymen: ['Robison, Asahn', 'Robison, Alonna'], volunteers: ['Clark, Kyle', 'Pensook, Natchanon'] },
       { dateCode: '5 Dec', dateLabel: 'Sat 5 Dec', time: '08:00-12:00', type: 'regular', keymen: ['Lewandowski, Marcel', 'Lewandowski, Kamila'], volunteers: ['Greene, Kezia', 'Shinozaki, Yukiko', 'Villanueva, Olivia'] },
       { dateCode: '5 Dec', dateLabel: 'Sat 5 Dec', time: '12:00-17:00', type: 'regular', keymen: ['Lewandowski, Marcel', 'Lewandowski, Kamila', 'Matsuzaki, Nanae'], volunteers: ['Pfrengle, Ruthann', 'Shinozaki, Yukiko', 'Syvertsen, Rachael'] },
+      { dateCode: '5 Dec', dateLabel: 'Sat 5 Dec', time: '17:00-20:00', type: 'regular', keymen: ['Kashikura, Toshiya'], volunteers: [] },
       { dateCode: '5 Dec', dateLabel: 'Sat 5 Dec', time: '20:00-23:59', type: 'regular', keymen: ['Vidal, William', 'Vidal, Cinthia'], volunteers: ['Ando, Emiko', 'Clark, Kyle', 'Padra, Maïmouna', 'Sylvander, Åsa'] },
 
       // Sun 6 Dec 2026
@@ -639,6 +780,73 @@
       { dateCode: '17 Dec', dateLabel: 'Thu 17 Dec', time: '10:00-12:00', type: 'post', keymen: [], volunteers: ['Motykhlyayeva, Olga', 'Yuim, Kornwika (อยู่อิ่ม, กรวิกา)'] },
       { dateCode: '17 Dec', dateLabel: 'Thu 17 Dec', time: '12:00-14:00', type: 'post', keymen: [], volunteers: ['McTackett, Abigail', 'Wajanaphisut, Saya (วจนะพิสุทธิ์, ศยา)'] },
       { dateCode: '17 Dec', dateLabel: 'Thu 17 Dec', time: '14:00-16:00', type: 'post', keymen: [], volunteers: ['Sangchan, Surangkhana (แสงจันทร์, สุรางคนา)', 'Sylvander, Åsa'] }
+    ];
+
+    // 2.5 Desk Allocation Dataset (48 Shifts from BKK_Airport_Desk_Allocation_Plan_2026.pdf)
+    const allocationData = [
+      // Wed 2 Dec 2026
+      { date: 'Wed 2 Dec', shift: '00:00-04:00', desks: [['Ambassador Hotel Bangkok (2)']], note: 'ปกติ' },
+      { date: 'Wed 2 Dec', shift: '04:00-08:00', desks: [['Movenpick Hotel Sukhumvit 15 Bangkok (2)']], note: 'ไม่มี Info Desk ในตาราง 6:15 AA8271' },
+      { date: 'Wed 2 Dec', shift: '08:00-12:00', desks: [['Hilton Sukhumvit Bangkok (6)', 'DoubleTree by Hilton Sukhumvit (2)']], note: 'ไม่มี Info Desk ในตาราง 8:25 SQ033, SQ706' },
+      { date: 'Wed 2 Dec', shift: '12:00-17:00', desks: [['Hilton Bangkok Grande Asoke (3)', 'Movenpick Sukhumvit 15 (2)'], ['Hilton Sukhumvit Bangkok (4)']], note: 'ปกติ' },
+      { date: 'Wed 2 Dec', shift: '17:00-20:00', desks: [['Movenpick Hotel Sukhumvit 15 Bangkok (2)']], note: 'ไม่มี Info Desk ในตาราง 18:45 Xiamen Airlines MF 863' },
+      { date: 'Wed 2 Dec', shift: '20:00-23:59', desks: [['Hilton Bangkok Grande Asoke (2)']], note: '22:50 United Airlines Flights UA 7940' },
+
+      // Thu 3 Dec 2026
+      { date: 'Thu 3 Dec', shift: '00:00-04:00', desks: [], note: 'ไม่มี Delegate เดินทางมาถึง' },
+      { date: 'Thu 3 Dec', shift: '04:00-08:00', desks: [['Movenpick Hotel Sukhumvit 15 Bangkok (7)']], note: 'ปกติ' },
+      { date: 'Thu 3 Dec', shift: '08:00-12:00', desks: [['Hilton Sukhumvit Bangkok (6)']], note: 'ปกติ' },
+      { date: 'Thu 3 Dec', shift: '12:00-17:00', desks: [['Hilton Bangkok Grande Asoke (2)']], note: 'ปกติ' },
+      { date: 'Thu 3 Dec', shift: '17:00-20:00', desks: [['Hilton Bangkok Grande Asoke (7)', 'Ambassador Hotel Bangkok (2)']], note: 'ปกติ' },
+      { date: 'Thu 3 Dec', shift: '20:00-23:59', desks: [['Hilton Bangkok Grande Asoke (3)']], note: 'ปกติ' },
+
+      // Fri 4 Dec 2026
+      { date: 'Fri 4 Dec', shift: '00:00-04:00', desks: [['Movenpick Hotel Sukhumvit 15 Bangkok (3)', 'Ambassador Hotel Bangkok (1)']], note: 'ปกติ' },
+      { date: 'Fri 4 Dec', shift: '04:00-08:00', desks: [['Hilton Bangkok Grande Asoke (5)', 'Ambassador Hotel Bangkok (2)']], note: 'ปกติ' },
+      { date: 'Fri 4 Dec', shift: '08:00-12:00', desks: [['Ambassador Hotel Bangkok (3)', 'Hilton Bangkok Grande Asoke (2)']], note: 'ปกติ' },
+      { date: 'Fri 4 Dec', shift: '12:00-17:00', desks: [['Ambassador Hotel Bangkok (7) + ไม่ระบุโรงแรม (2)'], ['Hilton Sukhumvit Bangkok (2)', 'DoubleTree by Hilton Sukhumvit (2)']], note: 'ปกติ' },
+      { date: 'Fri 4 Dec', shift: '17:00-20:00', desks: [['Ambassador Hotel Bangkok (3)']], note: 'ปกติ' },
+      { date: 'Fri 4 Dec', shift: '20:00-23:59', desks: [['Montien Hotel Surawong Bangkok (11)'], ['Hilton Bangkok Grande Asoke (6)', 'Movenpick Sukhumvit 15 (4)'], ['Hilton Sukhumvit Bangkok (4)', 'Ambassador Hotel Bangkok (2)']], note: 'เริ่มมี Delegate หนาแน่นช่วงดึก' },
+
+      // Sat 5 Dec 2026
+      { date: 'Sat 5 Dec', shift: '00:00-04:00', desks: [['Hilton Bangkok Grande Asoke (5)', 'Montien Hotel Surawong Bangkok (1)'], ['Ambassador Hotel Bangkok (4)']], note: 'ปกติ' },
+      { date: 'Sat 5 Dec', shift: '04:00-08:00', desks: [['Hilton Bangkok Grande Asoke (6)', 'Montien Hotel Surawong Bangkok (2)'], ['Ambassador Hotel Bangkok (5)']], note: 'ปกติ' },
+      { date: 'Sat 5 Dec', shift: '08:00-12:00', desks: [['Ambassador Hotel Bangkok (18)', 'Hilton Sukhumvit Bangkok (2)'], ['Montien Hotel Surawong Bangkok (18)'], ['Movenpick Sukhumvit 15 (7)', 'Hilton Bangkok Grande Asoke (6)']], note: 'เปิด 3 กลุ่มเพื่อคุมไม่เกิน 2 โรงแรม/กลุ่ม' },
+      { date: 'Sat 5 Dec', shift: '12:00-17:00', desks: [['Ambassador Hotel Bangkok (12)', 'Movenpick Sukhumvit 15 (4)'], ['Hilton Bangkok Grande Asoke (10)', 'Montien Hotel Surawong Bangkok (3)'], ['Hilton Sukhumvit Bangkok (7)', 'DoubleTree by Hilton Sukhumvit (6)']], note: 'ครบทั้ง 6 โรงแรม (กลุ่มละ 2 โรงแรม)' },
+      { date: 'Sat 5 Dec', shift: '17:00-20:00', desks: [['Ambassador Hotel Bangkok (4)', 'Hilton Sukhumvit Bangkok (2)']], note: 'ปกติ' },
+      { date: 'Sat 5 Dec', shift: '20:00-23:59', desks: [['Hilton Bangkok Grande Asoke (18)'], ['Movenpick Sukhumvit 15 (13)', 'Ambassador Hotel Bangkok (6)'], ['Montien Hotel Surawong Bangkok (9)', 'Hilton Sukhumvit Bangkok (7)']], note: 'เปิด 3 กลุ่ม (กลุ่มละ 2 คน)' },
+
+      // Sun 6 Dec 2026
+      { date: 'Sun 6 Dec', shift: '00:00-04:00', desks: [['Hilton Bangkok Grande Asoke (25)'], ['Montien Hotel Surawong Bangkok (11)'], ['Hilton Sukhumvit Bangkok (8)', 'Ambassador Hotel Bangkok (6)'], ['Movenpick Hotel Sukhumvit 15 Bangkok (5)']], note: 'วัน Peak (เปิดเต็ม 4 กลุ่ม / กลุ่มละ 2 คน)' },
+      { date: 'Sun 6 Dec', shift: '04:00-08:00', desks: [['DoubleTree by Hilton Sukhumvit (16)', 'Hilton Sukhumvit Bangkok (8)'], ['Ambassador Hotel Bangkok (15)'], ['Montien Hotel Surawong Bangkok (15)'], ['Hilton Bangkok Grande Asoke (7)', 'Movenpick Sukhumvit 15 (5)']], note: 'วัน Peak (เปิดเต็ม 4 กลุ่ม)' },
+      { date: 'Sun 6 Dec', shift: '08:00-12:00', desks: [['Hilton Bangkok Grande Asoke (34)'], ['Ambassador Hotel Bangkok (31)'], ['Movenpick Sukhumvit 15 (23)', 'Montien Hotel Surawong Bangkok (9)'], ['Hilton Sukhumvit Bangkok (9)', 'DoubleTree by Hilton Sukhumvit (2)']], note: 'วัน Peak (หนาแน่น >100 คน)' },
+      { date: 'Sun 6 Dec', shift: '12:00-17:00', desks: [['Ambassador Hotel Bangkok (52)'], ['Hilton Bangkok Grande Asoke (45)'], ['Montien Hotel Surawong Bangkok (38)', 'DoubleTree by Hilton Sukhumvit (6)'], ['Movenpick Sukhumvit 15 (30)', 'Hilton Sukhumvit Bangkok (23)']], note: 'วัน Peak สูงสุด (194 คน / เฉลี่ย 44-53 คน/กลุ่ม)' },
+      { date: 'Sun 6 Dec', shift: '17:00-20:00', desks: [['Ambassador Hotel Bangkok (35)'], ['Hilton Sukhumvit Bangkok (20)', 'DoubleTree by Hilton Sukhumvit (2)'], ['Movenpick Hotel Sukhumvit 15 Bangkok (17)'], ['Hilton Bangkok Grande Asoke (10)', 'Montien Hotel Surawong Bangkok (6)']], note: 'วัน Peak (เปิด 4 กลุ่ม)' },
+      { date: 'Sun 6 Dec', shift: '20:00-23:59', desks: [['Hilton Bangkok Grande Asoke (22)', 'Ambassador Hotel Bangkok (11)'], ['DoubleTree by Hilton Sukhumvit (21)', 'Hilton Sukhumvit Bangkok (10)'], ['Montien Hotel Surawong Bangkok (21)'], ['Movenpick Hotel Sukhumvit 15 Bangkok (11)']], note: 'วัน Peak (เปิด 4 กลุ่ม / กลุ่มละ 2 คน)' },
+
+      // Mon 7 Dec 2026
+      { date: 'Mon 7 Dec', shift: '00:00-04:00', desks: [['Movenpick Hotel Sukhumvit 15 Bangkok (8)'], ['Hilton Sukhumvit Bangkok (4)']], note: 'ปกติ (เปิด 2 กลุ่ม / กลุ่มละ 2 คน)' },
+      { date: 'Mon 7 Dec', shift: '04:00-08:00', desks: [['Ambassador Hotel Bangkok (29)'], ['Hilton Bangkok Grande Asoke (24)'], ['Montien Hotel Surawong Bangkok (7)'], ['Hilton Sukhumvit Bangkok (2)', 'DoubleTree by Hilton Sukhumvit (2)']], note: 'เปิด 4 กลุ่มเพื่อคุมไม่เกิน 2 โรงแรม/กลุ่ม' },
+      { date: 'Mon 7 Dec', shift: '08:00-12:00', desks: [['Ambassador Hotel Bangkok (44)'], ['Movenpick Sukhumvit 15 (34)', 'Hilton Bangkok Grande Asoke (4)'], ['Montien Hotel Surawong Bangkok (15)'], ['Hilton Sukhumvit Bangkok (8)', 'DoubleTree by Hilton Sukhumvit (7)']], note: 'หนาแน่น (>110 คน)' },
+      { date: 'Mon 7 Dec', shift: '12:00-17:00', desks: [['Ambassador Hotel Bangkok (กลุ่ม A - 57 คน)'], ['Ambassador Hotel Bangkok (กลุ่ม B - 57 คน)'], ['Movenpick Sukhumvit 15 (39)', 'Hilton Bangkok Grande Asoke (23)'], ['Hilton Sukhumvit (23)', 'Montien Surawong (20)', 'DoubleTree Sukhumvit (12)']], note: 'กะหนาแน่นสุด (231 คน) แยก Ambassador เป็น 2 กลุ่ม (รวม 114 คน)' },
+      { date: 'Mon 7 Dec', shift: '17:00-20:00', desks: [['Ambassador Hotel Bangkok (กลุ่ม A - 29 คน)'], ['Ambassador Hotel Bangkok (กลุ่ม B - 29 คน)'], ['Movenpick Hotel Sukhumvit 15 Bangkok (17)'], ['Montien Hotel Surawong Bangkok (8)', 'Hilton Bangkok Grande Asoke (5)']], note: 'แยก Ambassador เป็น 2 กลุ่ม (รวม 58 คน)' },
+      { date: 'Mon 7 Dec', shift: '20:00-23:59', desks: [['Ambassador Hotel Bangkok (18)', 'DoubleTree by Hilton Sukhumvit (1)'], ['Movenpick Hotel Sukhumvit 15 Bangkok (15)'], ['Montien Hotel Surawong Bangkok (9)', 'Hilton Bangkok Grande Asoke (4)']], note: 'เปิด 3 กลุ่ม' },
+
+      // Tue 8 Dec 2026
+      { date: 'Tue 8 Dec', shift: '00:00-04:00', desks: [['Movenpick Hotel Sukhumvit 15 Bangkok (4)']], note: 'ปกติ' },
+      { date: 'Tue 8 Dec', shift: '04:00-08:00', desks: [['Ambassador Hotel Bangkok (11)', 'Hilton Bangkok Grande Asoke (2)'], ['Montien Hotel Surawong Bangkok (3)', 'Movenpick Sukhumvit 15 (2)'], ['Hilton Sukhumvit Bangkok (2)', 'DoubleTree by Hilton Sukhumvit (2)']], note: 'เปิด 3 กลุ่มเพื่อให้แต่ละกลุ่มไม่เกิน 2 โรงแรม' },
+      { date: 'Tue 8 Dec', shift: '08:00-12:00', desks: [['Ambassador Hotel Bangkok (24)'], ['Montien Hotel Surawong Bangkok (8)', 'Hilton Bangkok Grande Asoke (4)'], ['Hilton Sukhumvit Bangkok (4)', 'DoubleTree by Hilton Sukhumvit (2)']], note: 'เปิด 3 กลุ่ม' },
+      { date: 'Tue 8 Dec', shift: '12:00-17:00', desks: [['Ambassador Hotel Bangkok (38)'], ['Movenpick Hotel Sukhumvit 15 Bangkok (13)'], ['Hilton Sukhumvit Bangkok (7)', 'DoubleTree by Hilton Sukhumvit (2)'], ['Montien Hotel Surawong Bangkok (3)', 'Hilton Bangkok Grande Asoke (2)']], note: 'เปิด 4 กลุ่มเพื่อให้ไม่เกิน 2 โรงแรม/กลุ่ม' },
+      { date: 'Tue 8 Dec', shift: '17:00-20:00', desks: [['Ambassador Hotel Bangkok (10)', 'Hilton Bangkok Grande Asoke (2)'], ['Movenpick Sukhumvit 15 (2)', 'Montien Hotel Surawong Bangkok (2)']], note: 'เปิด 2 กลุ่ม (กลุ่มละ 2 คน)' },
+      { date: 'Tue 8 Dec', shift: '20:00-23:59', desks: [['Ambassador Hotel Bangkok (7)', 'Hilton Bangkok Grande Asoke (3)'], ['Movenpick Hotel Sukhumvit 15 Bangkok (7)'], ['Montien Hotel Surawong Bangkok (3)', 'Hilton Sukhumvit Bangkok (2)']], note: 'เปิด 3 กลุ่ม' },
+
+      // Wed 9 Dec 2026
+      { date: 'Wed 9 Dec', shift: '00:00-04:00', desks: [['Ambassador Hotel Bangkok (2)']], note: 'ปกติ' },
+      { date: 'Wed 9 Dec', shift: '04:00-08:00', desks: [['Montien Hotel Surawong Bangkok (8)'], ['Ambassador Hotel Bangkok (2)']], note: 'เปิด 2 กลุ่ม (กลุ่มละ 2 คน)' },
+      { date: 'Wed 9 Dec', shift: '08:00-12:00', desks: [['Ambassador Hotel Bangkok (1)']], note: 'ปกติ' },
+      { date: 'Wed 9 Dec', shift: '12:00-17:00', desks: [['Ambassador Hotel Bangkok (14)'], ['Movenpick Hotel Sukhumvit 15 Bangkok (4)']], note: 'เปิด 2 กลุ่ม' },
+      { date: 'Wed 9 Dec', shift: '17:00-20:00', desks: [['Ambassador Hotel Bangkok (11)'], ['Movenpick Hotel Sukhumvit 15 Bangkok (2)']], note: 'เปิด 2 กลุ่ม (กลุ่มละ 2 คน)' },
+      { date: 'Wed 9 Dec', shift: '20:00-23:59', desks: [['Montien Hotel Surawong Bangkok (4)', 'Ambassador Hotel Bangkok (1)']], note: 'ปกติ' }
     ];
 
     // 3. FAQ Dataset (Categorized into General, Venue, Transportation)
@@ -703,8 +911,8 @@
               en: '6. What should we do if a journalist asks for an interview?'
             },
             a: {
-              th: 'ขอให้ติดต่อผู้ดูแลแผนกทันที เพื่อจะขอคำแนะนำเพิ่มเติม',
-              en: 'Contact the Department Overseer immediately for further guidance.'
+              th: 'ขอให้ติดต่อผู้ดูแลแผนก พี่น้องรฐา ทันที เพื่อจะขอคำแนะนำเพิ่มเติม',
+              en: 'Contact the Department Overseer Br. Ratra immediately for further guidance.'
             }
           },
           {
@@ -870,6 +1078,46 @@
             }
           }
         ]
+      }
+    ];
+
+    // 3.5 Delegate Hotels Dataset
+    const hotelData = [
+      {
+        id: 1,
+        name: 'Ambassador Hotel Bangkok (Sukhumvit 11)',
+        area: { th: 'ซอยสุขุมวิท 11 • วัฒนา', en: 'Sukhumvit Soi 11 • Watthana' },
+        mapUrl: 'https://maps.app.goo.gl/gNRSyLfoneZquh4k9'
+      },
+      {
+        id: 2,
+        name: 'Mövenpick Hotel Sukhumvit 15 Bangkok',
+        area: { th: 'ซอยสุขุมวิท 15 • วัฒนา', en: 'Sukhumvit Soi 15 • Watthana' },
+        mapUrl: 'https://maps.app.goo.gl/QsvzWLMgFZ1hodPo7'
+      },
+      {
+        id: 3,
+        name: 'DoubleTree by Hilton Hotel Sukhumvit Bangkok (The Hotel Bangkok Sukhumvit 26, Affiliated by Meliá)',
+        area: { th: 'ซอยสุขุมวิท 26 • คลองเตย', en: 'Sukhumvit Soi 26 • Khlong Toei' },
+        mapUrl: 'https://maps.app.goo.gl/EnaaMvDcSBAciZwq8'
+      },
+      {
+        id: 4,
+        name: 'Hilton Sukhumvit Bangkok (The Kasem House Bangkok Hotel, Affiliated by Meliá)',
+        area: { th: 'ซอยสุขุมวิท 24 • คลองเตย', en: 'Sukhumvit Soi 24 • Khlong Toei' },
+        mapUrl: 'https://maps.app.goo.gl/v6VdzuF4uBTc6fV4A'
+      },
+      {
+        id: 5,
+        name: 'Hilton Bangkok Grande Asoke',
+        area: { th: 'สุขุมวิท 21 (อโศก) • วัฒนา', en: 'Sukhumvit 21 (Asoke) • Watthana' },
+        mapUrl: 'https://maps.app.goo.gl/uzhwaZPMnEooTpJF7'
+      },
+      {
+        id: 6,
+        name: 'Montien Hotel Surawong Bangkok',
+        area: { th: 'ถนนสุรวงศ์ • บางรัก', en: 'Surawong Road • Bang Rak' },
+        mapUrl: 'https://maps.app.goo.gl/UDpQnyYSMoyV19Qr5'
       }
     ];
 
@@ -1063,6 +1311,7 @@
       currentLang = lang;
       updateStaticTexts();
       renderSchedule();
+      renderAllocation();
       renderFaq();
       renderVenue();
       renderContacts();
@@ -1255,9 +1504,160 @@
       renderSchedule();
     }
 
+    function resetAllocationFilters() {
+      document.getElementById('allocDateFilter').value = '';
+      document.getElementById('allocShiftFilter').value = '';
+      renderAllocation();
+    }
+
+    function renderAllocation() {
+      const dateVal = document.getElementById('allocDateFilter').value;
+      const shiftVal = document.getElementById('allocShiftFilter').value;
+
+      const grid = document.getElementById('allocationGrid');
+      const emptyState = document.getElementById('allocationEmpty');
+      const initialState = document.getElementById('allocationInitial');
+      const dict = i18n[currentLang];
+
+      // By default (neither date nor shift selected), show initial prompt and hide cards
+      if (dateVal === '' && shiftVal === '') {
+        grid.innerHTML = '';
+        grid.classList.add('hidden');
+        emptyState.classList.add('hidden');
+        initialState.classList.remove('hidden');
+        lucide.createIcons();
+        return;
+      }
+
+      initialState.classList.add('hidden');
+
+      const filtered = allocationData.filter(item => {
+        const matchDate = dateVal === '' || dateVal === 'ALL' || item.date === dateVal;
+        const matchShift = shiftVal === '' || shiftVal === 'ALL' || item.shift === shiftVal;
+        return matchDate && matchShift;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        grid.classList.add('hidden');
+        emptyState.classList.remove('hidden');
+        lucide.createIcons();
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      grid.classList.remove('hidden');
+
+      grid.innerHTML = filtered.map(item => {
+        const groupCount = item.desks.length;
+        const isPeak = groupCount >= 4 || item.note.includes('Peak') || item.note.includes('หนาแน่น');
+
+        // Badge styling based on number of groups
+        let badgeStyle = 'bg-brand-primary text-white';
+        if (groupCount === 0) {
+          badgeStyle = 'bg-slate-200 text-slate-600';
+        } else if (groupCount >= 4) {
+          badgeStyle = 'bg-rose-600 text-white';
+        } else if (groupCount === 3) {
+          badgeStyle = 'bg-amber-500 text-brand-text';
+        }
+
+        const badgeText = groupCount === 0
+          ? dict.allocNoGroupsBadge
+          : `${groupCount} ${dict.allocGroupsBadge}`;
+
+        // Render Desk Cards inside each shift
+        let desksHtml = '';
+        if (groupCount === 0) {
+          desksHtml = `
+            <div class="py-4 px-4 rounded-xl bg-white/80 border border-dashed border-slate-200 text-center text-xs text-slate-500">
+              ${item.note}
+            </div>
+          `;
+        } else {
+          const colsClass = groupCount === 1
+            ? 'grid-cols-1'
+            : groupCount === 2
+              ? 'grid-cols-1 md:grid-cols-2'
+              : groupCount === 3
+                ? 'grid-cols-1 md:grid-cols-3'
+                : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4';
+
+          desksHtml = `
+            <div class="grid ${colsClass} gap-3">
+              ${item.desks.map((hotels, idx) => {
+                const hotelsList = hotels.map(h => {
+                  return `
+                    <div class="flex items-start gap-2 text-xs leading-snug text-slate-700 font-medium">
+                      <i data-lucide="building" class="w-3.5 h-3.5 text-brand-primary shrink-0 mt-0.5"></i>
+                      <span>${h}</span>
+                    </div>
+                  `;
+                }).join('');
+
+                return `
+                  <div class="bg-white rounded-xl p-3.5 border border-slate-200/80 shadow-2xs flex flex-col justify-between">
+                    <div>
+                      <div class="flex items-center justify-between mb-2.5 pb-2 border-b border-slate-100">
+                        <span class="inline-flex items-center gap-1.5 text-xs font-extrabold text-brand-primary">
+                          <span class="w-5 h-5 rounded-md bg-brand-light text-brand-primary flex items-center justify-center text-[11px]">${idx + 1}</span>
+                          ${dict.allocDeskLabel} ${idx + 1} (Desk ${idx + 1})
+                        </span>
+                      </div>
+                      <div class="space-y-2">
+                        ${hotelsList}
+                      </div>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          `;
+        }
+
+        return `
+          <div class="bg-brand-bg rounded-2xl border ${isPeak ? 'border-brand-primary/35' : 'border-slate-200/80'} p-5 transition-all">
+            <!-- Header Row: Date, Shift Time, and Total Groups Count -->
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="text-xs font-bold px-3 py-1.5 rounded-xl bg-white text-brand-text border border-slate-200/80 shadow-2xs">
+                  ${item.date} 2026
+                </span>
+                <span class="text-xs sm:text-sm font-extrabold px-3 py-1.5 rounded-xl bg-brand-light text-brand-primary border border-brand-primary/20 flex items-center gap-1.5">
+                  <i data-lucide="clock" class="w-3.5 h-3.5"></i>
+                  ${item.shift}
+                </span>
+              </div>
+
+              <div class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-extrabold shadow-2xs ${badgeStyle}">
+                <i data-lucide="layers" class="w-3.5 h-3.5"></i>
+                <span>${badgeText}</span>
+              </div>
+            </div>
+
+            <!-- Desks Grid -->
+            ${desksHtml}
+
+            <!-- Note Footer -->
+            ${item.note && groupCount > 0 ? `
+              <div class="mt-3 pt-2.5 border-t border-slate-200/60 flex items-center gap-1.5 text-xs text-slate-600">
+                <i data-lucide="info" class="w-3.5 h-3.5 text-brand-primary shrink-0"></i>
+                <span class="font-bold text-brand-text">${dict.allocNoteLabel}</span>
+                <span>${item.note}</span>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }).join('');
+
+      lucide.createIcons();
+    }
+
     function renderFaq() {
       const container = document.getElementById('faqContainer');
-      container.innerHTML = faqData.map((group, groupIdx) => `
+      const dict = i18n[currentLang];
+
+      const faqGroupsHtml = faqData.map((group, groupIdx) => `
         <div class="${groupIdx > 0 ? 'pt-6' : ''}">
           <div class="flex items-center gap-2.5 mb-3 px-1">
             <div class="w-8 h-8 rounded-xl bg-brand-light text-brand-primary flex items-center justify-center shrink-0">
@@ -1282,6 +1682,54 @@
           </div>
         </div>
       `).join('');
+
+      const hotelsSectionHtml = `
+        <div class="pt-6">
+          <div class="flex items-center gap-2.5 mb-1.5 px-1">
+            <div class="w-8 h-8 rounded-xl bg-brand-light text-brand-primary flex items-center justify-center shrink-0">
+              <i data-lucide="hotel" class="w-4 h-4"></i>
+            </div>
+            <h3 class="text-base sm:text-lg font-bold text-brand-text">${dict.faqHotelsTitle}</h3>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-500 mb-4 px-1">${dict.faqHotelsDesc}</p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+            ${hotelData.map(hotel => `
+              <div class="bg-brand-bg rounded-2xl p-4 sm:p-5 border border-slate-200/70 flex flex-col justify-between gap-4 hover:border-brand-primary/40 transition-colors">
+                <div>
+                  <div class="flex items-start gap-3">
+                    <span class="w-7 h-7 rounded-lg bg-brand-light text-brand-primary font-extrabold text-xs flex items-center justify-center shrink-0 mt-0.5">
+                      ${hotel.id}
+                    </span>
+                    <div>
+                      <h4 class="font-bold text-sm text-brand-text leading-snug">${hotel.name}</h4>
+                      <p class="text-xs text-slate-500 mt-1 flex items-center gap-1.5">
+                        <i data-lucide="map-pin" class="w-3.5 h-3.5 text-brand-primary shrink-0"></i>
+                        <span>${hotel.area[currentLang]}</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="pt-1">
+                  <a 
+                    href="${hotel.mapUrl}" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white hover:bg-brand-primary text-brand-primary hover:text-white border border-brand-primary/30 hover:border-brand-primary font-bold text-xs transition-all shadow-2xs"
+                  >
+                    <i data-lucide="map" class="w-3.5 h-3.5"></i>
+                    <span>${dict.openMapBtn}</span>
+                    <i data-lucide="external-link" class="w-3 h-3 opacity-80"></i>
+                  </a>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+
+      container.innerHTML = faqGroupsHtml + hotelsSectionHtml;
       lucide.createIcons();
     }
 
@@ -1420,6 +1868,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       updateStaticTexts();
       renderSchedule();
+      renderAllocation();
       renderFaq();
       renderVenue();
       renderContacts();
